@@ -1,0 +1,46 @@
+.errorSummary { border: 2px solid #C00; padding: 7px 7px 12px 7px; margin: 0 0 20px 0; background: #FEE; font-size: 0.9em; }
+.errorSummary p { margin: 0; padding: 5px; }
+.errorSummary ul { margin: 0; padding: 0 0 0 20px; }
+
+.used-item-row {
+    padding: 10px 0;
+}
+
+.used-item-row img {
+    width: 200px;
+}
+
+.used-item-row .item-price {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.used-item-row .item-description {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.search-item-block {
+    width: 800px;
+    background: #eee;
+    padding: 15px;
+    margin: 0 0 20px 0;
+}
+
+.btn-search {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.bg-info {
+    padding: 13px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.link-reset-filter {
+    font-size: 1.1em;
+    margin: 15px 0;
+    padding-top: 10px;
+}
