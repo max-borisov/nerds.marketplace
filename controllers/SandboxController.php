@@ -8,6 +8,8 @@ use yii\helpers;
 use app\models\Category;
 use app\components\Utility;
 
+use yii\imagine\Image;
+
 class SandboxController extends Controller
 {
     public function actionIndex()
@@ -19,8 +21,14 @@ class SandboxController extends Controller
 //        $items = $category->attachedItems;
 //        Utility::dump($items);
 
-
         Utility::dump((new Category())->prepareDropDown());
+    }
 
+    public function actionPhoto()
+    {
+        // frame, rotate and save an image
+        Image::frame(Yii::getAlias('@webroot') . '/images/wall.jpg', 5, '666', 0)
+            ->rotate(-8)
+            ->save(Yii::getAlias('@thumbs') . '/wall_new.jpg', ['quality' => 50]);
     }
 }

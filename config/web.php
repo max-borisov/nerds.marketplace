@@ -44,6 +44,9 @@ $config = [
         'db' => require(__DIR__ . '/db-local.php'),
     ],
     'params' => $params,
+    'aliases' => [
+        '@thumbs' => dirname(__FILE__) . "/../web/thumbs",
+    ],
 ];
 
 if (YII_ENV_DEV) {
