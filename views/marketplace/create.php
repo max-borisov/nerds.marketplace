@@ -11,7 +11,7 @@ if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
 }
 ?>
-<?= Html::beginForm('', 'post', ['class' => 'form-horizontal', 'role' => 'form']); ?>
+<?= Html::beginForm('', 'post', ['class' => 'form-horizontal', 'role' => 'form', 'enctype' => 'multipart/form-data']); ?>
 
     <!-- Warranty -->
     <div class="form-group">
@@ -109,9 +109,12 @@ if ($model->hasErrors()) {
 
     <!-- Upload -->
     <div class="form-group">
-        <label for="Upload" class="col-sm-2 control-label">Files:</label>
+<!--        <label for="Upload" class="col-sm-2 control-label">Files:</label>-->
+        <?= Html::activeLabel($model, 'file', ['for' => 'upload', 'class' => 'col-sm-2 control-label']); ?>
+
         <div class="col-sm-8">
-            <input type="file" id="upload">
+<!--            <input type="file" id="upload">-->
+            <?= Html::activeFileInput($model, 'file', ['id' => 'upload']); ?>
         </div>
     </div>
 

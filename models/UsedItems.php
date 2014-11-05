@@ -21,9 +21,12 @@ use app\components\Utility;
  * @property integer $user_id
  * @property integer $type_id
  * @property string $description
+ * @property string $file
  */
 class UsedItems extends \yii\db\ActiveRecord
 {
+    public $file;
+
     /**
      * @inheritdoc
      */
@@ -43,6 +46,7 @@ class UsedItems extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string'],
+            [['file'], 'file'],
         ];
     }
 

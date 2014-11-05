@@ -27,8 +27,13 @@ class SandboxController extends Controller
     public function actionPhoto()
     {
         // frame, rotate and save an image
-        Image::frame(Yii::getAlias('@webroot') . '/images/wall.jpg', 5, '666', 0)
+        /*Image::frame(Yii::getAlias('@webroot') . '/images/wall.jpg', 5, '666', 0)
             ->rotate(-8)
-            ->save(Yii::getAlias('@thumbs') . '/wall_new.jpg', ['quality' => 50]);
+            ->save(Yii::getAlias('@thumbs') . '/wall_new.jpg', ['quality' => 50]);*/
+
+        Image::thumbnail(Yii::getAlias('@webroot') . '/images/wall.jpg', 150, 100)
+//            ->rotate(-8)
+            ->save(Yii::getAlias('@thumbs') . '/wall_thumb.jpg', ['quality' => 50]);
+
     }
 }

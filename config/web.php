@@ -45,7 +45,8 @@ $config = [
     ],
     'params' => $params,
     'aliases' => [
-        '@thumbs' => dirname(__FILE__) . "/../web/thumbs",
+        '@photo_thumb'      => dirname(__FILE__) . "/../web/thumb",
+        '@photo_original'   => dirname(__FILE__) . "/../web/original",
     ],
 ];
 
