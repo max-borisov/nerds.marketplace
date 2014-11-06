@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers;
 use app\models\Category;
-use app\components\Utility;
 
 class CategoryController extends Controller
 {
@@ -51,15 +50,5 @@ class CategoryController extends Controller
         return $this->render('update', ['model' => $model]);
     }
 
-    public function actionDelete()
-    {
-//        $model = new Category();
-        /*$model = new Category();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->save(false)) {
-                $this->refresh();
-            }
-        }*/
-//        return $this->render('update', ['model' => $model]);
-    }
+    public function actionDelete() {}
 }

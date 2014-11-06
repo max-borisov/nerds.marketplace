@@ -4,8 +4,8 @@ namespace app\models;
 
 use Yii;
 use app\models\Category;
-
-use app\components\Utility;
+use app\components\HelperBase;
+use app\components\HelperMarketPlace;
 
 /**
  * This is the model class for table "used_items".
@@ -22,6 +22,7 @@ use app\components\Utility;
  * @property integer $type_id
  * @property string $description
  * @property string $file
+ * @property string $preview
  */
 class UsedItems extends \yii\db\ActiveRecord
 {
@@ -41,12 +42,12 @@ class UsedItems extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required'],
+            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description', 'file'], 'required'],
             [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer'],
             [['price'], 'number'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string'],
-            [['file'], 'file'],
+            [['file'], 'file', 'extensions' => 'jpg, gif, png'],
         ];
     }
 
@@ -72,6 +73,7 @@ class UsedItems extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'type_id' => 'Type:',
             'description' => 'Description:',
+            'file' => 'File:',
         ];
     }
 
@@ -95,5 +97,27 @@ class UsedItems extends \yii\db\ActiveRecord
             ->andFilterWhere(['like', 'description', $this->description]);*/
 
         return $query->all();
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->preview = uniqid();
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        HelperMarketPlace::saveItemPhoto($this, $this->file);
+    }
+
+    public function afterFind()
+    {
+        if ($this->preview) {
+            $this->preview = Yii::getAlias('@photo_thumb_url') . '/' . $this->preview . HelperBase::getParam('thumb')['extension'];
+        } else {
+            $this->preview = HelperBase::getParam('thumb')['placeholder'];
+        }
+        parent::afterFind();
     }
 }

@@ -7,11 +7,12 @@
 }
 
 .used-item-row img {
-    width: 200px;
+    width: 250px;
+    margin: 20px 20px;
 }
 
 .used-item-row .item-price {
-    font-size: 3.5em;
+    font-size: 3em;
     font-weight: bold;
     margin-top: 50px;
 }
@@ -22,7 +23,7 @@
 }
 
 .search-item-block {
-    width: 800px;
+    width: 900px;
     background: #eee;
     padding: 15px;
     margin: 0 0 20px 0;

@@ -1,11 +1,14 @@
 <?php
 use yii\helpers\Html;
+use app\components\HelperBase;
 
 /* @var $data UsedItems */
 ?>
 <div class="row used-item-row">
-    <div class="col-xs-3"><img src="http://placehold.it/150x150" alt="blank" class="img-rounded"></div>
-    <div class="col-xs-5">
+    <div class="col-md-4">
+        <?= Html::tag('img', '', ['src' => $data->preview, 'alt' => '', 'class' => 'img-rounded']) ?>
+    </div>
+    <div class="col-md-5">
         <h3><?= ucfirst(Html::encode($data->title)) ?></h3>
         <div class="row">
             <div class="col-xs-2"><?= $data->getAttributeLabel('category_id') ?></div>
@@ -35,8 +38,8 @@ use yii\helpers\Html;
         <p class="item-description"><?= Html::encode($data->description) ?></p>
 
     </div>
-    <div class="col-xs-4">
-        <p class="item-price"><?= '$', $data->price ?></p>
+    <div class="col-md-3">
+        <p class="item-price"><?= $data->price, ' DKK' ?></p>
     </div>
 </div>
 <hr>

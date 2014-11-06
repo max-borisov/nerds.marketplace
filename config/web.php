@@ -45,8 +45,10 @@ $config = [
     ],
     'params' => $params,
     'aliases' => [
-        '@photo_thumb'      => dirname(__FILE__) . "/../web/thumb",
-        '@photo_original'   => dirname(__FILE__) . "/../web/original",
+        '@photo_thumb_path'     => dirname(__FILE__) . "/../web/thumb",
+        '@photo_thumb_url'      => '/thumb',
+        '@photo_original_path'  => dirname(__FILE__) . "/../web/original",
+        '@photo_original_url'   => '/original',
     ],
 ];
 

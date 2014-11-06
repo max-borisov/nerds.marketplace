@@ -5,7 +5,7 @@ use Yii;
 use yii\base\Component;
 use yii\helpers\VarDumper;
 
-class Utility extends Component
+class HelperBase extends Component
 {
     public static function end()
     {
@@ -21,5 +21,10 @@ class Utility extends Component
         if (true === $terminate) {
             self::end();
         }
+    }
+
+    public static function getParam($key)
+    {
+        return Yii::$app->params[$key];
     }
 }
