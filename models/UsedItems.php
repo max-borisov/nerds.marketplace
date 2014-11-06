@@ -96,6 +96,8 @@ class UsedItems extends \yii\db\ActiveRecord
         /*$query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);*/
 
+        $query->orderBy('id DESC');
+
         return $query->all();
     }
 
