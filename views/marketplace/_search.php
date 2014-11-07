@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 <div class="row search-item-block">
     <?= Html::beginForm('', 'get', ['class' => 'form-horizontal', 'role' => 'form']); ?>
-        <div class="col-md-8">
+        <div class="col-md-6">
 
             <!-- Warranty -->
             <div class="form-group">
@@ -49,10 +49,28 @@ use yii\helpers\Html;
                     <?= Html::activeTextInput($model, 'title', ['id' => 'title', 'class' => 'form-control']); ?>
                 </div>
             </div>
-
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-6">
+
+            <!-- Min price -->
+            <div class="form-group">
+                <?= Html::activeLabel($model, 'price_min', ['for' => 'price_min', 'class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-5">
+                    <?= Html::activeTextInput($model, 'price_min', ['id' => 'price_min', 'class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <!-- Max price -->
+            <div class="form-group">
+                <?= Html::activeLabel($model, 'price_max', ['for' => 'price_max', 'class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-5">
+                    <?= Html::activeTextInput($model, 'price_max', ['id' => 'price_max', 'class' => 'form-control']); ?>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-sm-12">
                     <?= Html::submitButton('Search', ['class' => 'btn btn-primary btn-lg btn-search']) ?>

@@ -29,6 +29,7 @@ class MarketplaceController extends Controller
 
         // Search request
         if (Yii::$app->request->get('UsedItems')) {
+            $model->setScenario('search');
             $data = $model->search(Yii::$app->request->get());
         } else {
             $data = UsedItems::find()->orderBy('id DESC')->all();
@@ -39,6 +40,7 @@ class MarketplaceController extends Controller
     public function actionCreate()
     {
         $model = new UsedItems();
+        $model->setScenario('create');
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model, 'file');
             if ($model->validate() && $model->save(false)) {
