@@ -50,7 +50,7 @@ class Category extends \app\components\ActiveRecord
     }
 
     /**
-     * Build relation with UsedItems maodel
+     * Build relation with UsedItems model
      * @return ActiveQuery
      */
     public function getAttachedItems()
