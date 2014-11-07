@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
             <!-- Warranty -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'warranty', ['for' => 'warranty-yes', 'class' => 'col-sm-2 control-label']); ?>
+                <?= Html::activeLabel($model, 'warranty', ['for' => 'warranty-yes', 'class' => 'col-sm-3 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeRadio($model, 'warranty', ['label' => 'Yes', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline", 'id' => 'warranty-yes'], 'id' => 'warranty-yes']); ?>
@@ -21,7 +21,7 @@ use yii\helpers\Html;
 
             <!-- Packiging -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'packaging', ['for' => 'packaging-yes', 'class' => 'col-sm-2 control-label']); ?>
+                <?= Html::activeLabel($model, 'packaging', ['for' => 'packaging-yes', 'class' => 'col-sm-3 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeRadio($model, 'packaging', ['label' => 'Yes', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"]]); ?>
@@ -32,7 +32,7 @@ use yii\helpers\Html;
 
             <!-- Manual -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'manual', ['for' => 'manual-yes', 'class' => 'col-sm-2 control-label']); ?>
+                <?= Html::activeLabel($model, 'manual', ['for' => 'manual-yes', 'class' => 'col-sm-3 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeRadio($model, 'manual', ['label' => 'Yes', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"]]); ?>
@@ -43,7 +43,7 @@ use yii\helpers\Html;
 
             <!-- Title -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'title', ['for' => 'title', 'class' => 'col-sm-2 control-label']); ?>
+                <?= Html::activeLabel($model, 'title', ['for' => 'title', 'class' => 'col-sm-3 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeTextInput($model, 'title', ['id' => 'title', 'class' => 'form-control']); ?>
