@@ -8,6 +8,10 @@ use app\components\HelperBase;
 
 class HelperMarketPlace extends Component
 {
+    /**
+     * Process uploaded item photo
+     * @param $model
+     */
     public static function saveItemPhoto($model)
     {
         $thumbParams    = HelperBase::getParam('thumb');

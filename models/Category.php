@@ -3,10 +3,7 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
-
 use app\models\UsedItems;
-use app\components\Utility;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -17,7 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Category extends \yii\db\ActiveRecord
+class Category extends \app\components\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -38,6 +35,10 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Retrieve data for drop down list
+     * @return array
+     */
     public function prepareDropDown()
     {
         $data = (new \yii\db\Query())
@@ -48,6 +49,10 @@ class Category extends \yii\db\ActiveRecord
         return ArrayHelper::map($data, 'id', 'title');
     }
 
+    /**
+     * Build relation with UsedItems maodel
+     * @return ActiveQuery
+     */
     public function getAttachedItems()
     {
         return $this->hasMany(UsedItems::className(), ['category_id' => 'id']);
@@ -65,12 +70,4 @@ class Category extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
-
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }
-
 }

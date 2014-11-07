@@ -24,7 +24,7 @@ use app\components\HelperMarketPlace;
  * @property string $file
  * @property string $preview
  */
-class UsedItems extends \yii\db\ActiveRecord
+class UsedItems extends \app\components\ActiveRecord
 {
     public $file;
 
@@ -51,6 +51,10 @@ class UsedItems extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Build relation with Category model
+     * @return ActiveQuery
+     */
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
@@ -77,6 +81,11 @@ class UsedItems extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Apply search filter for items
+     * @param $params
+     * @return array|bool|\yii\db\ActiveRecord[]
+     */
     public function search($params)
     {
         if (!($this->load($params) || !$this->validate())) {
@@ -84,20 +93,17 @@ class UsedItems extends \yii\db\ActiveRecord
         }
 
         $query = UsedItems::find();
-
         $query->andFilterWhere([
             'warranty'  => $this->warranty,
             'packaging' => $this->packaging,
             'manual'    => $this->manual,
         ]);
-
         $query->andFilterWhere(['like', 'title', $this->title]);
 
         /*$query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);*/
 
         $query->orderBy('id DESC');
-
         return $query->all();
     }
 
@@ -115,6 +121,7 @@ class UsedItems extends \yii\db\ActiveRecord
 
     public function afterFind()
     {
+        // Resolve preview name to full url
         if ($this->preview) {
             $this->preview = Yii::getAlias('@photo_thumb_url') . '/' . $this->preview . HelperBase::getParam('thumb')['extension'];
         } else {

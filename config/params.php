@@ -3,6 +3,7 @@
 return [
     'adminEmail' => 'admin@example.com',
 
+    // Item thumb params
     'thumb' => [
         'width'         => 250,
         'height'        => 200,

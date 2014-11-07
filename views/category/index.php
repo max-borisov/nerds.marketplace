@@ -25,12 +25,12 @@ if (Yii::$app->session->hasFlash('category_update_success')) {
 <table class="table table-striped table-hover">
     <thead>
         <tr>
-            <td>Num.</td>
-            <td>Category title</td>
-            <td>Attached items</td>
-            <td>Created</td>
-            <td>Updated</td>
-            <td>Actions</td>
+            <th>Num.</th>
+            <th>Category title</th>
+            <th>Attached items</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
