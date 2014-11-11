@@ -118,7 +118,8 @@ class UsedItems extends \app\components\ActiveRecord
         /*$query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);*/
 
-        $query->orderBy('id DESC');
+//        $query->orderBy('id DESC');
+        $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
         return $query->all();
     }
 

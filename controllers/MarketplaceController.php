@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\HelperBase;
+use app\components\HelperMarketPlace;
 use Yii;
 use yii\web\Controller;
 use yii\helpers;
@@ -32,7 +33,7 @@ class MarketplaceController extends Controller
             $model->setScenario('search');
             $data = $model->search(Yii::$app->request->get());
         } else {
-            $data = UsedItems::find()->orderBy('id DESC')->all();
+            $data = UsedItems::find()->orderBy(HelperMarketPlace::getSortParamForItemsList())->all();
         }
         return $this->render('index', ['data' => $data, 'model' => $model]);
     }

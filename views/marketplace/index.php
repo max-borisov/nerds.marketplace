@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\components\HelperMarketPlace;
 
 /* @var $this yii\web\View */
 
@@ -14,6 +15,19 @@ $this->params['isUsedItemsPage'] = true;
 
 <?= $this->render('_search', ['model' => $model]) ?>
 
+<!--<p>
+<!--    <form class="form-horizontal" role="form">-->
+        <div class="form-group">
+            <label for="sort" class="col-md-1 control-label">Sort:</label>
+            <div class="col-md-2">
+                <?/*= HelperMarketPlace::generateSortDropDown($this) */?>
+            </div>
+        </div>
+<!--    </form>
+<div class="clearfix"></div>
+</p>-->
+
+
 <?php
 
 if (Yii::$app->session->hasFlash('item_create_success')) {
@@ -22,6 +36,9 @@ if (Yii::$app->session->hasFlash('item_create_success')) {
 
 if ($data) {
     echo '<p class="lead">There is <span class="badge">' . count($data) . '</span> items found</p>';
+
+
+
     foreach ($data as $usedItem) {
         echo $this->render('_item', ['data' => $usedItem]);
     }
