@@ -88,6 +88,7 @@ class UsedItems extends \app\components\ActiveRecord
             'file' => 'File:',
             'price_min' => 'Min price:',
             'price_max' => 'Max price:',
+            'created_at' => 'Post date:',
         ];
     }
 
