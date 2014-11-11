@@ -40,10 +40,4 @@ class HelperBase extends Component
     {
         return Yii::$app->params[$key];
     }
-
-    /*public function registerJs($name, $value, $key, $position = View::POS_END)
-    {
-        $this->registerJs("var options = ".json_encode($options).";", View::POS_END, 'my-options');
-        $this->registerJs("var options = ".json_encode($options).";", View::POS_END, 'my-options');
-    }*/
 }

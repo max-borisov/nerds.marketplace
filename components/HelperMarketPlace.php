@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 
 class HelperMarketPlace extends Component
 {
+    // Data for sort drop down list
     public static $sortOptions = [
         ['label' => 'Price Up'      ,   'value' => 'price-up'   ,   'order' => 'price ASC'],
         ['label' => 'Price down'    ,   'value' => 'price-down' ,   'order' => 'price DESC'],
@@ -31,13 +32,19 @@ class HelperMarketPlace extends Component
             ->save($thumb, ['quality' => $thumbParams['quality']]);
     }
 
+    /**
+     * Get drop down html code
+     * @param $view Web view
+     * @return string
+     */
     public static function generateSortDropDown($view)
     {
-        $queryParams = Yii::$app->request->queryParams;
         $selected = '';
-
+        $queryParams = Yii::$app->request->queryParams;
+        // If there are GET params
         if ($queryParams) {
             if (isset($queryParams['sort'])) {
+                $selected = $queryParams['sort'];
                 unset($queryParams['sort']);
             }
             $queryParams = str_replace(['/', '?'], '', $queryParams);
@@ -45,16 +52,25 @@ class HelperMarketPlace extends Component
         } else {
             $queryParams = '?';
         }
+        // Pass JS variable to view
         $view->registerJs("var siteUrl = '" . $queryParams . "';", View::POS_HEAD, 'site-url');
-        return $dropDown = Html::dropDownList('', $selected, ArrayHelper::map(self::$sortOptions, 'value', 'label'), ['prompt' => '', 'class' => 'form-control', 'id' => 'sort']);
+        return $dropDown = Html::dropDownList(
+            '',
+            $selected,
+            ArrayHelper::map(self::$sortOptions, 'value', 'label'),
+            ['prompt' => '', 'class' => 'form-control', 'id' => 'sort']
+        );
     }
 
     public static function getSortParamForItemsList()
     {
-        $defaultSort = 'id DESC';
-        $queryParam = Yii::$app->request->get('sort');
-        $sortOptions = ArrayHelper::map(self::$sortOptions, 'value', 'order');
+        // default order
+        $defaultSort    = 'id DESC';
+        $queryParam     = Yii::$app->request->get('sort');
+        // Get order types
+        $sortOptions    = ArrayHelper::map(self::$sortOptions, 'value', 'order');
         if ($queryParam && isset($sortOptions[$queryParam])) {
+            // Get specified order
             return $sortOptions[$queryParam];
         } else {
             return $defaultSort;

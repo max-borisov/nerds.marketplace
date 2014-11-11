@@ -97,11 +97,9 @@ class UsedItems extends \app\components\ActiveRecord
      */
     public function search($params)
     {
-
         if (!($this->load($params) || !$this->validate())) {
             return false;
         }
-
         $this->price_min = Yii::$app->request->get('UsedItems')['price_min'];
         $this->price_max = Yii::$app->request->get('UsedItems')['price_max'];
 
@@ -118,7 +116,6 @@ class UsedItems extends \app\components\ActiveRecord
         /*$query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);*/
 
-//        $query->orderBy('id DESC');
         $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
         return $query->all();
     }

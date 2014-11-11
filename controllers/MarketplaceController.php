@@ -33,6 +33,7 @@ class MarketplaceController extends Controller
             $model->setScenario('search');
             $data = $model->search(Yii::$app->request->get());
         } else {
+            // Get items with specified order
             $data = UsedItems::find()->orderBy(HelperMarketPlace::getSortParamForItemsList())->all();
         }
         return $this->render('index', ['data' => $data, 'model' => $model]);
