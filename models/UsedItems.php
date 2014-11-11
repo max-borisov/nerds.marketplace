@@ -49,8 +49,9 @@ class UsedItems extends \app\components\ActiveRecord
         return [
             [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description', 'file'], 'required', 'on' => ['create']],
             [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create']],
+            [['warranty', 'packaging', 'manual'], 'integer', 'on' => ['search']],
             [['price'], 'number', 'on' => ['create']],
-            [['title'], 'string', 'max' => 255, 'on' => ['create']],
+            [['title'], 'string', 'max' => 255, 'on' => ['create', 'search']],
             [['description'], 'string', 'on' => ['create']],
             [['file'], 'file', 'on' => ['create'], 'extensions' => 'jpg, gif, png'],
 
@@ -100,6 +101,7 @@ class UsedItems extends \app\components\ActiveRecord
         if (!($this->load($params) || !$this->validate())) {
             return false;
         }
+
         $this->price_min = Yii::$app->request->get('UsedItems')['price_min'];
         $this->price_max = Yii::$app->request->get('UsedItems')['price_max'];
 

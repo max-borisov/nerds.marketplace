@@ -12,10 +12,10 @@ class HelperMarketPlace extends Component
 {
     // Data for sort drop down list
     public static $sortOptions = [
-        ['label' => 'Price Up'      ,   'value' => 'price-up'   ,   'order' => 'price ASC'],
-        ['label' => 'Price down'    ,   'value' => 'price-down' ,   'order' => 'price DESC'],
-        ['label' => 'New first'     ,   'value' => 'new-first'  ,   'order' => 'created_at DESC'],
-        ['label' => 'New last'      ,   'value' => 'new-last'   ,   'order' => 'created_at ASC'],
+        ['label' => 'Cheap first'   ,   'value' => 'cheap-first'    ,   'order' => 'price ASC'],
+        ['label' => 'Cheap last'    ,   'value' => 'cheap-last'     ,   'order' => 'price DESC'],
+        ['label' => 'New first'     ,   'value' => 'new-first'      ,   'order' => 'created_at DESC'],
+        ['label' => 'New last'      ,   'value' => 'new-last'       ,   'order' => 'created_at ASC'],
     ];
 
     /**

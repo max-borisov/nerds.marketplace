@@ -27,10 +27,10 @@ class MarketplaceController extends Controller
     public function actionIndex()
     {
         $model = new UsedItems();
-
         // Search request
         if (Yii::$app->request->get('UsedItems')) {
             $model->setScenario('search');
+            // Search items according to received GET parameters
             $data = $model->search(Yii::$app->request->get());
         } else {
             // Get items with specified order
