@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\Category;
+use app\models\UsedItemPhoto;
 use app\components\HelperBase;
 use app\components\HelperMarketPlace;
 
@@ -21,15 +22,12 @@ use app\components\HelperMarketPlace;
  * @property integer $user_id
  * @property integer $type_id
  * @property string $description
- * @property string $file
  * @property string $preview
  * @property string $price_min
  * @property string $price_max
  */
 class UsedItems extends \app\components\ActiveRecord
 {
-    public $file;
-
     public $price_min;
     public $price_max;
 
@@ -47,14 +45,12 @@ class UsedItems extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description', 'file'], 'required', 'on' => ['create']],
+            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required', 'on' => ['create']],
             [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create']],
             [['warranty', 'packaging', 'manual'], 'integer', 'on' => ['search']],
             [['price'], 'number', 'on' => ['create']],
             [['title'], 'string', 'max' => 255, 'on' => ['create', 'search']],
             [['description'], 'string', 'on' => ['create']],
-            [['file'], 'file', 'on' => ['create'], 'extensions' => 'jpg, gif, png'],
-
             [['price_min, price_max'], 'number', 'on' => ['search']],
         ];
     }
@@ -66,6 +62,15 @@ class UsedItems extends \app\components\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+    /**
+     * Build relation with UsedItemPhoto model
+     * @return ActiveQuery
+     */
+    public function getPhotos()
+    {
+        return $this->hasMany(UsedItemPhoto::className(), ['item_id' => 'id']);
     }
 
     /**
@@ -85,7 +90,6 @@ class UsedItems extends \app\components\ActiveRecord
             'user_id' => 'User ID',
             'type_id' => 'Type:',
             'description' => 'Description:',
-            'file' => 'File:',
             'price_min' => 'Min price:',
             'price_max' => 'Max price:',
             'created_at' => 'Post date:',
@@ -132,7 +136,7 @@ class UsedItems extends \app\components\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        HelperMarketPlace::saveItemPhoto($this, $this->file);
+//        HelperMarketPlace::saveItemPhoto($this, $this->file);
     }
 
     public function afterFind()

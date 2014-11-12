@@ -2,13 +2,14 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\helpers;
 use app\components\HelperBase;
 use app\components\HelperMarketPlace;
-use Yii;
-use yii\web\Controller;
-use yii\helpers;
 use app\models\UsedItems;
+use app\models\UsedItemPhoto;
 use app\models\Category;
+use yii\web\Controller;
 use yii\web\UploadedFile;
 
 class MarketplaceController extends Controller
@@ -41,16 +42,34 @@ class MarketplaceController extends Controller
 
     public function actionCreate()
     {
-        $model = new UsedItems();
+        $model      = new UsedItems();
+        $modelPhoto = new UsedItemPhoto();
         $model->setScenario('create');
+
+//        HelperBase::dump($_POST);
+
+        HelperBase::dump(UploadedFile::getInstances($modelPhoto, 'file'));
+//        $files = UploadedFile::getInstances($modelPhoto, 'file');
+//        var_dump($files);
+
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->file = UploadedFile::getInstance($model, 'file');
+
+//            $model->file = UploadedFile::getInstance($model, 'file');
+//            HelperBase::dump(UploadedFile::getInstances($modelPhoto, 'file'));
+
+//            UsedItemPhoto::validateMultipleFiles($modelPhoto);
+
+
             if ($model->validate() && $model->save(false)) {
                 Yii::$app->session->setFlash('item_create_success', 'A new item has been added.');
                 $this->redirect('/');
             }
         }
         $categories = (new Category())->prepareDropDown();
-        return $this->render('create', ['model' => $model, 'categories' => $categories]);
+        return $this->render('create', [
+            'model'         => $model,
+            'modelPhoto'    => $modelPhoto,
+            'categories'    => $categories
+        ]);
     }
 }
