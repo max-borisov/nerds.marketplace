@@ -3,16 +3,17 @@
 namespace app\models;
 
 use Yii;
-//use app\models\Uplo;
+use yii\base\Exception;
 use yii\web\UploadedFile;
 use app\components\HelperBase;
+use app\components\HelperMarketPlace;
 
 /**
  * This is the model class for table "used_item_photo".
  *
  * @property integer $id
  * @property integer $item_id
- * @property string $name
+ * @property string  $name
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -23,7 +24,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
      */
     public $file;
 
-//    private static $_validationError;
+    private $_fileInstances = [];
 
     /**
      * @inheritdoc
@@ -58,21 +59,72 @@ class UsedItemPhoto extends \app\components\ActiveRecord
         ];
     }
 
-    public static function validateMultipleFiles($model)
+    public function beforeSave($insert)
     {
-//        $this->validateMultiple()
+        if (empty($this->item_id)) {
+            throw new Exception('Item id must be specified.');
+        }
+        $this->name = uniqid($this->item_id);
+        return parent::beforeSave($insert);
+    }
 
-        $files = UploadedFile::getInstances($model, 'file');
-//        HelperBase::dump($files);
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if (!empty($this->file) && $this->file instanceof yii\web\UploadedFile) {
+            HelperMarketPlace::saveItemPhoto($this);
+        }
+    }
 
+    /**
+     * Validate uploaded files and set errors to form model
+     * @param $modelPhoto UsedItemPhoto model
+     * @param $modelForm UsedItems model
+     * @return bool
+     */
+    public function validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $modelForm)
+    {
+        $this->_fileInstances = UploadedFile::getInstances($modelPhoto, 'file');
 
-        /*foreach ($files as $file) {
+        // Limit for uploaded files amount
+        if (count($this->_fileInstances) > HelperBase::getParam('maxUploadImages')) {
+            $modelForm->addError('file', 'Max. ' . HelperBase::getParam('maxUploadImages') . ' images can be uploaded for one item.');
+            return false;
+        }
+
+        // Validate each uploaded image
+        foreach ($this->_fileInstances as $file) {
             $_model = new self;
             $_model->file = $file;
-            if (!$_model->validate()) {
-                $model->addError('file', $_model->getErrors('file'))
+            if (!$_model->validate() && $_model->hasErrors()) {
+                foreach ($_model->getErrors() as $error) {
+                    $modelForm->addError('file', $error[0]);
+                }
+                break;
             }
-        }*/
+        }
+        return true;
+    }
 
+    public function hasUploadedFiles()
+    {
+        return !empty($this->_fileInstances);
+    }
+
+    /**
+     * Add a new table row for each new image
+     * @param $itemId Item id images attached to
+     * @throws \yii\db\Exception
+     */
+    public function saveUploadedFileNames($itemId)
+    {
+        foreach ($this->_fileInstances as $file) {
+            $_model = new self;
+            $_model->item_id    = $itemId;
+            $_model->file       = $file;
+            if (!$_model->save(false)) {
+                throw new \yii\db\Exception('Item photo could not be saved.');
+            }
+        }
     }
 }
