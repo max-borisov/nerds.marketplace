@@ -33,3 +33,5 @@ runtime/
 thumb/
 
 original/
+
+controllers/Sandbox.php

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\UsedItems;
 use Yii;
 use yii\web\Controller;
 use yii\helpers;
@@ -23,7 +24,11 @@ class SandboxController extends Controller
 
 //        Utility::dump((new Category())->prepareDropDown());
 
-        HelperBase::dump(HelperBase::getParam('thumb12')['width']);
+//        HelperBase::dump(HelperBase::getParam('thumb12')['width']);
+
+//        $model = UsedItems::find()->where(['id' => 4])->count();
+//        $model = UsedItems::find()->where(['id' => 17])->one();
+//        HelperBase::dump($model->photos);
 
     }
 
