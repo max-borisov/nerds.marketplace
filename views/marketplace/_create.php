@@ -109,8 +109,6 @@ use yii\helpers\Html;
         <?= Html::activeLabel($modelPhoto, 'file', ['for' => 'upload', 'class' => 'col-sm-2 control-label']); ?>
         <div class="col-sm-8">
             <?= Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']); ?>
-            <br>
-<!--            --><?//= Html::activeFileInput($modelPhoto, 'file[]'); ?>
         </div>
     </div>
 
