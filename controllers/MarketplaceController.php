@@ -45,22 +45,12 @@ class MarketplaceController extends Controller
         $model      = new UsedItems();
         $modelPhoto = new UsedItemPhoto();
         $model->setScenario('create');
-
-//        HelperBase::dump($_POST);
-
-        HelperBase::dump(UploadedFile::getInstances($modelPhoto, 'file'));
-//        $files = UploadedFile::getInstances($modelPhoto, 'file');
-//        var_dump($files);
-
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-
-//            $model->file = UploadedFile::getInstance($model, 'file');
-//            HelperBase::dump(UploadedFile::getInstances($modelPhoto, 'file'));
-
-//            UsedItemPhoto::validateMultipleFiles($modelPhoto);
-
-
-            if ($model->validate() && $model->save(false)) {
+            $modelPhoto->validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $model);
+            if ($model->validate(null, false) && $model->save(false)) {
+                if ($modelPhoto->hasUploadedFiles()) {
+                    $modelPhoto->saveUploadedFileNames($model->id);
+                }
                 Yii::$app->session->setFlash('item_create_success', 'A new item has been added.');
                 $this->redirect('/');
             }

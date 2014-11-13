@@ -30,6 +30,7 @@ class UsedItems extends \app\components\ActiveRecord
 {
     public $price_min;
     public $price_max;
+    public $preview;
 
     /**
      * @inheritdoc
@@ -127,25 +128,26 @@ class UsedItems extends \app\components\ActiveRecord
         return $query->all();
     }
 
-    public function beforeSave($insert)
-    {
-        $this->preview = uniqid();
-        return parent::beforeSave($insert);
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-//        HelperMarketPlace::saveItemPhoto($this, $this->file);
-    }
-
     public function afterFind()
     {
-        // Resolve preview name to full url
-        if ($this->preview) {
-            $this->preview = Yii::getAlias('@photo_thumb_url') . '/' . $this->preview . HelperBase::getParam('thumb')['extension'];
-        } else {
-            $this->preview = HelperBase::getParam('thumb')['placeholder'];
+        // Set preview for each item
+        // Default(blank) preview
+        $this->preview = HelperBase::getParam('thumb')['placeholder'];
+        if (($photos = $this->photos) && is_array($photos)) {
+            $photoName = $photos[0]->name;
+            $photoPath =
+                Yii::getAlias('@photo_thumb_path')
+                . '/'
+                . $photoName
+                . HelperBase::getParam('thumb')['extension'];
+
+            if (file_exists($photoPath)) {
+                $this->preview =
+                    Yii::getAlias('@photo_thumb_url')
+                    . '/'
+                    . $photoName
+                    . HelperBase::getParam('thumb')['extension'];
+            }
         }
         parent::afterFind();
     }
