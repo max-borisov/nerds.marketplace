@@ -31,6 +31,7 @@ class UsedItems extends \app\components\ActiveRecord
     public $price_min;
     public $price_max;
     public $preview;
+    public $search_text;
 
     /**
      * @inheritdoc
@@ -50,7 +51,8 @@ class UsedItems extends \app\components\ActiveRecord
             [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create']],
             [['warranty', 'packaging', 'manual'], 'integer', 'on' => ['search']],
             [['price'], 'number', 'on' => ['create']],
-            [['title'], 'string', 'max' => 255, 'on' => ['create', 'search']],
+            [['title'], 'string', 'max' => 255, 'on' => ['create']],
+            [['search_text'], 'string', 'max' => 255, 'on' => ['search']],
             [['description'], 'string', 'on' => ['create']],
             [['price_min, price_max'], 'number', 'on' => ['search']],
         ];
@@ -88,6 +90,7 @@ class UsedItems extends \app\components\ActiveRecord
             'price' => 'Price:',
             'category_id' => 'Category:',
             'title' => 'Title:',
+            'search_text' => 'Search text:',
             'user_id' => 'User ID',
             'type_id' => 'Type:',
             'description' => 'Description:',
@@ -117,9 +120,10 @@ class UsedItems extends \app\components\ActiveRecord
             'packaging' => $this->packaging,
             'manual'    => $this->manual,
         ]);
-        $query->andFilterWhere(['like', 'title', $this->title]);
         $query->andFilterWhere(['>=', 'price', $this->price_min]);
         $query->andFilterWhere(['<=', 'price', $this->price_max]);
+        $query->andFilterWhere(['like', 'title', $this->search_text]);
+        $query->orFilterWhere(['like', 'description', $this->search_text]);
 
         /*$query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);*/

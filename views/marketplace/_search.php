@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
             <!-- Warranty -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'warranty', ['for' => 'warranty-yes', 'class' => 'col-sm-3 control-label']); ?>
+                <?= Html::activeLabel($model, 'warranty', ['for' => 'warranty-yes', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeRadio($model, 'warranty', ['label' => 'Yes', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline", 'id' => 'warranty-yes'], 'id' => 'warranty-yes']); ?>
@@ -21,7 +21,7 @@ use yii\helpers\Html;
 
             <!-- Packiging -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'packaging', ['for' => 'packaging-yes', 'class' => 'col-sm-3 control-label']); ?>
+                <?= Html::activeLabel($model, 'packaging', ['for' => 'packaging-yes', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeRadio($model, 'packaging', ['label' => 'Yes', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"]]); ?>
@@ -32,7 +32,7 @@ use yii\helpers\Html;
 
             <!-- Manual -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'manual', ['for' => 'manual-yes', 'class' => 'col-sm-3 control-label']); ?>
+                <?= Html::activeLabel($model, 'manual', ['for' => 'manual-yes', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeRadio($model, 'manual', ['label' => 'Yes', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"]]); ?>
@@ -41,21 +41,22 @@ use yii\helpers\Html;
                 </div>
             </div>
 
-            <!-- Title -->
+            <!-- Search text -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'title', ['for' => 'title', 'class' => 'col-sm-3 control-label']); ?>
+                <?= Html::activeLabel($model, 'search_text', ['for' => 'search_text', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-5">
-                    <?= Html::activeTextInput($model, 'title', ['id' => 'title', 'class' => 'form-control']); ?>
+                    <?= Html::activeTextInput($model, 'search_text', ['id' => 'search_text', 'class' => 'form-control']); ?>
                 </div>
             </div>
+
         </div>
 
         <div class="col-md-6">
 
             <!-- Min price -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'price_min', ['for' => 'price_min', 'class' => 'col-sm-3 control-label']); ?>
+                <?= Html::activeLabel($model, 'price_min', ['for' => 'price_min', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeTextInput($model, 'price_min', ['id' => 'price_min', 'class' => 'form-control']); ?>
@@ -64,7 +65,7 @@ use yii\helpers\Html;
 
             <!-- Max price -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'price_max', ['for' => 'price_max', 'class' => 'col-sm-3 control-label']); ?>
+                <?= Html::activeLabel($model, 'price_max', ['for' => 'price_max', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-5">
                     <?= Html::activeTextInput($model, 'price_max', ['id' => 'price_max', 'class' => 'form-control']); ?>
