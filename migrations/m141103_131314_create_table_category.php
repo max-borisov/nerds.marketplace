@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m141103_131314_create_table_category extends Migration
 {
-    private $_tableName = 'category';
+    private $_tableName = '_category';
 
     public function up()
     {

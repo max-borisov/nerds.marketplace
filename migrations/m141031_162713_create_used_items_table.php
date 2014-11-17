@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m141031_162713_create_used_items_table extends Migration
 {
-    private $_tableName = 'used_items';
+    private $_tableName = '_used_item';
 
     public function up()
     {
@@ -21,15 +21,13 @@ class m141031_162713_create_used_items_table extends Migration
             'user_id'       => \yii\db\oci\Schema::TYPE_INTEGER . ' NOT NULL',
             'type_id'       => \yii\db\oci\Schema::TYPE_SMALLINT . ' NOT NULL',
             'description'   => \yii\db\oci\Schema::TYPE_TEXT . ' NOT NULL',
+            'created_at'    => \yii\db\oci\Schema::TYPE_INTEGER . ' NOT NULL',
+            'updated_at'    => \yii\db\oci\Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
     }
 
     public function down()
     {
-        echo "m141031_162713_create_used_items_table cannot be reverted.\n";
-
         $this->dropTable($this->_tableName);
-
-//        return false;
     }
 }

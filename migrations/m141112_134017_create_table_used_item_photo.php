@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m141112_134017_create_table_used_item_photo extends Migration
 {
-    private $_table = 'used_item_photo';
+    private $_table = '_used_item_photo';
 
     public function up()
     {
