@@ -26,7 +26,7 @@ use app\components\HelperMarketPlace;
  * @property string $price_min
  * @property string $price_max
  */
-class UsedItems extends \app\components\ActiveRecord
+class UsedItem extends \app\components\ActiveRecord
 {
     public $price_min;
     public $price_max;
@@ -38,7 +38,7 @@ class UsedItems extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return 'used_items';
+        return '_used_item';
     }
 
     /**
@@ -111,10 +111,10 @@ class UsedItems extends \app\components\ActiveRecord
             return false;
         }
 
-        $this->price_min = Yii::$app->request->get('UsedItems')['price_min'];
-        $this->price_max = Yii::$app->request->get('UsedItems')['price_max'];
+        $this->price_min = Yii::$app->request->get('UsedItem')['price_min'];
+        $this->price_max = Yii::$app->request->get('UsedItem')['price_max'];
 
-        $query = UsedItems::find();
+        $query = UsedItem::find();
         $query->andFilterWhere([
             'warranty'  => $this->warranty,
             'packaging' => $this->packaging,

@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\UsedItems;
+use app\models\UsedItem;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -21,7 +21,7 @@ class Category extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return 'category';
+        return '_category';
     }
 
     /**
@@ -50,12 +50,12 @@ class Category extends \app\components\ActiveRecord
     }
 
     /**
-     * Build relation with UsedItems model
+     * Build relation with UsedItem model
      * @return ActiveQuery
      */
     public function getAttachedItems()
     {
-        return $this->hasMany(UsedItems::className(), ['category_id' => 'id']);
+        return $this->hasMany(UsedItem::className(), ['category_id' => 'id']);
     }
 
     /**

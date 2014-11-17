@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 
-/* @var $model app\models\UsedItems */
+/* @var $model app\models\UsedItem */
 ?>
 
 <div class="row search-item-block">

@@ -1,5 +1,5 @@
 <?php
-/* @var $model UsedItems */
+/* @var $model UsedItem */
 use yii\helpers\Html;
 ?>
 <h1 class="text-center">Updating category</h1>

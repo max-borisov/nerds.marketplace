@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 
-$this->params['isUsedItemsPage'] = true;
+$this->params['isUsedItemPage'] = true;
 ?>
 <h1 class="text-center">Used items catalog</h1>
 <hr>

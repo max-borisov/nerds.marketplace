@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model UsedItems */
+/* @var $model UsedItem */
 
 use yii\helpers\Html;
 ?>

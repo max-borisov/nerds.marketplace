@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\UsedItems;
+use app\models\UsedItem;
 use Yii;
 use yii\web\Controller;
 use yii\helpers;
@@ -26,8 +26,8 @@ class SandboxController extends Controller
 
 //        HelperBase::dump(HelperBase::getParam('thumb12')['width']);
 
-//        $model = UsedItems::find()->where(['id' => 4])->count();
-//        $model = UsedItems::find()->where(['id' => 17])->one();
+//        $model = UsedItem::find()->where(['id' => 4])->count();
+//        $model = UsedItem::find()->where(['id' => 17])->one();
 //        HelperBase::dump($model->photos);
 
     }

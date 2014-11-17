@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use app\components\HelperBase;
 
-/* @var $data UsedItems */
+/* @var $data UsedItem */
 ?>
 <div class="row used-item-row">
     <div class="col-md-4">

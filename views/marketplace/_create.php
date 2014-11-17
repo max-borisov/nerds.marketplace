@@ -1,5 +1,5 @@
 <?php
-/* @var $model UsedItems */
+/* @var $model UsedItem */
 use yii\helpers\Html;
 ?>
 

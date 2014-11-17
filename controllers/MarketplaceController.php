@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers;
 use app\components\HelperBase;
 use app\components\HelperMarketPlace;
-use app\models\UsedItems;
+use app\models\UsedItem;
 use app\models\UsedItemPhoto;
 use app\models\Category;
 use yii\web\Controller;
@@ -27,22 +27,22 @@ class MarketplaceController extends Controller
 
     public function actionIndex()
     {
-        $model = new UsedItems();
+        $model = new UsedItem();
         // Search request
-        if (Yii::$app->request->get('UsedItems')) {
+        if (Yii::$app->request->get('UsedItem')) {
             $model->setScenario('search');
             // Search items according to received GET parameters
             $data = $model->search(Yii::$app->request->get());
         } else {
             // Get items with specified order
-            $data = UsedItems::find()->orderBy(HelperMarketPlace::getSortParamForItemsList())->all();
+            $data = UsedItem::find()->orderBy(HelperMarketPlace::getSortParamForItemsList())->all();
         }
         return $this->render('index', ['data' => $data, 'model' => $model]);
     }
 
     public function actionCreate()
     {
-        $model      = new UsedItems();
+        $model      = new UsedItem();
         $modelPhoto = new UsedItemPhoto();
         $model->setScenario('create');
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {

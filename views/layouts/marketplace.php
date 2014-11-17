@@ -40,7 +40,7 @@ NerdsAsset::register($this);
                 <a class="navbar-brand" href="/">Nerds.dk marketplace</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li class="<?= isset($this->params['isUsedItemsPage']) ? 'active' : '' ?>"><?= Html::a('Used items', Url::to('/')) ?></li>
+                <li class="<?= isset($this->params['isUsedItemPage']) ? 'active' : '' ?>"><?= Html::a('Used items', Url::to('/')) ?></li>
                 <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>"><?= Html::a('Categories', Url::to('/category')) ?></li>
             </ul>
         </div><!--/.container-fluid -->

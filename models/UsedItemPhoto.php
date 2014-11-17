@@ -31,7 +31,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return 'used_item_photo';
+        return '_used_item_photo';
     }
 
     /**
@@ -79,7 +79,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     /**
      * Validate uploaded files and set errors to form model
      * @param $modelPhoto UsedItemPhoto model
-     * @param $modelForm UsedItems model
+     * @param $modelForm UsedItem model
      * @return bool
      */
     public function validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $modelForm)
