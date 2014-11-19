@@ -86,4 +86,16 @@ class SignUpForm extends Model
             'password_repeat'   => 'Confirm password:',
         ];
     }
+
+    public function afterValidate()
+    {
+        if (!$this->hasErrors()) {
+
+
+
+            $this->addError('email', 'Error');
+        }
+
+        parent::afterValidate();
+    }
 }
