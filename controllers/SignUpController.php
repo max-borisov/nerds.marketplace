@@ -45,6 +45,7 @@ class SignUpController extends Controller
                 Yii::$app->session->setFlash('signup_error', 'Some errors appeared. Please, try to sign up later.');
             } else {
                 // @todo Redirect to SignIn page
+                $this->redirect('/signin');
             }
         }
         return $this->render('index', ['model' => $model]);

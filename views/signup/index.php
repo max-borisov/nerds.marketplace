@@ -14,35 +14,35 @@ if (Yii::$app->session->hasFlash('signup_error')) {
 ?>
 
 <?= Html::beginForm('', 'post', [
-    'class' => 'form-horizontal',
+    'class' => 'form-horizontal form-signup',
     'role' => 'form',
 ]); ?>
     <div class="form-group">
-        <?= Html::activeLabel($model, 'username', ['for' => 'username', 'class' => 'col-sm-2 control-label']); ?>
-        <div class="col-sm-4">
+        <?= Html::activeLabel($model, 'username', ['for' => 'username', 'class' => 'col-sm-3 control-label']); ?>
+        <div class="col-sm-8">
             <?= Html::activeTextInput($model, 'username', ['class' =>  'form-control', 'id' => 'name', 'placeholder' => 'Name']); ?>
         </div>
     </div>
     <div class="form-group">
-        <?= Html::activeLabel($model, 'email', ['for' => 'email', 'class' => 'col-sm-2 control-label']); ?>
-        <div class="col-sm-4">
+        <?= Html::activeLabel($model, 'email', ['for' => 'email', 'class' => 'col-sm-3 control-label']); ?>
+        <div class="col-sm-8">
             <?= Html::activeTextInput($model, 'email', ['class' =>  'form-control', 'id' => 'email', 'type' => 'email', 'placeholder' => 'Email']); ?>
         </div>
     </div>
     <div class="form-group">
-        <?= Html::activeLabel($model, 'password', ['for' => 'password', 'class' => 'col-sm-2 control-label']); ?>
-        <div class="col-sm-4">
+        <?= Html::activeLabel($model, 'password', ['for' => 'password', 'class' => 'col-sm-3 control-label']); ?>
+        <div class="col-sm-8">
             <?= Html::activePasswordInput($model, 'password', ['class' =>  'form-control', 'id' => 'password', 'placeholder' => 'Password']); ?>
         </div>
     </div>
     <div class="form-group">
-        <?= Html::activeLabel($model, 'password_repeat', ['for' => 'password_repeat', 'class' => 'col-sm-2 control-label']); ?>
-        <div class="col-sm-4">
+        <?= Html::activeLabel($model, 'password_repeat', ['for' => 'password_repeat', 'class' => 'col-sm-3 control-label']); ?>
+        <div class="col-sm-8">
             <?= Html::activePasswordInput($model, 'password_repeat', ['class' =>  'form-control', 'id' => 'password_repeat', 'placeholder' => 'Password repeat']); ?>
         </div>
     </div>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-4">
+        <div class="col-sm-offset-4 col-sm-3">
             <button type="submit" class="btn btn-default">Sign up</button>
         </div>
     </div>

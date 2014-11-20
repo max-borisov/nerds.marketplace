@@ -42,6 +42,8 @@ NerdsAsset::register($this);
             <ul class="nav navbar-nav navbar-right">
                 <li class="<?= isset($this->params['isUsedItemPage']) ? 'active' : '' ?>"><?= Html::a('Used items', Url::to('/')) ?></li>
                 <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>"><?= Html::a('Categories', Url::to('/category')) ?></li>
+                <li class=""><?= Html::a('SignUp', Url::to('/signup')) ?></li>
+                <li class=""><?= Html::a('SignIn', Url::to('/signin')) ?></li>
             </ul>
         </div><!--/.container-fluid -->
     </div>
