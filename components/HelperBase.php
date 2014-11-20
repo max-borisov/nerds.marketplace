@@ -3,6 +3,7 @@ namespace app\components;
 
 use Yii;
 use yii\base\Component;
+use yii\base\Exception;
 use yii\helpers\VarDumper;
 
 class HelperBase extends Component
@@ -39,5 +40,42 @@ class HelperBase extends Component
     public static function getParam($key)
     {
         return Yii::$app->params[$key];
+    }
+
+    public static function curl($url, $params = array())
+    {
+        if (empty($url)) {
+            throw new Exception('Url parameter is empty.');
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url); // set url to post to
+
+        if (isset($params['method'])
+            && $params['method'] == 'post'
+            && isset($params['post_fields'])) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params['post_fields']);
+        }
+        // Массив устанавливаемых HTTP-заголовков
+        if (isset($params['set_headers'])
+            && $params['set_headers'] == true
+            && !empty($params['headers_list'])
+            && is_array($params['headers_list'])) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $params['headers_list']);
+        }
+
+        // для включения заголовков в вывод.
+        if (isset($params['headers']) && $params['headers'] == true) {
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+        }
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        if (isset($params['https']) && $params['https'] == true) {
+            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+        }
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 }
