@@ -24,55 +24,10 @@ class SignUpForm extends Model
             [['username', 'email', 'password', 'password_repeat'], 'required'],
             [['username'], 'string', 'min' => 2],
             ['email', 'email'],
-            [['password'], 'string', 'min' => 5],
+            [['password'], 'string', 'min' => 6, 'max' => 100],
             ['password', 'compare', 'compareAttribute' => 'password_repeat'],
         ];
     }
-
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
-    /*public function validatePassword($attribute, $params)
-    {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
-            }
-        }
-    }*/
-
-    /**
-     * Logs in a user using the provided username and password.
-     * @return boolean whether the user is logged in successfully
-     */
-    /*public function login()
-    {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-        } else {
-            return false;
-        }
-    }*/
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    /*public function getUser()
-    {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
-
-        return $this->_user;
-    }*/
 
     /**
      * @inheritdoc
@@ -89,13 +44,15 @@ class SignUpForm extends Model
 
     public function afterValidate()
     {
+        // Check email and username to be unique
         if (!$this->hasErrors()) {
+            if (PhpbbUsers::find()->where('username = :name', [':name' => $this->username])->exists()) {
+                $this->addError('username', 'This user name has already been taken.');
 
-
-
-            $this->addError('email', 'Error');
+            } else if (PhpbbUsers::find()->where('user_email = :email', [':email' => $this->email])->exists()) {
+                $this->addError('email', 'This email address has already been registered to the system.');
+            }
         }
-
         parent::afterValidate();
     }
 }

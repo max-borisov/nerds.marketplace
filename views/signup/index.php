@@ -7,6 +7,10 @@ use yii\helpers\Html;
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
 }
+
+if (Yii::$app->session->hasFlash('signup_error')) {
+    echo '<div class="alert alert-danger" role="alert">' . Yii::$app->session->getFlash('signup_error') . '</div>';
+}
 ?>
 
 <?= Html::beginForm('', 'post', [

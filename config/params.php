@@ -3,6 +3,11 @@
 return [
     'adminEmail' => 'admin@example.com',
 
+    'host' => 'http://local.marketplace.nerds',
+    // Script name for users registration
+    'phpBBExternalRegistrationScriptName' => 'phpbb.php',
+    'phpBBExternalRegistrationSecret' => 'H4bN@#5n~b$bNMlOMapo',
+
     // Item thumb params
     'thumb' => [
         'width'         => 250,

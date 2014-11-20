@@ -16,8 +16,13 @@ class SandboxController extends Controller
 {
     public function actionIndex()
     {
-        HelperSignUp::addUser();
 
+        /*$params = ['name' => 'max', 'email' => 'email'];
+        $res = HelperBase::curl('http://local.marketplace.nerds/phpbb.php', [
+            'method' => 'post',
+            'post_fields' => $params,
+        ]);
+        HelperBase::dump($res);*/
 
 //        $category = Category::find()->where('id = 3')->one();
 //        $category = Category::findOne(3);
