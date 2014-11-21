@@ -11,10 +11,32 @@ use app\models\UsedItemPhoto;
 use app\models\Category;
 use yii\web\Controller;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
 class MarketplaceController extends Controller
 {
     public $layout = 'marketplace';
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['?', '@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actions()
     {

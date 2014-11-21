@@ -23,6 +23,8 @@ $config = [
             'enableAutoLogin' => true,*/
             'identityClass' => 'app\models\PhpbbUsers',
             'enableAutoLogin' => false,
+            'loginUrl' => ['session/signin'],
+            'returnUrl' => '/',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

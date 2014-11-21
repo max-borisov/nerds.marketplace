@@ -5,7 +5,6 @@ return [
     'showScriptName' => false,
 //    'enableStrictParsing' => true,
     'rules' => [
-        'marketplace' => 'marketplace/index',
         '/signup' => 'session/signup',
         '/signin' => 'session/signin',
         '/logout' => 'session/logout',

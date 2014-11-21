@@ -6,10 +6,28 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers;
 use app\models\Category;
+use yii\filters\AccessControl;
 
 class CategoryController extends Controller
 {
     public $layout = 'marketplace';
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+//                'only' => ['login', 'logout', 'signup'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'update'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actions()
     {

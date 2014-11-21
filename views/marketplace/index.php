@@ -6,7 +6,17 @@ $this->params['isUsedItemPage'] = true;
 <h1 class="text-center">Used items catalog</h1>
 <hr>
 
-<?= Html::tag('p', Html::a('Add new item', '/marketplace/create', ['type' => 'button', 'class' => 'btn btn-primary'])) ?>
+<?php
+if (Yii::$app->user->isGuest) {
+    echo '<p class="lead">You can add items after login.</p>';
+} else {
+    Html::tag(
+        'p',
+        Html::a('Add new item', '/marketplace/create', ['type' => 'button', 'class' => 'btn btn-primary'])
+    );
+}
+ ?>
+
 <?= $this->render('_search', ['model' => $model]) ?>
 <?= $this->render('_sort') ?>
 

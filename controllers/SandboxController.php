@@ -62,7 +62,7 @@ class SandboxController extends Controller
 
     public function actionLogin()
     {
-//        HelperBase::dump(Yii::$app->user->isGuest);
+        HelperBase::dump(Yii::$app->user->isGuest);
 //        HelperBase::dump(Yii::$app->user->identity->user_permissions);
 //        HelperBase::dump($this->goHome());
 //        $this->redirect($this->goHome());

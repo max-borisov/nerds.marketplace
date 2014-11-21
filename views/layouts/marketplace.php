@@ -36,7 +36,7 @@ NerdsAsset::register($this);
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Nerds.dk marketplace</a>
             </div>
-            <?= Yii::$app->user->isGuest ? '' : $this->render('_topMenu') ?>
+            <?= $this->render('_topMenu') ?>
         </div><!--/.container-fluid -->
     </div>
 

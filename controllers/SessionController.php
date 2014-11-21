@@ -7,10 +7,32 @@ use app\models\SignUpForm;
 use app\models\SignInForm;
 use Yii;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 
 class SessionController extends Controller
 {
     public $layout = 'marketplace';
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['logout'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['signup', 'signin'],
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actions()
     {
@@ -46,7 +68,6 @@ class SessionController extends Controller
             if (!$response) {
                 Yii::$app->session->setFlash('signup_error', 'Some errors appeared. Please, try to sign up later.');
             } else {
-                // @todo Redirect to SignIn page
                 $this->redirect('/signin');
             }
         }
@@ -61,7 +82,12 @@ class SessionController extends Controller
         if ($request->isPost
             && $model->load($request->post())
             && $model->validate()) {
-            $this->redirect($this->goHome());
+
+            if ($model->login()) {
+                $this->redirect($this->goHome());
+            } else {
+                // @todo Add flash message
+            }
         }
         return $this->render('signIn', ['model' => $model]);
     }
