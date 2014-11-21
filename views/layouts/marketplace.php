@@ -1,8 +1,5 @@
 <?php
 use app\assets\NerdsAsset;
-use yii\helpers\Html;
-use yii\helpers\Url;
-use app\components\Utility;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -39,12 +36,7 @@ NerdsAsset::register($this);
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Nerds.dk marketplace</a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="<?= isset($this->params['isUsedItemPage']) ? 'active' : '' ?>"><?= Html::a('Used items', Url::to('/')) ?></li>
-                <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>"><?= Html::a('Categories', Url::to('/category')) ?></li>
-                <li class=""><?= Html::a('SignUp', Url::to('/signup')) ?></li>
-                <li class=""><?= Html::a('SignIn', Url::to('/signin')) ?></li>
-            </ul>
+            <?= $this->render('_topMenu') ?>
         </div><!--/.container-fluid -->
     </div>
 
