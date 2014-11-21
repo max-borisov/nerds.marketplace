@@ -1,6 +1,8 @@
 <?php
 /* @var $model app\models\SignUpForm */
+
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <?php
@@ -43,8 +45,12 @@ if (Yii::$app->session->hasFlash('signup_error')) {
     </div>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-4">
-            <button type="submit" class="btn btn-default">Sign up</button>
+            <button type="submit" class="btn btn-primary">Sign up</button>
         </div>
+    </div>
+
+    <div class="signup-suggestion text-center">
+        <?= Html::a('Sign in', Url::to('/signin')) ?>, if you already have an account.
     </div>
 
 <?= Html::endForm(); ?>

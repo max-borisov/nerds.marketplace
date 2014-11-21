@@ -11,7 +11,6 @@ use yii\helpers\Url;
         <?= Html::a('Categories', Url::to('/category')) ?>
     </li>
     <?php if (Yii::$app->user->isGuest) { ?>
-        <li class=""><?= Html::a('SignUp', Url::to('/signup')) ?></li>
         <li class=""><?= Html::a('SignIn', Url::to('/signin')) ?></li>
     <?php } else { ?>
         <li class="">

@@ -1,6 +1,8 @@
 <?php
 /* @var $model app\models\SignInForm */
+
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <?php
@@ -29,5 +31,13 @@ if ($model->hasErrors()) {
         </div>-->
 
         <?= Html::button('Sign in', ['class' => 'btn btn-lg btn-primary btn-block', 'type' => 'submit']) ?>
+
+        <div class="signup-suggestion text-center">
+            <?= Html::a('Sign up', Url::to('/signup')) ?>, if you don't have an account yet.
+        </div>
+
     <?= Html::endForm(); ?>
+
+
+
 </div>

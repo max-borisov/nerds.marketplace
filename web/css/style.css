@@ -66,3 +66,8 @@ body {
 .form-signin input {
     margin: 10px 0;
 }
+
+.signup-suggestion {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
