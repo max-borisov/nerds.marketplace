@@ -16,6 +16,13 @@ class SandboxController extends Controller
 {
     public function actionIndex()
     {
+        /*$passw = '123';
+        $hash = Yii::$app->security->generatePasswordHash($passw);
+
+        $h = '$2y$13$978qTmEzCMExd2gSbdZxZugncXai1Bs88MCbd/NhizAgWhY8UAxaW';
+
+        echo Yii::$app->security->validatePassword($passw, $h);*/
+
 
         /*$params = ['name' => 'max', 'email' => 'email'];
         $res = HelperBase::curl('http://local.marketplace.nerds/phpbb.php', [
@@ -51,5 +58,14 @@ class SandboxController extends Controller
 //        Image::thumbnail(Yii::getAlias('@webroot') . '/images/wall.jpg', 150, 100)
 //            ->rotate(-8)
 //            ->save(Yii::getAlias('@thumbs') . '/wall_thumb.jpg', ['quality' => 50]);
+    }
+
+    public function actionLogin()
+    {
+//        HelperBase::dump(Yii::$app->user->isGuest);
+//        HelperBase::dump(Yii::$app->user->identity->user_permissions);
+//        HelperBase::dump($this->goHome());
+//        $this->redirect($this->goHome());
+
     }
 }

@@ -73,6 +73,7 @@ use Yii;
  * @property integer $user_new
  * @property integer $user_reminded
  * @property integer $user_reminded_time
+ * @property integer $yii_password
  */
 class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -109,7 +110,7 @@ class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterf
 
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email]);
+        return static::findOne(['user_email' => $email]);
     }
 
     /**
@@ -117,7 +118,7 @@ class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterf
      */
     public function getId()
     {
-        return $this->primaryKey();
+        return $this->getPrimaryKey();
     }
 
     /**
@@ -144,8 +145,7 @@ class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterf
      */
     public function validatePassword($password)
     {
-        return false;
-//        return $this->user_password === $password;
+        return Yii::$app->security->validatePassword($password, $this->yii_password);
     }
 
     /**
