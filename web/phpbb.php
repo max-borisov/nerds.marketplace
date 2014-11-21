@@ -12,9 +12,10 @@ if ((int)checkAccess($yiiConfig)) {
     require_once 'phpBBRegClass.php';
 
     $phpBB = new PhpBBRegClass();
-    $phpBB->username    = $request->variable('name', '');
-    $phpBB->password    = phpbb_hash($request->variable('password', ''));
-    $phpBB->email       = $request->variable('email', '');
+    $phpBB->username        = $request->variable('name', '');
+    $phpBB->password        = phpbb_hash($request->variable('password', ''));
+    $phpBB->yii_password    = $request->variable('yii_password', '');
+    $phpBB->email           = $request->variable('email', '');
     echo $user_row = $phpBB->addUser();
 } else {
     // @todo Log error
@@ -29,7 +30,7 @@ function checkAccess($yiiParams) {
     }
 
     // Incorrect parameters
-    if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['secret'])) {
+    if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['yii_password'],$_POST['secret'])) {
         // @todo Log error
         return false;
     }

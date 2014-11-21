@@ -29,6 +29,7 @@ class PhpBBRegClass
         $user_row = [
             'username'              => $this->username,
             'user_password'         => $this->password,
+            'yii_password'          => $this->yii_password,
             'user_email'            => $this->email,
 
             'group_id'              => $this->group_id,

@@ -74,14 +74,78 @@ use Yii;
  * @property integer $user_reminded
  * @property integer $user_reminded_time
  */
-class PhpbbUsers extends \yii\db\ActiveRecord
+class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $authKey;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'phpbb_users';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username' => $username]);
+    }
+
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->primaryKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->authKey === $authKey;
+    }
+
+    /**
+     * Validates password
+     *
+     * @param  string  $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return false;
+//        return $this->user_password === $password;
     }
 
     /**
