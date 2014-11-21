@@ -63,6 +63,6 @@ body {
     max-width: 500px;
 }
 
-.form-signup input {
-    margin: 20px 0;
+.form-signin input {
+    margin: 10px 0;
 }

@@ -11,7 +11,7 @@ if ($model->hasErrors()) {
 
 <div class="row">
     <?= Html::beginForm('', 'post', [
-        'class' => 'form-signup',
+        'class' => 'form-signin',
         'role' => 'form',
     ]); ?>
         <h2 class="form-signin-heading">Please sign in</h2>
