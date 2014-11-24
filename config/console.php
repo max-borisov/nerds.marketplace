@@ -1,6 +1,6 @@
 <?php
 
-Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
+Yii::setAlias('@tests', __DIR__ . '/tests');
 
 $params = require(__DIR__ . '/params.php');
 //$db = require(__DIR__ . '/db.php');
@@ -8,7 +8,7 @@ $db = require(__DIR__ . '/db-local.php');
 
 return [
     'id' => 'basic-console',
-    'basePath' => dirname(__DIR__),
+    'basePath' => __DIR__,
     'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'app\commands',
     'modules' => [

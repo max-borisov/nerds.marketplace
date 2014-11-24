@@ -1,6 +1,9 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+$params = array_merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
 
 $config = [
     'id' => 'basic',
@@ -10,11 +13,6 @@ $config = [
 
     'components' => [
         'urlManager' => require(__DIR__ . '/routes.php'),
-
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'iDkjmA-4lozXOCCHEnsxtRHxfxaafkNH',
-        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -49,12 +47,17 @@ $config = [
     ],
     'params' => $params,
     'aliases' => [
-        '@photo_thumb_path'     => dirname(__FILE__) . "/../web/thumb",
+        '@photo_thumb_path'     => __DIR__ . "/../web/thumb",
         '@photo_thumb_url'      => '/thumb',
-        '@photo_original_path'  => dirname(__FILE__) . "/../web/original",
+        '@photo_original_path'  => __DIR__ . "/../web/original",
         '@photo_original_url'   => '/original',
     ],
 ];
+
+$config = array_merge_recursive(
+    $config,
+    require(__DIR__ . '/web-local.php')
+);
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
