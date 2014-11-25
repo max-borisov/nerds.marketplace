@@ -1,6 +1,6 @@
 <?php
 
-return [
+$config = [
     // Item thumb params
     'thumb' => [
         'width'         => 250,
@@ -13,3 +13,8 @@ return [
     // Max amount of images could be added to one item
     'maxUploadImages' => 5,
 ];
+
+return array_merge(
+    $config,
+    require __DIR__ . '/params-local.php'
+);

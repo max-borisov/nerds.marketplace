@@ -1,10 +1,5 @@
 <?php
 
-$params = array_merge(
-    require(__DIR__ . '/params.php'),
-    require(__DIR__ . '/params-local.php')
-);
-
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -45,7 +40,7 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db-local.php'),
     ],
-    'params' => $params,
+    'params' => require(__DIR__ . '/params.php'),
     'aliases' => [
         '@photo_thumb_path'     => __DIR__ . "/../web/thumb",
         '@photo_thumb_url'      => '/thumb',
