@@ -10,6 +10,7 @@ use app\components\HelperMarketPlace;
     </div>
     <div class="col-md-5">
         <h3><?= ucfirst(Html::encode($data->title)) ?></h3>
+        <?php if (!Yii::$app->user->isGuest) { ?>
         <div class="row">
             <div class="col-xs-3">Post author:</div>
             <div class="col-xs-4">
@@ -22,6 +23,7 @@ use app\components\HelperMarketPlace;
                 </strong>
             </div>
         </div>
+        <?php } ?>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('category_id') ?></div>
             <div class="col-xs-4"><strong><?= $data->category->title ?></strong></div>
