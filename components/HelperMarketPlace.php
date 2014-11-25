@@ -81,4 +81,14 @@ class HelperMarketPlace extends Component
             return $defaultSort;
         }
     }
+
+    /**
+     * Generate link to phpBB user profile
+     * @param $uid User id
+     * @return string
+     */
+    public static function getLinkToForumUserProfile($uid)
+    {
+        return HelperBase::getParam('phpBBHost') . '/memberlist.php?mode=viewprofile&u=' . $uid;
+    }
 }

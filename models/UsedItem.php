@@ -76,6 +76,11 @@ class UsedItem extends \app\components\ActiveRecord
         return $this->hasMany(UsedItemPhoto::className(), ['item_id' => 'id']);
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(PhpbbUsers::className(), ['user_id' => 'user_id']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -91,7 +96,7 @@ class UsedItem extends \app\components\ActiveRecord
             'category_id' => 'Category:',
             'title' => 'Title:',
             'search_text' => 'Search text:',
-            'user_id' => 'User ID',
+            'user_id' => 'User id',
             'type_id' => 'Type:',
             'description' => 'Description:',
             'price_min' => 'Min price:',
@@ -130,6 +135,12 @@ class UsedItem extends \app\components\ActiveRecord
 
         $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
         return $query->all();
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->user_id = Yii::$app->user->id;
+        return parent::beforeSave($insert);
     }
 
     public function afterFind()
