@@ -12,6 +12,7 @@ $config = [
 
     // Max amount of images could be added to one item
     'maxUploadImages' => 5,
+    'siteName' => 'Nerds marketplace',
 ];
 
 return array_merge(

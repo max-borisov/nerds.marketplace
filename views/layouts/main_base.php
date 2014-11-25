@@ -4,7 +4,6 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\components\HelperBase;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -27,13 +26,13 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => HelperBase::getParam('siteName'),
+                'brandLabel' => 'My Company',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            /*echo Nav::widget([
+            echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Home', 'url' => ['/site/index']],
@@ -45,7 +44,7 @@ AppAsset::register($this);
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
-            ]);*/
+            ]);
             NavBar::end();
         ?>
 
@@ -59,8 +58,8 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-<!--            <p class="pull-left">&copy; My Company --><?//= date('Y') ?><!--</p>-->
-<!--            <p class="pull-right">--><?//= Yii::powered() ?><!--</p>-->
+            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
 

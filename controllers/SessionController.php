@@ -6,6 +6,7 @@ use app\components\HelperBase;
 use app\models\SignUpForm;
 use app\models\SignInForm;
 use Yii;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
