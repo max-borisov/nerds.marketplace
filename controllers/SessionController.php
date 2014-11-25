@@ -45,8 +45,6 @@ class SessionController extends Controller
 
     public function actionSignup()
     {
-        HelperBase::ifNotGuestRedirectToFrontPage();
-
         $model = new SignUpForm();
         $request = Yii::$app->request;
 
