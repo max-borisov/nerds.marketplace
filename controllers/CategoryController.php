@@ -17,11 +17,10 @@ class CategoryController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-//                'only' => ['login', 'logout', 'signup'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'update'],
+                        'actions' => ['index', 'create', 'update', 'delete'],
                         'roles' => ['@'],
                     ],
                 ],

@@ -78,4 +78,11 @@ class HelperBase extends Component
         curl_close($ch);
         return $result;
     }
+
+    /*public static function ifNotGuestRedirectToFrontPage()
+    {
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->controller->goHome();
+        }
+    }*/
 }

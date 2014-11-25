@@ -4,13 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use yii\helpers;
-use app\components\HelperBase;
 use app\components\HelperMarketPlace;
 use app\models\UsedItem;
 use app\models\UsedItemPhoto;
 use app\models\Category;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 use yii\filters\AccessControl;
 
 class MarketplaceController extends Controller

@@ -6,7 +6,6 @@ use app\components\HelperBase;
 use app\models\SignUpForm;
 use app\models\SignInForm;
 use Yii;
-use yii\base\Exception;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -46,6 +45,8 @@ class SessionController extends Controller
 
     public function actionSignup()
     {
+        HelperBase::ifNotGuestRedirectToFrontPage();
+
         $model = new SignUpForm();
         $request = Yii::$app->request;
 
