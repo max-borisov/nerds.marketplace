@@ -67,7 +67,6 @@ class SignInForm extends Model
         if ($this->_user === false) {
             $this->_user = PhpbbUsers::findByEmail($this->email);
         }
-
         return $this->_user;
     }
 }

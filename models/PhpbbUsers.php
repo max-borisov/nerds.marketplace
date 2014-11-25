@@ -145,7 +145,11 @@ class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterf
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->yii_password);
+        if ($this->yii_password) {
+            return Yii::$app->security->validatePassword($password, $this->yii_password);
+        } else {
+            return false;
+        }
     }
 
     /**
