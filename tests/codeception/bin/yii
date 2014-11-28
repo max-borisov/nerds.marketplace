@@ -20,6 +20,10 @@ $config = yii\helpers\ArrayHelper::merge(
                 'fixtureDataPath' => '@tests/codeception/fixtures',
                 'templatePath' => '@tests/codeception/templates'
             ],
+            'migrate' => [
+                'class' => 'yii\console\controllers\MigrateController',
+                'migrationPath' => __DIR__ . '/../../../migrations',
+            ],
         ],
     ]
 );
