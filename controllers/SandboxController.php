@@ -16,12 +16,11 @@ class SandboxController extends Controller
 {
     public function actionIndex()
     {
-        /*$passw = '123';
-        $hash = Yii::$app->security->generatePasswordHash($passw);
+//        $passw = 'max';
+//        echo $hash = Yii::$app->security->generatePasswordHash($passw);
 
-        $h = '$2y$13$978qTmEzCMExd2gSbdZxZugncXai1Bs88MCbd/NhizAgWhY8UAxaW';
-
-        echo Yii::$app->security->validatePassword($passw, $h);*/
+//        $h = '$2y$13$978qTmEzCMExd2gSbdZxZugncXai1Bs88MCbd/NhizAgWhY8UAxaW';
+//        echo Yii::$app->security->validatePassword($passw, $h);*/
 
 
         /*$params = ['name' => 'max', 'email' => 'email'];
@@ -66,6 +65,11 @@ class SandboxController extends Controller
 //        HelperBase::dump(Yii::$app->user->identity->user_permissions);
 //        HelperBase::dump($this->goHome());
 //        $this->redirect($this->goHome());
+    }
 
+    public function actionLog()
+    {
+//        Yii::warning('start calculating average revenue');
+        HelperBase::logger('Test msg', '', ['id' => 'name']);
     }
 }

@@ -82,7 +82,6 @@ class SessionController extends Controller
         if ($request->isPost
             && $model->load($request->post())
             && $model->validate()) {
-
             if ($model->login()) {
                 $this->redirect($this->goHome());
             } else {

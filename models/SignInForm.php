@@ -34,7 +34,6 @@ class SignInForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUserByEmail();
-
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
