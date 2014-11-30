@@ -30,7 +30,7 @@ if ($model->hasErrors()) {
             </label>
         </div>-->
 
-        <?= Html::button('Sign in', ['class' => 'btn btn-lg btn-primary btn-block', 'type' => 'submit']) ?>
+        <?= Html::submitInput('Submit', ['class' => 'btn btn-lg btn-primary btn-block', 'name' => 'SignInForm[submit]']) ?>
 
         <div class="signup-suggestion text-center">
             <?= Html::a('Sign up', Url::to('/signup')) ?>, if you don't have an account yet.
