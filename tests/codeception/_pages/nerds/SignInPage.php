@@ -20,6 +20,6 @@ class SignInPage extends BasePage
     {
         $this->actor->fillField('input[name="SignInForm[email]"]', $email);
         $this->actor->fillField('input[name="SignInForm[password]"]', $password);
-        $this->actor->click('form button');
+        $this->actor->click('input[type="submit"]');
     }
 }
