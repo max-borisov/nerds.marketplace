@@ -79,6 +79,15 @@ class HelperBase extends Component
         return $result;
     }
 
+    public static function logger($msg = '', $file = '', $params = [])
+    {
+        $defaultFile = Yii::getAlias('@app') . '/runtime/logs/errors.log';
+        $file = $file ? $file : $defaultFile;
+        $msg = $params ? $msg . "\r\n\r\n" . json_encode($params) . "\r\n" : $msg;
+        $msg = date('d/m/Y H:i') . "\r\n" . $msg . "\r\n---------------" . "\r\n";
+        return error_log($msg, 3, $file);
+    }
+
     /*public static function ifNotGuestRedirectToFrontPage()
     {
         if (!Yii::$app->user->isGuest) {
