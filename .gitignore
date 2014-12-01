@@ -34,4 +34,4 @@ thumb/
 
 original/
 
-controllers/Sandbox.php
+SandboxController.php
