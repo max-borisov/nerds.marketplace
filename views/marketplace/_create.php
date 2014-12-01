@@ -114,7 +114,7 @@ use yii\helpers\Html;
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <?= Html::submitButton('Save', ['class' =>  'btn btn-default']); ?>
+            <?= Html::submitInput('Save', ['class' =>  'btn btn-default']); ?>
         </div>
     </div>
 <?php Html::endForm(); ?>
