@@ -31,7 +31,8 @@ class Category extends \app\components\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            [['title'], 'unique']
         ];
     }
 
@@ -65,7 +66,7 @@ class Category extends \app\components\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
+            'title' => 'Title:',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
