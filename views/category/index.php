@@ -44,7 +44,7 @@ if (Yii::$app->session->hasFlash('category_update_success')) {
                 echo '<td>' . date('d/m/Y H:i:s', $item->created_at) . '</td>';
                 echo '<td>' . date('d/m/Y H:i:s', $item->updated_at) . '</td>';
                 echo '<td>'
-                    . Html::a('Update', Url::to(['category/update', 'id' => $item->id]))
+                    . Html::a('Update', Url::to(['category/update', 'id' => $item->id]), ['id' => $counter == 1 ? 'first-link' : ''])
                 .'</td>';
                     /*. ' / '
                     . Html::a('Delete', Url::to(['category/delete', 'id' => $item->id]))*/
