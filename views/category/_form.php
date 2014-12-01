@@ -3,6 +3,13 @@ use yii\helpers\Html;
 
 /* @var $model app\models\Category */
 ?>
+
+<?php
+if ($model->hasErrors()) {
+    echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
+}
+?>
+
 <?= Html::beginForm('', 'post', ['class' => 'form-horizontal', 'role' => 'form']); ?>
     <div class="form-group">
         <?= Html::activeLabel($model, 'title', ['for' => 'title', 'class' => 'col-sm-2 control-label']); ?>
@@ -14,7 +21,7 @@ use yii\helpers\Html;
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' =>  'btn btn-default']); ?>
+            <?= Html::submitInput($model->isNewRecord ? 'Save' : 'Update', ['class' =>  'btn btn-default']); ?>
         </div>
     </div>
 <?php Html::endForm(); ?>
