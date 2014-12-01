@@ -61,7 +61,7 @@ class CategoryController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->save(false)) {
                 Yii::$app->session->setFlash('category_update_success', 'Category title has been updated.');
-                $this->redirect('/category/index');
+                $this->redirect('/category');
             }
         }
         return $this->render('update', ['model' => $model]);
