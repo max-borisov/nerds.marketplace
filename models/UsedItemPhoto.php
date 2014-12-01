@@ -108,7 +108,16 @@ class UsedItemPhoto extends \app\components\ActiveRecord
 
     public function hasUploadedFiles()
     {
-        return !empty($this->_fileInstances);
+        if (!empty($this->_fileInstances)) {
+            // File name could not be empty (This error occur while functional testing)
+            foreach ($this->_fileInstances as $file) {
+                if (empty($file->name)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
