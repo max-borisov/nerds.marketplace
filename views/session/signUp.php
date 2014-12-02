@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 
+<h2 class="form-signup-heading">Sign up</h2>
+
 <?php
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
@@ -45,7 +47,7 @@ if (Yii::$app->session->hasFlash('signup_error')) {
     </div>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-4">
-            <button type="submit" class="btn btn-primary">Sign up</button>
+            <?= Html::submitInput('Submit', ['class' => "btn btn-primary"]) ?>
         </div>
     </div>
 

@@ -9,14 +9,18 @@ use yii\helpers\Url;
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
 }
+
+if (Yii::$app->session->hasFlash('signup_success')) {
+    echo '<div class="alert alert-success" role="alert">' . Yii::$app->session->getFlash('signup_success') . '</div>';
+}
 ?>
 
 <div class="row">
+    <h2 class="form-signin-heading">Sign in</h2>
     <?= Html::beginForm('', 'post', [
         'class' => 'form-signin',
         'role' => 'form',
     ]); ?>
-        <h2 class="form-signin-heading">Please sign in</h2>
 
         <?= Html::activeLabel($model, 'email', ['for' => 'email', 'class' => 'sr-only']); ?>
         <?= Html::activeTextInput($model, 'email', ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email', 'type' => 'email']); ?>
