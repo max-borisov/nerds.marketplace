@@ -8,7 +8,7 @@ $I->wantTo('ensure that category page works');
 CategoryPage::openBy($I);
 
 $I->wantTo('ensure that unauthorized users are redirected to SignIn page');
-$I->see('Please sign in', 'h2');
+$I->see('Sign in', 'h2');
 
 TestCommons::logMeIn($I);
 

@@ -74,7 +74,7 @@ use yii\helpers\Html;
 
             <div class="form-group">
                 <div class="col-sm-12">
-                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary btn-lg btn-search']) ?>
+                    <?= Html::submitInput('Search', ['class' => 'btn btn-primary btn-lg btn-search']) ?>
                     <?= Html::tag('p', Html::a('Reset filter', '/'), ['class' => 'link-reset-filter']) ?>
                 </div>
             </div>
