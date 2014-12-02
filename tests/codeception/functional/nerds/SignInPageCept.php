@@ -6,7 +6,8 @@ $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that login works');
 
 $loginPage = SignInPage::openBy($I);
-$I->see('Please sign in', 'h2');
+$I->wantTo('ensure page has a proper header');
+$I->see('Sign in', 'h2');
 
 $I->amGoingTo('try to login with empty credentials');
 $loginPage->login('', '');
