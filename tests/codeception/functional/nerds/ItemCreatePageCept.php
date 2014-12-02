@@ -10,7 +10,7 @@ $I->wantTo('ensure that add item page works');
 $page = ItemCreatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see('Adding used item', 'h1');
+$I->see(TestCommons::NEW_ITEM_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('to add empty form');
 $page->sendForm();

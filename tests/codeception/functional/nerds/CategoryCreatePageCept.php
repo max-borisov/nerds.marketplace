@@ -10,7 +10,7 @@ $I->wantTo('ensure that create category page works');
 $page = CategoryCreatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see('Creating category', 'h1');
+$I->see(TestCommons::ADD_NEW_CATEGORY_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('try to add empty category title');
 $page->sendForm('');

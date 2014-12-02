@@ -10,7 +10,7 @@ $I->wantTo('ensure that update category page works');
 $page = CategoryUpdatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see('Updating category', 'h1');
+$I->see(TestCommons::UPDATE_CATEGORY_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('try to set empty category title');
 $page->sendForm('');
