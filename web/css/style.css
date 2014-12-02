@@ -12,6 +12,10 @@ body {
     padding: 10px 0;
 }
 
+.form-signin-heading, .form-signup-heading {
+    text-align: center;
+}
+
 .used-item-row img {
     width: 250px;
     margin: 20px 20px;
@@ -59,7 +63,7 @@ body {
 }
 
 .form-signup {
-    margin: 0 auto;
+    margin: 30px auto;
     max-width: 500px;
 }
 
