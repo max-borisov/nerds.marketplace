@@ -68,6 +68,7 @@ class SessionController extends Controller
             if (!$response) {
                 Yii::$app->session->setFlash('signup_error', 'Some errors appeared. Please, try to sign up later.');
             } else {
+                Yii::$app->session->setFlash('signup_success', 'Your account has been registered. Please, sign in to continue.');
                 $this->redirect('/signin');
             }
         }
