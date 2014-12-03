@@ -7,6 +7,7 @@ use app\models\Category;
 use app\models\UsedItemPhoto;
 use app\components\HelperBase;
 use app\components\HelperMarketPlace;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "used_items".
@@ -107,7 +108,7 @@ class UsedItem extends \app\components\ActiveRecord
 
     /**
      * Apply search filter for items
-     * @param $params
+     * @param array $params Get parameters (form data)
      * @return array|bool|\yii\db\ActiveRecord[]
      */
     public function search($params)
@@ -139,6 +140,9 @@ class UsedItem extends \app\components\ActiveRecord
 
     public function beforeSave($insert)
     {
+         if (!Yii::$app->user->id) {
+             throw new Exception('User id cannot be blank.');
+         }
         $this->user_id = Yii::$app->user->id;
         return parent::beforeSave($insert);
     }
