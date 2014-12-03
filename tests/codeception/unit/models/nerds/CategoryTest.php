@@ -6,39 +6,39 @@ use app\models\Category;
 use tests\codeception\common\fixtures\CategoryFixture;
 use tests\codeception\common\fixtures\UsedItemFixture;
 use yii\codeception\DbTestCase;
+use Codeception\Specify;
 
 class CategoryTest extends DbTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        // uncomment the following to load fixtures for user table
-//        $this->loadFixtures(['category']);
-    }
+    use Specify;
 
     public function testValidation()
     {
         $category = new Category();
-        $this->assertFalse($category->validate());
 
-        $category->title = 'New category title';
-        $this->assertTrue($category->validate());
+        $this->specify('category title is required', function () use ($category) {
+            $category->title = '';
+            expect('model should return validation error', $category->validate())->false();
+        });
 
-//        $this->getFixture('category');
-//        \Codeception\Util\Debug::debug($this->getFixture('category')['tools']);
+        $this->specify('category title is ok', function () use ($category) {
+            $category->title = 'New category title';
+            expect('model validation is successful', $category->validate())->true();
+        });
     }
 
     public function testPrepareDropDown()
     {
-        $this->assertNotEmpty((new Category)->prepareDropDown());
+        $this->specify('organize categories into array', function () {
+            expect('categories list is not empty', (new Category)->prepareDropDown())->notEmpty();
+        });
     }
 
     public function testGetAttachedItems()
     {
-        $items = Category::findOne(1)->attachedItems;
-        $this->assertNotEmpty($items);
-        // There are attached items
-        $this->assertEquals(2, count($items));
+        $this->specify('test items attached to the category', function () {
+            expect('category has attached items', Category::findOne(1)->attachedItems)->notEmpty();
+        });
     }
 
     /**
