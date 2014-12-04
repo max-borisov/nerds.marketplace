@@ -20,10 +20,11 @@ class SignUpPage extends BasePage
      */
     public function login($name, $email, $password, $passwordRepeat)
     {
-        $this->actor->fillField('input[name="SignUpForm[username]"]', $name);
-        $this->actor->fillField('input[name="SignUpForm[email]"]', $email);
-        $this->actor->fillField('input[name="SignUpForm[password]"]', $password);
-        $this->actor->fillField('input[name="SignUpForm[password_repeat]"]', $passwordRepeat);
-        $this->actor->click('input[type="submit"]');
+        $this->actor->submitForm('.form-signup', ['SignUpForm' => [
+            'username'          => $name,
+            'email'             => $email,
+            'password'          => $password,
+            'password_repeat'   => $passwordRepeat,
+        ]]);
     }
 }

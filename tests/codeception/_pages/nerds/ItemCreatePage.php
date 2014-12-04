@@ -17,8 +17,6 @@ class ItemCreatePage extends BasePage
      */
     public function sendForm($params = [])
     {
-//        $this->actor->fillField('input[type="text"]', $categoryTitle);
-
         if ($params) {
             if (isset($params['warranty'])) {
                 $this->actor->fillField('input[name="UsedItem[warranty]"]', $params['warranty']);
@@ -48,9 +46,6 @@ class ItemCreatePage extends BasePage
                 $this->actor->fillField('textarea[name="UsedItem[description]"]', $params['description']);
             }
         }
-
-//        $this->actor->
-
         $this->actor->click('input[type="submit"]');
     }
 }

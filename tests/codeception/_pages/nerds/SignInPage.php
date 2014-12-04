@@ -18,8 +18,9 @@ class SignInPage extends BasePage
      */
     public function login($email, $password)
     {
-        $this->actor->fillField('input[name="SignInForm[email]"]', $email);
-        $this->actor->fillField('input[name="SignInForm[password]"]', $password);
-        $this->actor->click('input[type="submit"]');
+        $this->actor->submitForm('.form-signin', ['SignInForm' => [
+            'email'     => $email,
+            'password'  => $password,
+        ]]);
     }
 }
