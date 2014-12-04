@@ -3,9 +3,6 @@
 namespace tests\codeception\unit\models\nerds;
 
 use app\models\UsedItem;
-use tests\codeception\common\fixtures\CategoryFixture;
-use tests\codeception\common\fixtures\UsedItemFixture;
-use tests\codeception\common\fixtures\UsedItemPhotoFixture;
 use yii\codeception\DbTestCase;
 use Codeception\Specify;
 
@@ -72,26 +69,5 @@ class UsedItemTest extends DbTestCase
         $this->specify('item has a preview', function () {
             expect('item preview', UsedItem::findOne(1)->preview)->equals('http://placehold.it/250x200');
         });
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fixtures()
-    {
-        return [
-            'category' => [
-                'class' => CategoryFixture::className(),
-                'dataFile' => '@tests/codeception/unit/fixtures/data/models/category.php'
-            ],
-            'used_item' => [
-                'class' => UsedItemFixture::className(),
-                'dataFile' => '@tests/codeception/unit/fixtures/data/models/used_item.php'
-            ],
-            'used_item_photo' => [
-                'class' => UsedItemPhotoFixture::className(),
-                'dataFile' => '@tests/codeception/unit/fixtures/data/models/used_item_photo.php'
-            ],
-        ];
     }
 }

@@ -3,8 +3,6 @@
 namespace tests\codeception\unit\models\nerds;
 
 use app\models\Category;
-use tests\codeception\common\fixtures\CategoryFixture;
-use tests\codeception\common\fixtures\UsedItemFixture;
 use yii\codeception\DbTestCase;
 use Codeception\Specify;
 
@@ -39,22 +37,5 @@ class CategoryTest extends DbTestCase
         $this->specify('test items attached to the category', function () {
             expect('category has attached items', Category::findOne(1)->attachedItems)->notEmpty();
         });
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fixtures()
-    {
-        return [
-            'category' => [
-                'class' => CategoryFixture::className(),
-                'dataFile' => '@tests/codeception/unit/fixtures/data/models/category.php'
-            ],
-            'used_item' => [
-                'class' => UsedItemFixture::className(),
-                'dataFile' => '@tests/codeception/unit/fixtures/data/models/used_item.php'
-            ],
-        ];
     }
 }
