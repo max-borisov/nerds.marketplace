@@ -1,16 +1,16 @@
 <?php
 
 use tests\codeception\_pages\nerds\ItemCreatePage;
-use tests\commons\TestCommons;
+use tests\common\TestCommon;
 
 $I = new FunctionalTester($scenario);
-TestCommons::logMeIn($I);
+TestCommon::logMeIn($I);
 
 $I->wantTo('ensure that add item page works');
 $page = ItemCreatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see(TestCommons::NEW_ITEM_PAGE_HEADER, 'h1');
+$I->see(TestCommon::NEW_ITEM_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('to add empty form');
 $page->sendForm();
@@ -44,4 +44,4 @@ $page->sendForm($params);
 $I->expectTo('see success message');
 $I->see('A new item has been added');
 
-TestCommons::logMeOut($I);
+TestCommon::logMeOut($I);

@@ -2,7 +2,7 @@
 $_SERVER['SCRIPT_FILENAME'] = YII_TEST_ENTRY_FILE;
 $_SERVER['SCRIPT_NAME'] = YII_TEST_ENTRY_URL;
 
-require_once Yii::getAlias('@tests') . '/commons/TestCommons.php';
+require_once Yii::getAlias('@tests') . '/codeception/common/TestCommon.php';
 
 /**
  * Application configuration for functional tests

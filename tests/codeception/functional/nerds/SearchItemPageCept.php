@@ -1,14 +1,14 @@
 <?php
 
 use tests\codeception\_pages\nerds\SearchItemPage;
-use tests\commons\TestCommons;
+use tests\common\TestCommon;
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that search items page works');
 
 $searchPage = SearchItemPage::openBy($I);
 $I->wantTo('ensure page has a proper header');
-$I->see(TestCommons::FRONT_PAGE_HEADER, 'h1');
+$I->see(TestCommon::FRONT_PAGE_HEADER, 'h1');
 
 $params = [];
 $I->amGoingTo('fill form with empty data');

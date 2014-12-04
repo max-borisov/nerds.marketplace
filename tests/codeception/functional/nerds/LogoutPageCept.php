@@ -1,6 +1,6 @@
 <?php
 
-use tests\commons\TestCommons;
+use tests\common\TestCommon;
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that logout link works');
@@ -11,7 +11,7 @@ $I->amOnPage($homeUrl);
 $I->wantTo('ensure that unauthorized users can\'t see logout link');
 $I->cantSeeLink('Logout');
 
-TestCommons::logMeIn($I);
+TestCommon::logMeIn($I);
 
 $I->amOnPage($homeUrl);
 
@@ -22,4 +22,4 @@ $I->seeLink('Logout', '/logout');
 $I->click('Logout');
 $I->seeCurrentUrlEquals(Yii::$app->homeUrl);
 
-TestCommons::logMeOut($I);
+TestCommon::logMeOut($I);

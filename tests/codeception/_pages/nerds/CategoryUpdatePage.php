@@ -3,7 +3,7 @@
 namespace tests\codeception\_pages\nerds;
 
 use yii\codeception\BasePage;
-use tests\commons\TestCommons;
+use tests\common\TestCommon;
 
 /**
  * Represents update category page
@@ -18,6 +18,6 @@ class CategoryUpdatePage extends BasePage
      */
     public function sendForm($categoryTitle)
     {
-        TestCommons::categoryForm($this->actor, $categoryTitle);
+        TestCommon::categoryForm($this->actor, $categoryTitle);
     }
 }

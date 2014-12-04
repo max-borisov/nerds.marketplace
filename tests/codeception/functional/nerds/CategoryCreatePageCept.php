@@ -1,16 +1,16 @@
 <?php
 
 use tests\codeception\_pages\nerds\CategoryCreatePage;
-use tests\commons\TestCommons;
+use tests\common\TestCommon;
 
 $I = new FunctionalTester($scenario);
-TestCommons::logMeIn($I);
+TestCommon::logMeIn($I);
 
 $I->wantTo('ensure that create category page works');
 $page = CategoryCreatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see(TestCommons::ADD_NEW_CATEGORY_PAGE_HEADER, 'h1');
+$I->see(TestCommon::ADD_NEW_CATEGORY_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('try to add empty category title');
 $page->sendForm('');
@@ -24,4 +24,4 @@ $I->seeCurrentUrlEquals('/category');
 $I->expectTo('see success message');
 $I->see('A new category has been created');
 
-TestCommons::logMeOut($I);
+TestCommon::logMeOut($I);

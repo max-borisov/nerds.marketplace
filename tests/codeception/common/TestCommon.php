@@ -1,8 +1,8 @@
 <?php
-namespace tests\commons;
+namespace tests\common;
 use Yii;
 
-class TestCommons
+class TestCommon
 {
     const FRONT_PAGE_HEADER             = 'Used items catalog';
     const SIGN_IN_PAGE_HEADER           = 'Sign in';

@@ -1,14 +1,14 @@
 <?php
 
 use tests\codeception\_pages\nerds\SignInPage;
-use tests\commons\TestCommons;
+use tests\common\TestCommon;
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that login works');
 
 $signInPage = SignInPage::openBy($I);
 $I->wantTo('ensure page has a proper header');
-$I->see(TestCommons::SIGN_IN_PAGE_HEADER, 'h2');
+$I->see(TestCommon::SIGN_IN_PAGE_HEADER, 'h2');
 
 $I->amGoingTo('try to login with empty credentials');
 $signInPage->login('', '');
