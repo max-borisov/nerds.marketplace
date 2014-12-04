@@ -5,4 +5,5 @@
 
 class_name: UnitTester
 modules:
-    enabled: [Asserts]
+    enabled:
+      - Asserts
