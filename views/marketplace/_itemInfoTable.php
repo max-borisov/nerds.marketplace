@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped item-info-table">
     <tbody>
     <tr>
         <td class="item-param-name"><?= $data->getAttributeLabel('warranty') ?></td>
