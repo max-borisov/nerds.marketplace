@@ -11,7 +11,7 @@ use yii\helpers\Html;
 <p><?= Html::a('Back', '/', ['class' => 'btn btn-default']) ?></p>
 <h1 class="text-center"><?= Html::encode($data->title) ?></h1>
 
-<div class="row">
+<div class="row item-view-info">
     <div class="col-md-4">
         <img src="<?= $data->preview ?>" alt="<?= $data->title, ' preview' ?>" class="img-thumbnail">
     </div>
