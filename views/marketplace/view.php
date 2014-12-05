@@ -2,6 +2,9 @@
 /* @var $data app\models\UsedItem */
 
 use yii\helpers\Html;
+
+//use app\components\HelperBase;
+//HelperBase::dump($data->photos);
 ?>
 
 <p><?= Html::a('Back', '/', ['class' => 'btn btn-default']) ?></p>
