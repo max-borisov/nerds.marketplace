@@ -6,7 +6,10 @@ use app\components\HelperMarketPlace;
 ?>
 <div class="row used-item-row">
     <div class="col-md-4">
-        <?= Html::tag('img', '', ['src' => $data->preview, 'alt' => '', 'class' => 'img-rounded']) ?>
+        <?= Html::a(
+            Html::tag('img', '', ['src' => $data->preview, 'alt' => $data->title . ' preview', 'class' => 'img-rounded']),
+            '/item/' . $data->id
+        ) ?>
     </div>
     <div class="col-md-5">
         <h3><?= ucfirst(Html::encode($data->title)) ?></h3>
