@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 
-<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav">
     <?php if (Yii::$app->user->isGuest) { ?>
         <li class=""><?= Html::a('Sign In', Url::to('/signin')) ?></li>
     <?php } else { ?>
@@ -13,8 +13,12 @@ use yii\helpers\Url;
         <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
             <?= Html::a('Categories', Url::to('/category')) ?>
         </li>
-        <li class="">
-            <?= Html::a('Logout', Url::to('/logout')) ?>
-        </li>
     <?php } ?>
 </ul>
+
+<?php if (!Yii::$app->user->isGuest) { ?>
+<ul class="nav navbar-nav navbar-right">
+    <li class="nav-user-name">Hi, Max</li>
+    <li><?= Html::a('Logout', '/logout') ?></li>
+</ul>
+<?php } ?>

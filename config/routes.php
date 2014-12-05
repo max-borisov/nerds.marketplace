@@ -10,5 +10,6 @@ return [
         '/logout' => 'session/logout',
         'category/update/<id:\d+>' => 'category/update',
         'category/delete/<id:\d+>' => 'category/delete',
+        'item/<id:\d+>' => 'marketplace/view',
     ],
 ];

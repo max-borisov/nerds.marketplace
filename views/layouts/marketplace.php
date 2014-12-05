@@ -29,7 +29,6 @@ NerdsAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="container">
-
     <!-- Static navbar -->
     <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">

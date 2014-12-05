@@ -16,6 +16,7 @@ class SandboxController extends Controller
 {
     public function actionIndex()
     {
+//        HelperBase::dump(Yii::$app->user->identity->username);
 
         /*$_GET['UsedItem']['search_text'] = '';
         $_GET['UsedItem']['price_min'] = '10';

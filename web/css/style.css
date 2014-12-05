@@ -75,3 +75,19 @@ body {
     margin-top: 20px;
     font-size: 1.2em;
 }
+.nav .nav-user-name {
+    font-size: 1.1em;
+    margin-top: 15px;
+    margin-right: 20px;
+}
+.item-info-table {
+    width: 500px;
+    margin: 0 auto;
+}
+.item-info-table td {
+    padding: 10px;
+}
+.item-info-table .item-param-name {
+    text-align: right;
+    width: 50%;
+}

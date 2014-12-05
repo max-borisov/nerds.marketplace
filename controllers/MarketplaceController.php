@@ -11,6 +11,8 @@ use app\models\Category;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
+use app\components\HelperBase;
+
 class MarketplaceController extends Controller
 {
     public $layout = 'marketplace';
@@ -28,7 +30,7 @@ class MarketplaceController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view'],
                         'roles' => ['?', '@'],
                     ],
                 ],
@@ -81,5 +83,15 @@ class MarketplaceController extends Controller
             'modelPhoto'    => $modelPhoto,
             'categories'    => $categories
         ]);
+    }
+
+    public function actionView($id)
+    {
+//        HelperBase::dump($id);
+        $item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
+        if (!$item) {
+            $this->redirect('/');
+        }
+        return $this->render('view', ['data' => $item]);
     }
 }

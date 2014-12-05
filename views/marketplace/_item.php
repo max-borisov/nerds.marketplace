@@ -53,6 +53,7 @@ use app\components\HelperMarketPlace;
             <div class="col-xs-4"><?= date('d/m/Y H:i', $data->created_at) ?></div>
         </div>
         <p class="item-description"><?= Html::encode($data->description) ?></p>
+        <p class="more-link"><?= Html::a('More', '/item/' . $data->id) ?></p>
     </div>
     <div class="col-md-3">
         <p class="item-price"><?= $data->price, ' DKK' ?></p>
