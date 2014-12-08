@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\UsedItem;
+use app\models\UsedItemPhoto;
 use Yii;
 use yii\web\Controller;
 use yii\helpers;
@@ -12,11 +13,21 @@ use app\components\HelperSignUp;
 
 use yii\imagine\Image;
 
+use yii\bootstrap\BootstrapAsset;
+
 class SandboxController extends Controller
 {
     public function actionIndex()
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
+
+//            $boot = new BootstrapAsset();
+//            HelperBase::dump($boot->css);
+
+//        $photo = UsedItemPhoto::find('1')->one();
+//        HelperBase::dump($photo);
+//        HelperBase::dump($photo->thumb);
+//        HelperBase::dump($photo->original);
 
         /*$_GET['UsedItem']['search_text'] = '';
         $_GET['UsedItem']['price_min'] = '10';

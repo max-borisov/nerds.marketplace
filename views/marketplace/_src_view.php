@@ -2,7 +2,6 @@
 /* @var $data app\models\UsedItem */
 /* @var $this \yii\web\View */
 
-//use \yii\web\View;
 use yii\helpers\Html;
 
 use app\components\HelperBase;
@@ -11,8 +10,8 @@ use app\components\HelperBase;
 
 
 //\yii\web\JqueryAsset::className()
-//$this->registerCssFile('/css/ekko-lightbox.min.css');
-//$this->registerJsFile('/js/ekko-lightbox.min.js', ['position' => View::POS_END]);
+$this->registerCssFile('/css/bootstrap-lightbox.min.css');
+$this->registerJsFile('/js/bootstrap-lightbox.js');
 ?>
 
 <p><?= Html::a('Back', '/', ['class' => 'btn btn-default']) ?></p>
@@ -28,10 +27,26 @@ use app\components\HelperBase;
 <?php if ($data->photos) {
     $imgBlock = '';
     foreach ($data->photos as $itemPhoto) {
-        $link = Html::a(Html::img($itemPhoto->thumb, ['alt' => '', 'class' => 'img-responsive']), $itemPhoto->original, ['data-toggle' => "lightbox", 'data-gallery' => "multiimages", 'data-title' => 'thumbnail']);
+        $link = Html::a(Html::img($itemPhoto->thumb, ['alt' => '']), '#demoLightbox', ['data-toggle' => "lightbox", 'class' => 'thumbnail']);
         $imgBlock .= Html::tag('li', $link);
     }
     echo Html::tag('div', Html::tag('ul', $imgBlock, ['class' => 'list-inline']), ['class' => 'row item-photos-block img-rounded text-center']);
 ?>
+
+<div id="demoLightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+    <div class='lightbox-content'>
+        <?php
+
+        echo Html::img($data->photos[0]->original, ['alt' => '']);
+        echo '<div class="lightbox-caption"><p>Your caption here</p></div>';
+
+        /*$itemPhoto = null;
+        foreach ($data->photos as $itemPhoto) {
+            echo Html::img($itemPhoto->original, ['alt' => '']);
+            echo '<div class="lightbox-caption"><p>Your caption here</p></div>';
+        }*/
+        ?>
+    </div>
+</div>
 
 <?php } ?>

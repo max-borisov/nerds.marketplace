@@ -15,12 +15,19 @@ class NerdsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/application.css',
+        'css/ekko-lightbox.min.css',
     ];
     public $js = [
+        'js/ekko-lightbox.js',
         'js/script.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-//        'yii\bootstrap\BootstrapAsset',
+
+        // include original file
+         'yii\bootstrap\BootstrapAsset',
+
+        // include min file
+//        '\app\components\NrdBootstrapAsset',
     ];
 }
