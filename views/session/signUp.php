@@ -9,7 +9,7 @@ use yii\helpers\Url;
 
 <?php
 if ($model->hasErrors()) {
-    echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
+    echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
 }
 
 if (Yii::$app->session->hasFlash('signup_error')) {

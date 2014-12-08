@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
 <?php
 if ($model->hasErrors()) {
-    echo Html::tag('div', Html::errorSummary($model), ['class' => 'errorSummary']);
+    echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
 }
 ?>
 
