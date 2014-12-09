@@ -2,17 +2,7 @@
 /* @var $data app\models\UsedItem */
 /* @var $this \yii\web\View */
 
-//use \yii\web\View;
 use yii\helpers\Html;
-
-use app\components\HelperBase;
-//HelperBase::dump($data->photos[2]->original);
-//HelperBase::dump($data->photos);
-
-
-//\yii\web\JqueryAsset::className()
-//$this->registerCssFile('/css/ekko-lightbox.min.css');
-//$this->registerJsFile('/js/ekko-lightbox.min.js', ['position' => View::POS_END]);
 ?>
 
 <p><?= Html::a('Back', '/', ['class' => 'btn btn-default']) ?></p>
@@ -25,13 +15,22 @@ use app\components\HelperBase;
     <div class="col-md-8"><?= $this->render('_itemInfoTable', ['data' => $data]) ?></div>
 </div>
 
+<!--Prepare block for lightbox -->
 <?php if ($data->photos) {
+    // li items with a and img inside
     $imgBlock = '';
     foreach ($data->photos as $itemPhoto) {
-        $link = Html::a(Html::img($itemPhoto->thumb, ['alt' => '', 'class' => 'img-responsive']), $itemPhoto->original, ['data-toggle' => "lightbox", 'data-gallery' => "multiimages", 'data-title' => 'thumbnail']);
+        $link = Html::a(
+            Html::img($itemPhoto->thumb, ['alt' => '', 'class' => 'img-responsive']),
+            $itemPhoto->original,
+            ['data-toggle' => "lightbox", 'data-gallery' => "multiimages", 'data-title' => 'thumbnail']
+        );
         $imgBlock .= Html::tag('li', $link);
     }
-    echo Html::tag('div', Html::tag('ul', $imgBlock, ['class' => 'list-inline']), ['class' => 'row item-photos-block img-rounded text-center']);
+    echo Html::tag(
+        'div',
+        Html::tag('ul', $imgBlock, ['class' => 'list-inline']),
+        ['class' => 'row item-photos-block img-rounded text-center']
+    );
+}
 ?>
-
-<?php } ?>
