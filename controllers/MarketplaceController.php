@@ -87,7 +87,6 @@ class MarketplaceController extends Controller
 
     public function actionView($id)
     {
-//        HelperBase::dump($id);
         $item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
         if (!$item) {
             $this->redirect('/');

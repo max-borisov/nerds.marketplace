@@ -1,4 +1,9 @@
-$(function(){
+$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
+
+$(function() {
     // Change items order
     $('#sort').on('change', function() {
         // If siteUrl exists
@@ -6,4 +11,8 @@ $(function(){
             location.href = siteUrl + '&sort=' + $(this).val();
         }
     })
+
+//    $('#demoLightbox').lightbox({'backdrop' : true});
+
 })
+

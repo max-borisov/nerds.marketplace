@@ -16,6 +16,8 @@ use app\components\HelperMarketPlace;
  * @property string  $name
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $thumb
+ * @property integer $original
  */
 class UsedItemPhoto extends \app\components\ActiveRecord
 {
@@ -25,6 +27,12 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     public $file;
 
     private $_fileInstances = [];
+
+    // Thumb image url
+    public $thumb       = '';
+
+    // Original image  url
+    public $original    = '';
 
     /**
      * @inheritdoc
@@ -64,7 +72,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
         if (empty($this->item_id)) {
             throw new Exception('Item id must be specified.');
         }
-        $this->name = uniqid($this->item_id);
+        $this->name = uniqid($this->item_id) . HelperBase::getParam('thumb')['extension'];
         return parent::beforeSave($insert);
     }
 
@@ -74,6 +82,14 @@ class UsedItemPhoto extends \app\components\ActiveRecord
         if (!empty($this->file) && $this->file instanceof yii\web\UploadedFile) {
             HelperMarketPlace::saveItemPhoto($this);
         }
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $this->thumb    = Yii::getAlias('@photo_thumb_url') . '/' . $this->name;
+        $this->original = Yii::getAlias('@photo_original_url') . '/' . $this->name;
     }
 
     /**

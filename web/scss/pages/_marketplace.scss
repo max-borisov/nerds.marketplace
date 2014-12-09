@@ -1,0 +1,44 @@
+.used-item-row {
+  padding: 10px 0;
+  img {
+    width: 250px;
+    margin: 20px 20px;
+  }
+  .item-price {
+    font-size: 3em;
+    font-weight: bold;
+    margin-top: 50px;
+  }
+  .item-description {
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+}
+
+.search-item-block {
+  width: 900px;
+  background: #eee;
+  padding: 15px;
+  margin: 0 0 20px 0;
+}
+
+.btn-search {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.more-link {
+  font-size: 1.1em;
+}
+
+.bg-info {
+  padding: 13px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.link-reset-filter {
+  font-size: 1.1em;
+  margin: 15px 0;
+  padding-top: 10px;
+}
