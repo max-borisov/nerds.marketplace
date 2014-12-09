@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "876a8a62b5134576d7d8e1c3e2a5a5b1",
+    "hash": "c3dfc54f969aafdd94f4310b4db6e9aa",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -58,6 +58,56 @@
             ]
         },
         {
+            "name": "bower-asset/ekko-lightbox",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ashleydw/lightbox.git",
+                "reference": "3e782c0de15ec9168fb8d5f1ac0b227a620d429a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ashleydw/lightbox/zipball/3e782c0de15ec9168fb8d5f1ac0b227a620d429a",
+                "reference": "3e782c0de15ec9168fb8d5f1ac0b227a620d429a",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.0.0"
+            },
+            "require-dev": {
+                "bower-asset/grunt": ">=0.4.1,<0.5",
+                "bower-asset/grunt-banner": ">=0.2.0,<0.3",
+                "bower-asset/grunt-bump": ">=0.0.14,<0.1",
+                "bower-asset/grunt-contrib-coffee": ">=0.8.0,<0.9",
+                "bower-asset/grunt-contrib-uglify": ">=0.2.2,<0.3",
+                "bower-asset/grunt-contrib-watch": ">=0.5.1,<0.6",
+                "bower-asset/grunt-recess": ">=0.3.3,<0.4"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./dist/ekko-lightbox.min.js",
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "examples",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "license": [
+                "GNU GENERAL PUBLIC LICENSE"
+            ],
+            "description": "A lightbox gallery plugin for Bootstrap 3 based on the modal plugin",
+            "keywords": [
+                "bootstrap",
+                "gallery",
+                "jquery",
+                "lightbox",
+                "modal"
+            ]
+        },
+        {
             "name": "bower-asset/jquery",
             "version": "2.1.1",
             "source": {
@@ -102,16 +152,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.44",
+            "version": "3.1.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "c95fe993f91e1da2069a26d84eaa372835842286"
+                "reference": "b656c5b61b05d2a479b69b20de5bc01b837a43c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/c95fe993f91e1da2069a26d84eaa372835842286",
-                "reference": "c95fe993f91e1da2069a26d84eaa372835842286",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/b656c5b61b05d2a479b69b20de5bc01b837a43c5",
+                "reference": "b656c5b61b05d2a479b69b20de5bc01b837a43c5",
                 "shasum": ""
             },
             "require": {
