@@ -6,7 +6,7 @@ use yii\web\AssetBundle;
 
 class LightBoxAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/ekko-lightbox';
+//    public $sourcePath = '@bower/ekko-lightbox';
     public $baseUrl = '@web';
     public $css = [
         'dist/ekko-lightbox.min.css',
