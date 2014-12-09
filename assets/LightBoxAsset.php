@@ -14,4 +14,10 @@ class LightBoxAsset extends AssetBundle
     public $js = [
         'dist/ekko-lightbox.min.js',
     ];
+    public function init()
+    {
+        parent::init();
+
+        $this->sourcePath = YII_DEBUG ? '@bower/ekko-lightbox' : '@bower-asset/ekko-lightbox';
+    }
 }
