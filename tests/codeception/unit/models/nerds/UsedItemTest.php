@@ -36,6 +36,13 @@ class UsedItemTest extends DbTestCase
         });
     }
 
+    public function testGetType()
+    {
+        $this->specify('test specific item has a particular type', function () {
+            expect('item has a user', UsedItem::findOne(1)->type)->notNull();
+        });
+    }
+
     public function testItemPreview()
     {
         $this->specify('item has a preview', function () {
