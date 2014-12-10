@@ -157,15 +157,12 @@ class UsedItem extends \app\components\ActiveRecord
             $photoPath =
                 Yii::getAlias('@photo_thumb_path')
                 . '/'
-                . $photoName
-                . HelperBase::getParam('thumb')['extension'];
-
+                . $photoName;
             if (file_exists($photoPath)) {
                 $this->preview =
                     Yii::getAlias('@photo_thumb_url')
                     . '/'
-                    . $photoName
-                    . HelperBase::getParam('thumb')['extension'];
+                    . $photoName;
             }
         }
         parent::afterFind();

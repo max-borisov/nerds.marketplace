@@ -30,8 +30,9 @@ class HelperMarketPlace extends Component
             throw new Exception('Incorrect instance passed');
         }
         $thumbParams    = HelperBase::getParam('thumb');
-        $original       = Yii::getAlias('@photo_original_path')  . '/' . $model->name . $thumbParams['extension'];
-        $thumb          = Yii::getAlias('@photo_thumb_path')     . '/' . $model->name . $thumbParams['extension'];
+        // name shipped with extension
+        $original       = Yii::getAlias('@photo_original_path')  . '/' . $model->name;
+        $thumb          = Yii::getAlias('@photo_thumb_path')     . '/' . $model->name;
         $model->file->saveAs($original);
         Image::thumbnail($original, $thumbParams['width'], $thumbParams['height'])
             ->save($thumb, ['quality' => $thumbParams['quality']]);
