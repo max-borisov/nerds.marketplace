@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\UsedItem;
 use app\models\UsedItemPhoto;
+use app\models\UsedItemType;
 use Yii;
 use yii\web\Controller;
 use yii\helpers;
@@ -20,6 +21,10 @@ class SandboxController extends Controller
     public function actionIndex()
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
+
+        HelperBase::dump((new UsedItemType)->prepareList());
+//        HelperBase::dump(UsedItemType::find(1)->one()->items);
+        HelperBase::dump(UsedItem::find(2)->one()->type);
 
 //            $boot = new BootstrapAsset();
 //            HelperBase::dump($boot->css);
