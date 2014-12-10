@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\UsedItemType;
 use Yii;
 use yii\helpers;
 use app\components\HelperMarketPlace;
@@ -81,7 +82,8 @@ class MarketplaceController extends Controller
         return $this->render('create', [
             'model'         => $model,
             'modelPhoto'    => $modelPhoto,
-            'categories'    => $categories
+            'categories'    => $categories,
+            'typeData'      => (new UsedItemType())->prepareList()
         ]);
     }
 
