@@ -1,5 +1,6 @@
 <?php
 /* @var $model UsedItem */
+
 use yii\helpers\Html;
 ?>
 
@@ -89,9 +90,15 @@ use yii\helpers\Html;
         <?= Html::activeLabel($model, 'type_id', ['for' => 'type_id-yes', 'class' => 'col-sm-2 control-label']); ?>
 
         <div class="col-sm-2">
-            <?= Html::activeRadio($model, 'type_id', ['label' => 'Sale', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"]]); ?>
-
-            <?= Html::activeRadio($model, 'type_id', ['label' => 'Wanna buy', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => 0]); ?>
+        <?php
+        foreach ($typeData as $typeId => $typeTitle) {
+            echo Html::activeRadio(
+                $model,
+                'type_id',
+                ['label' => $typeTitle, 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => $typeId]
+            );
+        }
+        ?>
         </div>
     </div>
 

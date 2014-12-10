@@ -17,5 +17,6 @@ if ($model->hasErrors()) {
 <?= $this->render('_create', [
     'model'         => $model,
     'modelPhoto'    => $modelPhoto,
-    'categories'    => $categories
+    'categories'    => $categories,
+    'typeData'      => $typeData
 ]) ?>
