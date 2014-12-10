@@ -82,6 +82,11 @@ class UsedItem extends \app\components\ActiveRecord
         return $this->hasOne(PhpbbUsers::className(), ['user_id' => 'user_id']);
     }
 
+    public function getType()
+    {
+        return $this->hasOne(UsedItemType::className(), ['id' => 'type_id']);
+    }
+
     /**
      * @inheritdoc
      */
