@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\components\HelperBase;
 use app\components\HelperMarketPlace;
 
 /* @var $data UsedItem */
@@ -59,7 +60,7 @@ use app\components\HelperMarketPlace;
         <p class="more-link"><?= Html::a('More', '/item/' . $data->id) ?></p>
     </div>
     <div class="col-md-3">
-        <p class="item-price"><?= $data->price, ' DKK' ?></p>
+        <p class="item-price"><?= $data->price, ' ', HelperBase::getParam('currency') ?></p>
     </div>
 </div>
 <hr>

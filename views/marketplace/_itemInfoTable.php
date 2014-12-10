@@ -1,3 +1,9 @@
+<?php
+
+use yii\helpers\Html;
+use app\components\HelperBase;
+
+?>
 <table class="table table-striped item-info-table">
     <tbody>
     <tr>
@@ -18,7 +24,7 @@
     </tr>
     <tr>
         <td class="item-param-name"><?= $data->getAttributeLabel('price') ?></td>
-        <td><?= $data->price, ' DK' ?></td>
+        <td><?= $data->price, ' ', HelperBase::getParam('currency') ?></td>
     </tr>
     <tr>
         <td class="item-param-name"><?= $data->getAttributeLabel('warranty') ?></td>
@@ -30,8 +36,8 @@
     </tr>
     <tr>
         <td class="item-param-name"><?= $data->getAttributeLabel('type_id') ?></td>
-        <td><?= $data->type_id ?></td>
+        <td><?= Html::encode($data->type->title) ?></td>
     </tr>
-    <tr><td colspan="2" class="text-center"><?= $data->description ?></td></tr>
+    <tr><td colspan="2" class="text-center"><?= Html::encode($data->description) ?></td></tr>
     </tbody>
 </table>
