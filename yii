@@ -20,5 +20,10 @@ require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');
 $config = require(__DIR__ . '/config/console.php');
 
 $application = new yii\console\Application($config);
+
+// Set manually aliases (because they were not set properly)
+Yii::setAlias('@app', __DIR__ . '/');
+Yii::setAlias('@runtime', __DIR__ . '/runtime');
+
 $exitCode = $application->run();
 exit($exitCode);
