@@ -13,6 +13,8 @@ $config = [
     // Max amount of images could be added to one item
     'maxUploadImages' => 5,
     'siteName' => 'Nerds marketplace',
+    // Shown on the catalog page
+    'currency' => 'DKK',
 ];
 
 return array_merge(
