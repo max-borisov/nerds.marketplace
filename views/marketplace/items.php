@@ -13,6 +13,13 @@ if (Yii::$app->session->hasFlash('item_delete_success')) {
     );
 }
 
+if (Yii::$app->session->hasFlash('item_delete_error')) {
+    echo $this->render(
+        '../_common/flashError',
+        ['message' => Yii::$app->session->getFlash('item_delete_error')]
+    );
+}
+
 foreach ($data as $item) {
     echo $this->render('_item', ['data' => $item, 'showActionLinks' => true]);
 }
