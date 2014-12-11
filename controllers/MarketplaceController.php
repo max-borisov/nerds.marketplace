@@ -105,7 +105,7 @@ class MarketplaceController extends Controller
             $this->redirect('/');
         }
         $items = PhpbbUser::findUser(HelperUser::uid())->items;
-        return $this->render('userItems', ['data' => $items]);
+        return $this->render('items', ['data' => $items]);
     }
 
     public function actionDelete($id)
@@ -122,9 +122,10 @@ class MarketplaceController extends Controller
 
         if ($item->delete()) {
             Yii::$app->session->setFlash('item_delete_success', 'Item has been deleted.');
-            $this->refresh();
+            $this->redirect('/items');
+        } else {
+            Yii::$app->session->setFlash('item_delete_error', 'Item could not be deleted.');
+            $this->redirect('/items');
         }
-
-        HelperBase::dump($item);
     }
 }
