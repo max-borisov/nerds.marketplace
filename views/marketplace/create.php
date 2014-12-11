@@ -3,12 +3,10 @@
 /* @var $model UsedItem */
 
 use yii\helpers\Html;
-?>
+use app\components\HelperPage;
 
-<h1 class="text-center">Adding used item</h1>
-<hr>
+echo $this->render('../_common/header', ['header' => HelperPage::NEW_ITEM_PAGE_HEADER]);
 
-<?php
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
 }

@@ -3,9 +3,12 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\components\HelperPage;
 ?>
 
 <?php
+echo $this->render('../_common/header', ['header' => HelperPage::SIGN_IN_PAGE_HEADER]);
+
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
 }
@@ -16,7 +19,6 @@ if (Yii::$app->session->hasFlash('signup_success')) {
 ?>
 
 <div class="row">
-    <h2 class="form-signin-heading">Sign in</h2>
     <?= Html::beginForm('', 'post', [
         'class' => 'form-signin',
         'role' => 'form',

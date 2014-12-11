@@ -3,11 +3,12 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\components\HelperPage;
 ?>
 
-<h2 class="form-signup-heading">Sign up</h2>
-
 <?php
+echo $this->render('../_common/header', ['header' => HelperPage::SIGN_UP_PAGE_HEADER]);
+
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
 }

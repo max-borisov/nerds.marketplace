@@ -6,7 +6,8 @@ use yii\helpers\Html;
 ?>
 
 <p><?= Html::a('Back', '/', ['class' => 'btn btn-default']) ?></p>
-<h1 class="text-center"><?= Html::encode($data->title) ?></h1>
+
+<?= $this->render('../_common/header', ['header' => Html::encode($data->title)]); ?>
 
 <div class="row item-view-info">
     <div class="col-md-4">

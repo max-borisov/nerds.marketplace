@@ -1,13 +1,14 @@
 <?php
+/* @var $this yii\web\View */
+
 use yii\helpers\Html;
+use app\components\HelperPage;
 use app\components\HelperUser;
 
 $this->params['isUsedItemPage'] = true;
-?>
-<h1 class="text-center">Used items catalog</h1>
-<hr>
 
-<?php
+echo $this->render('../_common/header', ['header' => HelperPage::FRONT_PAGE_HEADER]);
+
 if (HelperUser::isGuest()) {
     echo '<p class="lead">You can add items after login.</p>';
 } else {
