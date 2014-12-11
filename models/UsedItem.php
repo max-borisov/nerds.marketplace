@@ -7,6 +7,7 @@ use app\models\Category;
 use app\models\UsedItemPhoto;
 use app\components\HelperBase;
 use app\components\HelperMarketPlace;
+use app\components\HelperUser;
 use yii\base\Exception;
 
 /**
@@ -145,10 +146,10 @@ class UsedItem extends \app\components\ActiveRecord
 
     public function beforeSave($insert)
     {
-         if (!Yii::$app->user->id) {
+         if (!HelperUser::uid()) {
              throw new Exception('User id cannot be blank.');
          }
-        $this->user_id = Yii::$app->user->id;
+        $this->user_id = HelperUser::uid();
         return parent::beforeSave($insert);
     }
 
