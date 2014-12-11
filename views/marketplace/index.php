@@ -24,7 +24,10 @@ if (HelperUser::isGuest()) {
 
 <?php
 if (Yii::$app->session->hasFlash('item_create_success')) {
-    echo '<div class="alert alert-success" role="alert">' . Yii::$app->session->getFlash('item_create_success') . '</div>';
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('item_create_success')]
+    );
 }
 
 if ($data) {

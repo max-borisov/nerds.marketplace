@@ -1,8 +1,8 @@
 <?php
 /* @var $model UsedItem */
-use yii\helpers\Html;
-?>
-<h1 class="text-center">Updating category</h1>
-<hr>
 
+use app\components\HelperPage;
+?>
+
+<?= $this->render('../_common/header', ['header' => HelperPage::UPDATE_CATEGORY_PAGE_HEADER]); ?>
 <?= $this->render('_form', ['model' => $model]) ?>

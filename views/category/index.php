@@ -5,21 +5,29 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $item app\models\Category */
 
+use app\components\HelperPage;
+
 $this->params['isCategoryPage'] = true;
+
+echo $this->render('../_common/header', ['header' => HelperPage::CATEGORIES_PAGE_HEADER]);
 ?>
-<h1 class="text-center">Categories</h1>
-<hr>
 
 <p>
     <?= Html::a('New category', '/category/create', ['type' => 'button', 'class' => 'btn btn-primary']) ?>
 </p>
 <?php
 if (Yii::$app->session->hasFlash('category_create_success')) {
-    echo '<div class="alert alert-success" role="alert">' . Yii::$app->session->getFlash('category_create_success') . '</div>';
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('category_create_success')]
+    );
 }
 
 if (Yii::$app->session->hasFlash('category_update_success')) {
-    echo '<div class="alert alert-success" role="alert">' . Yii::$app->session->getFlash('category_update_success') . '</div>';
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('category_update_success')]
+    );
 }
 ?>
 <table class="table table-striped table-hover">

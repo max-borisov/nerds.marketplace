@@ -14,7 +14,10 @@ if ($model->hasErrors()) {
 }
 
 if (Yii::$app->session->hasFlash('signup_success')) {
-    echo '<div class="alert alert-success" role="alert">' . Yii::$app->session->getFlash('signup_success') . '</div>';
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('signup_success')]
+    );
 }
 ?>
 
