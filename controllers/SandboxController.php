@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\PhpbbUser;
 use app\models\UsedItem;
 use app\models\UsedItemPhoto;
 use app\models\UsedItemType;
@@ -11,6 +12,7 @@ use yii\helpers;
 use app\models\Category;
 use app\components\HelperBase;
 use app\components\HelperSignUp;
+use app\components\HelperUser;
 
 use yii\imagine\Image;
 
@@ -22,9 +24,19 @@ class SandboxController extends Controller
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
 
-        HelperBase::dump((new UsedItemType)->prepareList());
+//        HelperBase::dump(HelperUser::isGuest());
+//        HelperBase::dump(HelperUser::uid());
+//        HelperBase::dump(HelperUser::uIdentity());
+//        HelperBase::dump(HelperUser::uIdentityParam('username'));
+
+//        HelperBase::dump(PhpbbUser::find()->where('user_id = :uid', [':uid' => 48])->one()->items);
+
+//        HelperBase::dump(PhpbbUser::find()->where('user_id = :uid', [':uid' => 1])->one());
+//        HelperBase::dump((new PhpbbUsers)->hasItems(490));
+
+//        HelperBase::dump((new UsedItemType)->prepareList());
 //        HelperBase::dump(UsedItemType::find(1)->one()->items);
-        HelperBase::dump(UsedItem::find(2)->one()->type);
+//        HelperBase::dump(UsedItem::find(2)->one()->type);
 
 //            $boot = new BootstrapAsset();
 //            HelperBase::dump($boot->css);
