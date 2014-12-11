@@ -9,7 +9,7 @@ $I->wantTo('ensure that category page works');
 CategoryPage::openBy($I);
 
 $I->wantTo('ensure that unauthorized users are redirected to SignIn page');
-$I->see(HelperPage::SIGN_IN_PAGE_HEADER, 'h2');
+$I->see(HelperPage::SIGN_IN_PAGE_HEADER, 'h1');
 
 TestCommon::logMeIn($I);
 
