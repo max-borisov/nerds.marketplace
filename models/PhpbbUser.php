@@ -75,7 +75,7 @@ use Yii;
  * @property integer $user_reminded_time
  * @property integer $yii_password
  */
-class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     public $authKey;
 
@@ -248,5 +248,28 @@ class PhpbbUsers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterf
             'user_reminded' => 'User Reminded',
             'user_reminded_time' => 'User Reminded Time',
         ];
+    }
+
+    /**
+     * Get all items posted by active user
+     * @return ActiveQuery
+     */
+    public function getItems()
+    {
+        return $this->hasMany(UsedItem::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * Check if a user has posted some items
+     * @param int $uid User id
+     * @return bool
+     */
+    public function hasItems($uid = 0)
+    {
+        return (new \yii\db\Query())
+            ->select('*')
+            ->from('_used_item')
+            ->where('user_id = :uid', [':uid' => $uid])
+            ->exists();
     }
 }

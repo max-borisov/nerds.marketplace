@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\components\HelperUser;
-use app\models\PhpbbUsers;
+use app\models\PhpbbUser;
 ?>
 
 <?php if (HelperUser::isGuest()) { ?>
@@ -27,7 +27,7 @@ use app\models\PhpbbUsers;
             <ul class="dropdown-menu" role="menu">
                 <?php
                 // Only users how have posted some items
-                if ((new PhpbbUsers)->hasItems(HelperUser::uid())) {
+                if ((new PhpbbUser)->hasItems(HelperUser::uid())) {
                     echo '<li>', Html::a('Your items', '/items'), '</li>';
                     echo '<li class="divider"></li>';
                 }

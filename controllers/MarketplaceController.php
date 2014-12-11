@@ -10,7 +10,7 @@ use app\models\UsedItem;
 use app\models\UsedItemType;
 use app\models\UsedItemPhoto;
 use app\models\Category;
-use app\models\PhpbbUsers;
+use app\models\PhpbbUser;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -101,7 +101,7 @@ class MarketplaceController extends Controller
     public function actionItems()
     {
         // Only users who posted any items should have access
-        if (!(new PhpbbUsers)->hasItems(HelperUser::uid())) {
+        if (!(new PhpbbUser)->hasItems(HelperUser::uid())) {
             $this->redirect('/');
         }
 
