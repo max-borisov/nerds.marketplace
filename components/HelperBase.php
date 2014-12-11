@@ -87,11 +87,4 @@ class HelperBase extends Component
         $msg = date('d/m/Y H:i') . "\r\n" . $msg . "\r\n---------------" . "\r\n";
         return error_log($msg, 3, $file);
     }
-
-    /*public static function ifNotGuestRedirectToFrontPage()
-    {
-        if (!Yii::$app->user->isGuest) {
-            Yii::$app->controller->goHome();
-        }
-    }*/
 }
