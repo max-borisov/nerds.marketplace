@@ -2,9 +2,10 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\components\HelperUser;
+use app\models\PhpbbUsers;
 ?>
 
-<?php if (Yii::$app->user->isGuest) { ?>
+<?php if (HelperUser::isGuest()) { ?>
     <ul class="nav navbar-nav navbar-right">
         <li class=""><?= Html::a('Sign In', Url::to('/signin')) ?></li>
     </ul>
@@ -24,8 +25,13 @@ use app\components\HelperUser;
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-                <li><?= Html::a('Your items', '/items') ?></li>
-                <li class="divider"></li>
+                <?php
+                // Only users how have posted some items
+                if ((new PhpbbUsers)->hasItems(HelperUser::uid())) {
+                    echo '<li>', Html::a('Your items', '/items'), '</li>';
+                    echo '<li class="divider"></li>';
+                }
+                ?>
                 <li><?= Html::a('Logout', '/logout') ?></li>
             </ul>
         </li>
