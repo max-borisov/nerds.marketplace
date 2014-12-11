@@ -1,6 +1,7 @@
 <?php
 
 use tests\common\TestCommon;
+use app\components\HelperPage;
 
 $I = new FunctionalTester($scenario);
 TestCommon::logMeIn($I);
@@ -16,7 +17,7 @@ $I->seeElement('table.table');
 $I->wantTo('click to Back button');
 $I->click('Back');
 $I->expectTo('to be redirected to front page');
-$I->see(TestCommon::FRONT_PAGE_HEADER, 'h1');
+$I->see(HelperPage::FRONT_PAGE_HEADER, 'h1');
 $I->seeCurrentUrlEquals('/');
 
 TestCommon::logMeOut($I);

@@ -2,6 +2,7 @@
 
 use tests\codeception\_pages\nerds\CategoryCreatePage;
 use tests\common\TestCommon;
+use app\components\HelperPage;
 
 $I = new FunctionalTester($scenario);
 TestCommon::logMeIn($I);
@@ -10,7 +11,7 @@ $I->wantTo('ensure that create category page works');
 $page = CategoryCreatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see(TestCommon::ADD_NEW_CATEGORY_PAGE_HEADER, 'h1');
+$I->see(HelperPage::ADD_NEW_CATEGORY_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('try to add empty category title');
 $page->sendForm('');

@@ -2,6 +2,7 @@
 
 use tests\codeception\_pages\nerds\ItemCreatePage;
 use tests\common\TestCommon;
+use app\components\HelperPage;
 
 $I = new FunctionalTester($scenario);
 TestCommon::logMeIn($I);
@@ -10,7 +11,7 @@ $I->wantTo('ensure that add item page works');
 $page = ItemCreatePage::openBy($I);
 
 $I->expectTo('see correct title');
-$I->see(TestCommon::NEW_ITEM_PAGE_HEADER, 'h1');
+$I->see(HelperPage::NEW_ITEM_PAGE_HEADER, 'h1');
 
 $I->amGoingTo('to add empty form');
 $page->sendForm();

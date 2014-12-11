@@ -1,14 +1,14 @@
 <?php
 
 use tests\codeception\_pages\nerds\SignUpPage;
-use tests\common\TestCommon;
+use app\components\HelperPage;
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that sign up page  works');
 
 $loginPage = SignUpPage::openBy($I);
 $I->wantTo('ensure page has a proper header');
-$I->see(TestCommon::SIGN_UP_PAGE_HEADER, 'h2');
+$I->see(HelperPage::SIGN_UP_PAGE_HEADER, 'h2');
 
 $I->amGoingTo('fill form with empty data');
 $loginPage->login('', '', '', '');
