@@ -9,7 +9,7 @@ use app\components\HelperUser;
     <div class="col-md-4">
         <?= Html::a(
             Html::tag('img', '', ['src' => $data->preview, 'alt' => $data->title . ' preview', 'class' => 'img-rounded']),
-            '/item/' . $data->id
+            '/item/view/' . $data->id
         ) ?>
     </div>
     <div class="col-md-5">
@@ -57,10 +57,19 @@ use app\components\HelperUser;
             <div class="col-xs-4"><?= date('d/m/Y H:i', $data->created_at) ?></div>
         </div>
         <p class="item-description"><?= Html::encode($data->description) ?></p>
-        <p class="more-link"><?= Html::a('More', '/item/' . $data->id) ?></p>
+        <p class="more-link"><?= Html::a('More', '/item/view/' . $data->id) ?></p>
     </div>
     <div class="col-md-3">
-        <p class="item-price"><?= $data->price, ' ', HelperBase::getParam('currency') ?></p>
+        <p class="item-price text-center"><?= $data->price, ' ', HelperBase::getParam('currency') ?></p>
+        <?php
+        // Show action links
+        if (isset($showActionLinks) && $showActionLinks == true) {
+        ?>
+        <div class="item-action-links">
+            <?= Html::a('Edit', '/item/edit/' . $data->id, ['class' => 'btn btn-info pull-left']) ?>
+            <?= Html::a('Delete', '/item/delete/' . $data->id, ['class' => 'btn btn-danger pull-right']) ?>
+        </div>
+        <?php } ?>
     </div>
 </div>
 <hr>
