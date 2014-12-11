@@ -26,7 +26,7 @@ class MarketplaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create'],
+                        'actions' => ['create', 'items'],
                         'roles' => ['@'],
                     ],
                     [
@@ -94,5 +94,16 @@ class MarketplaceController extends Controller
             $this->redirect('/');
         }
         return $this->render('view', ['data' => $item]);
+    }
+
+    public function actionItems()
+    {
+        HelperBase::dump(Yii::$app->user->id);
+
+        /*$item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
+        if (!$item) {
+            $this->redirect('/');
+        }
+        return $this->render('view', ['data' => $item]);*/
     }
 }
