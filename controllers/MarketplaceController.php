@@ -2,13 +2,15 @@
 
 namespace app\controllers;
 
-use app\models\UsedItemType;
 use Yii;
 use yii\helpers;
 use app\components\HelperMarketPlace;
+use app\components\HelperUser;
 use app\models\UsedItem;
+use app\models\UsedItemType;
 use app\models\UsedItemPhoto;
 use app\models\Category;
+use app\models\PhpbbUsers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -98,7 +100,12 @@ class MarketplaceController extends Controller
 
     public function actionItems()
     {
-        HelperBase::dump(Yii::$app->user->id);
+        // Only users who posted any items should have access
+        if (!(new PhpbbUsers)->hasItems(HelperUser::uid())) {
+            $this->redirect('/');
+        }
+
+//        HelperBase::dump(Yii::$app->user->id);
 
         /*$item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
         if (!$item) {
