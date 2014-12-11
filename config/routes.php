@@ -11,5 +11,6 @@ return [
         'category/update/<id:\d+>' => 'category/update',
         'category/delete/<id:\d+>' => 'category/delete',
         'item/<id:\d+>' => 'marketplace/view',
+        'items' => 'marketplace/items',
     ],
 ];
