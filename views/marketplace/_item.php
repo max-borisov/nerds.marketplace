@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use app\components\HelperBase;
+use app\components\HelperUser;
 
 /* @var $data UsedItem */
 ?>
@@ -13,7 +14,7 @@ use app\components\HelperBase;
     </div>
     <div class="col-md-5">
         <h3><?= ucfirst(Html::encode($data->title)) ?></h3>
-        <?php if (!Yii::$app->user->isGuest) { ?>
+        <?php if (!HelperUser::isGuest()) { ?>
         <div class="row">
             <div class="col-xs-3">Post author:</div>
             <div class="col-xs-4">

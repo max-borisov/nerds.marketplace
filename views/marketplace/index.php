@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\components\HelperUser;
 
 $this->params['isUsedItemPage'] = true;
 ?>
@@ -7,7 +8,7 @@ $this->params['isUsedItemPage'] = true;
 <hr>
 
 <?php
-if (Yii::$app->user->isGuest) {
+if (HelperUser::isGuest()) {
     echo '<p class="lead">You can add items after login.</p>';
 } else {
     echo Html::tag(
