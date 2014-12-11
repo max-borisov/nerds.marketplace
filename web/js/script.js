@@ -12,7 +12,12 @@ $(function() {
         }
     })
 
-//    $('#demoLightbox').lightbox({'backdrop' : true});
-
+    // Delete item
+    $('.item-delete').on('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this item ? ')) {
+            location.href = $(this).attr('href');
+        }
+    })
 })
 

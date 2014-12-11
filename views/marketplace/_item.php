@@ -67,7 +67,7 @@ use app\components\HelperUser;
         ?>
         <div class="item-action-links">
             <?= Html::a('Edit', '/item/edit/' . $data->id, ['class' => 'btn btn-info pull-left']) ?>
-            <?= Html::a('Delete', '/item/delete/' . $data->id, ['class' => 'btn btn-danger pull-right']) ?>
+            <?= Html::a('Delete', '/item/delete/' . $data->id, ['class' => 'btn btn-danger pull-right item-delete']) ?>
         </div>
         <?php } ?>
     </div>
