@@ -56,7 +56,7 @@ class Category extends \app\components\ActiveRecord
      */
     public function getAttachedItems()
     {
-        return $this->hasMany(UsedItem::className(), ['category_id' => 'id']);
+        return $this->hasMany(UsedItem::className(), ['category_id' => 'id'])->orderBy('updated_at DESC');
     }
 
     /**

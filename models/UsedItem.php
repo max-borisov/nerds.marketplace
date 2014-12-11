@@ -75,7 +75,7 @@ class UsedItem extends \app\components\ActiveRecord
      */
     public function getPhotos()
     {
-        return $this->hasMany(UsedItemPhoto::className(), ['item_id' => 'id']);
+        return $this->hasMany(UsedItemPhoto::className(), ['item_id' => 'id'])->orderBy('updated_at DESC');
     }
 
     public function getUser()

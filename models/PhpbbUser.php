@@ -256,7 +256,7 @@ class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
      */
     public function getItems()
     {
-        return $this->hasMany(UsedItem::className(), ['user_id' => 'user_id']);
+        return $this->hasMany(UsedItem::className(), ['user_id' => 'user_id'])->orderBy('updated_at DESC');
     }
 
     /**
@@ -271,5 +271,10 @@ class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
             ->from('_used_item')
             ->where('user_id = :uid', [':uid' => $uid])
             ->exists();
+    }
+
+    public static function findUser($uid)
+    {
+        return self::find()->where('user_id = :uid', [':uid' => $uid])->one();
     }
 }

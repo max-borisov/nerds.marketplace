@@ -55,7 +55,7 @@ class UsedItemType extends \yii\db\ActiveRecord
      */
     public function getItems()
     {
-        return $this->hasMany(UsedItem::className(), ['type_id' => 'id']);
+        return $this->hasMany(UsedItem::className(), ['type_id' => 'id'])->orderBy('created_at ASC');
     }
 
     /**
