@@ -28,7 +28,7 @@ class MarketplaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'items'],
+                        'actions' => ['create', 'items', 'delete'],
                         'roles' => ['@'],
                     ],
                     [
@@ -104,13 +104,27 @@ class MarketplaceController extends Controller
         if (!(new PhpbbUser)->hasItems(HelperUser::uid())) {
             $this->redirect('/');
         }
+        $items = PhpbbUser::findUser(HelperUser::uid())->items;
+        return $this->render('userItems', ['data' => $items]);
+    }
 
-//        HelperBase::dump(Yii::$app->user->id);
-
-        /*$item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
-        if (!$item) {
+    public function actionDelete($id)
+    {
+        // Item must be in database
+        if (!$item = UsedItem::findOne($id)) {
             $this->redirect('/');
         }
-        return $this->render('view', ['data' => $item]);*/
+
+        // User can only delete items which have been added by himself
+        if ($item->user_id != HelperUser::uid()) {
+            $this->redirect('/');
+        }
+
+        if ($item->delete()) {
+            Yii::$app->session->setFlash('item_delete_success', 'Item has been deleted.');
+            $this->refresh();
+        }
+
+        HelperBase::dump($item);
     }
 }
