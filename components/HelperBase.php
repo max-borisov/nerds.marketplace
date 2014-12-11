@@ -87,4 +87,14 @@ class HelperBase extends Component
         $msg = date('d/m/Y H:i') . "\r\n" . $msg . "\r\n---------------" . "\r\n";
         return error_log($msg, 3, $file);
     }
+
+    /**
+     * Generate link to phpBB user profile
+     * @param $uid User id
+     * @return string
+     */
+    public static function getForumProfileLink($uid)
+    {
+        return HelperBase::getParam('phpBBHost') . '/memberlist.php?mode=viewprofile&u=' . $uid;
+    }
 }

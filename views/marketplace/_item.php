@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use app\components\HelperBase;
-use app\components\HelperMarketPlace;
 
 /* @var $data UsedItem */
 ?>
@@ -21,7 +20,7 @@ use app\components\HelperMarketPlace;
                 <strong>
                 <?= Html::a(
                     $data->user->username,
-                    HelperMarketPlace::getLinkToForumUserProfile($data->user->id),
+                    HelperBase::getForumProfileLink($data->user->id),
                     ['target' => '_blank']
                 ) ?>
                 </strong>

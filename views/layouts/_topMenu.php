@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\components\HelperBase;
 use app\components\HelperUser;
 use app\models\PhpbbUser;
 ?>
@@ -29,6 +30,7 @@ use app\models\PhpbbUser;
                 // Only users how have posted some items
                 if ((new PhpbbUser)->hasItems(HelperUser::uid())) {
                     echo '<li>', Html::a('Your items', '/items'), '</li>';
+                    echo '<li>', Html::a('Forum profile', HelperBase::getForumProfileLink(HelperUser::uid())), '</li>';
                     echo '<li class="divider"></li>';
                 }
                 ?>
