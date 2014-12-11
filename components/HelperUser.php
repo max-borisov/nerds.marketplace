@@ -25,7 +25,7 @@ class HelperUser extends Component
     {
         if (!empty(Yii::$app->user->identity)
             && isset(Yii::$app->user->identity[$key])) {
-            return Yii::$app->user->identity[$key];
+            return Yii::$app->user->identity->$key;
         }
         return null;
     }
