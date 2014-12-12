@@ -11,6 +11,26 @@ use yii\helpers\Html;
     'enctype' => 'multipart/form-data'
 ]); ?>
 
+    <!-- Title -->
+    <div class="form-group">
+        <?= Html::activeLabel($model, 'title', ['for' => 'title', 'class' => 'col-sm-2 control-label']); ?>
+
+        <div class="col-sm-2">
+            <?= Html::activeTextInput($model, 'title', ['class' =>  'form-control', 'id' => 'title', 'placeholder' => 'Title']); ?>
+        </div>
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+        <?= Html::activeLabel($model, 'category_id', ['for' => 'category', 'class' => 'col-sm-2 control-label']); ?>
+
+        <div class="col-sm-2">
+            <?= Html::activeDropDownList($model, 'category_id', $categories, ['class' =>  'form-control', 'id' => 'category', 'prompt' => '']); ?>
+            <?= Html::a('Manage categories', '/category') ?>
+        </div>
+    </div>
+    <hr>
+
     <!-- Warranty -->
     <div class="form-group">
         <?= Html::activeLabel($model, 'warranty', ['for' => 'warranty-yes', 'class' => 'col-sm-2 control-label']); ?>
@@ -54,7 +74,6 @@ use yii\helpers\Html;
             <?= Html::activeRadio($model, 'manual', ['label' => 'No', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => 0]); ?>
         </div>
     </div>
-
     <hr>
 
     <!-- Price -->
@@ -63,25 +82,6 @@ use yii\helpers\Html;
 
         <div class="col-sm-2">
             <?= Html::activeTextInput($model, 'price', ['class' =>  'form-control', 'id' => 'price', 'placeholder' => 'Price']); ?>
-        </div>
-    </div>
-
-    <!-- Category -->
-    <div class="form-group">
-        <?= Html::activeLabel($model, 'category_id', ['for' => 'category', 'class' => 'col-sm-2 control-label']); ?>
-
-        <div class="col-sm-2">
-            <?= Html::activeDropDownList($model, 'category_id', $categories, ['class' =>  'form-control', 'id' => 'category', 'prompt' => '']); ?>
-            <?= Html::a('Manage categories', '/category') ?>
-        </div>
-    </div>
-
-    <!-- Title -->
-    <div class="form-group">
-        <?= Html::activeLabel($model, 'title', ['for' => 'title', 'class' => 'col-sm-2 control-label']); ?>
-
-        <div class="col-sm-2">
-            <?= Html::activeTextInput($model, 'title', ['class' =>  'form-control', 'id' => 'title', 'placeholder' => 'Title']); ?>
         </div>
     </div>
 
