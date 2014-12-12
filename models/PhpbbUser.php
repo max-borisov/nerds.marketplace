@@ -256,7 +256,7 @@ class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
      */
     public function getItems()
     {
-        return $this->hasMany(UsedItem::className(), ['user_id' => 'user_id'])->orderBy('updated_at DESC');
+        return $this->hasMany(UsedItem::className(), ['user_id' => 'user_id'])->orderBy('created_at DESC');
     }
 
     /**
