@@ -117,8 +117,9 @@ class MarketplaceController extends Controller
         $item = UsedItem::findOne($id);
         // Item must be in database
         // User can only delete items which have been added by himself
-        if (!$item || $item->user_id != HelperUser::uid()) {
+        if (empty($item) || $item->user_id != HelperUser::uid()) {
             $this->redirect('/');
+            return false;
         }
         if ($item->delete()) {
             Yii::$app->session->setFlash('item_delete_success', 'Item has been deleted.');
