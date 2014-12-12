@@ -9,7 +9,7 @@ $homeUrl = Yii::$app->homeUrl;
 
 $I->amOnPage($homeUrl);
 $I->wantTo('ensure that unauthorized users can\'t see logout link');
-$I->cantSeeLink('Logout');
+$I->dontSeeLink('Logout');
 
 TestCommon::logMeIn($I);
 

@@ -5,6 +5,7 @@ use tests\common\TestCommon;
 use app\components\HelperPage;
 
 $I = new FunctionalTester($scenario);
+
 TestCommon::logMeIn($I);
 
 $I->wantTo('ensure that add item page works');

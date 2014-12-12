@@ -22,7 +22,7 @@ class PhpbbUserTest extends DbTestCase
         });
 
         $this->specify('test specific used does not have any items', function () {
-            $uid = 1;
+            $uid = 2;
             expect(
                 'items list is empty',
                 PhpbbUser::find()->where('user_id = :uid', [':uid' => $uid])->one()->items
@@ -39,7 +39,7 @@ class PhpbbUserTest extends DbTestCase
                 (new PhpbbUser)->hasItems($uid)
             )->true();
 
-            $uid = 1;
+            $uid = 2;
             expect(
                 'items not exist (boolen)',
                 (new PhpbbUser)->hasItems($uid)

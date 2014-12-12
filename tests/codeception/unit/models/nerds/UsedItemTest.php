@@ -25,7 +25,7 @@ class UsedItemTest extends DbTestCase
         });
 
         $this->specify('test specific item does not have photos', function () {
-            expect('item photos list is empty', UsedItem::findOne(2)->photos)->isEmpty();
+            expect('item photos list is empty', UsedItem::findOne(3)->photos)->isEmpty();
         });
     }
 

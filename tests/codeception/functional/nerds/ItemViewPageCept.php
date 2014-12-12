@@ -8,7 +8,7 @@ TestCommon::logMeIn($I);
 
 $I->wantTo('ensure that view tem page works');
 
-$I->amOnPage('/item/1');
+$I->amOnPage('/item/view/1');
 $I->expectTo('see Back button');
 $I->seeElement('a.btn');
 $I->expectTo('see table with item info');
