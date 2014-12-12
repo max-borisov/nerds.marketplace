@@ -49,13 +49,14 @@ class UsedItem extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required', 'on' => ['create']],
-            [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create']],
+            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required', 'on' => ['create', 'edit']],
+            [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create', 'edit']],
+            [['price'], 'number', 'on' => ['create', 'edit']],
+            [['title'], 'string', 'max' => 255, 'on' => ['create', 'edit']],
+            [['description'], 'string', 'on' => ['create', 'edit']],
+
             [['warranty', 'packaging', 'manual'], 'integer', 'on' => ['search']],
-            [['price'], 'number', 'on' => ['create']],
-            [['title'], 'string', 'max' => 255, 'on' => ['create']],
             [['search_text'], 'string', 'max' => 255, 'on' => ['search']],
-            [['description'], 'string', 'on' => ['create']],
             [['price_min, price_max'], 'number', 'on' => ['search']],
         ];
     }
