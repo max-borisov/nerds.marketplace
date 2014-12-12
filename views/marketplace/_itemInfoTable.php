@@ -38,6 +38,6 @@ use app\components\HelperBase;
         <td class="item-param-name"><?= $data->getAttributeLabel('type_id') ?></td>
         <td><?= Html::encode($data->type->title) ?></td>
     </tr>
-    <tr><td colspan="2" class="text-center"><?= Html::encode($data->description) ?></td></tr>
+    <tr><td colspan="2" class="text-center"><?= nl2br(Html::encode($data->description)) ?></td></tr>
     </tbody>
 </table>
