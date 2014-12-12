@@ -50,6 +50,7 @@ class MarketplaceController extends Controller
         ];
     }
 
+    // Front page with catalog and search form
     public function actionIndex()
     {
         $model = new UsedItem();
@@ -65,6 +66,7 @@ class MarketplaceController extends Controller
         return $this->render('index', ['data' => $data, 'model' => $model]);
     }
 
+    // Create item page
     public function actionCreate()
     {
         $model      = new UsedItem();
@@ -89,6 +91,7 @@ class MarketplaceController extends Controller
         ]);
     }
 
+    // View item page
     public function actionView($id)
     {
         $item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
@@ -98,6 +101,7 @@ class MarketplaceController extends Controller
         return $this->render('view', ['data' => $item]);
     }
 
+    // View items added by a current user
     public function actionItems()
     {
         // Only users who posted any items should have access
@@ -108,24 +112,20 @@ class MarketplaceController extends Controller
         return $this->render('items', ['data' => $items]);
     }
 
+    // Delete an item
     public function actionDelete($id)
     {
+        $item = UsedItem::findOne($id);
         // Item must be in database
-        if (!$item = UsedItem::findOne($id)) {
-            $this->redirect('/');
-        }
-
         // User can only delete items which have been added by himself
-        if ($item->user_id != HelperUser::uid()) {
+        if (!$item || $item->user_id != HelperUser::uid()) {
             $this->redirect('/');
         }
-
         if ($item->delete()) {
             Yii::$app->session->setFlash('item_delete_success', 'Item has been deleted.');
-            $this->redirect('/items');
         } else {
             Yii::$app->session->setFlash('item_delete_error', 'Item could not be deleted.');
-            $this->redirect('/items');
         }
+        $this->redirect('/items');
     }
 }
