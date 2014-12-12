@@ -28,7 +28,7 @@ class MarketplaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'items', 'delete'],
+                        'actions' => ['create', 'items', 'delete', 'edit'],
                         'roles' => ['@'],
                     ],
                     [
@@ -82,11 +82,10 @@ class MarketplaceController extends Controller
                 $this->redirect('/');
             }
         }
-        $categories = (new Category())->prepareDropDown();
         return $this->render('create', [
             'model'         => $model,
             'modelPhoto'    => $modelPhoto,
-            'categories'    => $categories,
+            'categories'    => (new Category())->prepareDropDown(),
             'typeData'      => (new UsedItemType())->prepareList()
         ]);
     }
@@ -127,5 +126,23 @@ class MarketplaceController extends Controller
             Yii::$app->session->setFlash('item_delete_error', 'Item could not be deleted.');
         }
         $this->redirect('/items');
+    }
+
+    // Edit item
+    public function actionEdit($id)
+    {
+        $model = UsedItem::findOne($id);
+        $model->setScenario('edit');
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if ($model->validate() && $model->save(false)) {
+                Yii::$app->session->setFlash('item_edit_success', 'Item data has been updated.');
+                $this->redirect('/items');
+            }
+        }
+        return $this->render('edit', [
+            'model'         => $model,
+            'categories'    => (new Category())->prepareDropDown(),
+            'typeData'      => (new UsedItemType())->prepareList()
+        ]);
     }
 }
