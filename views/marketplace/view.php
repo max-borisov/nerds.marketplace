@@ -3,11 +3,10 @@
 /* @var $this \yii\web\View */
 
 use yii\helpers\Html;
+
+echo $this->render('../_common/backButton', ['link' => '/']);
+echo $this->render('../_common/header', ['header' => Html::encode($data->title)]);
 ?>
-
-<p><?= Html::a('Back', '/', ['class' => 'btn btn-default']) ?></p>
-
-<?= $this->render('../_common/header', ['header' => Html::encode($data->title)]); ?>
 
 <div class="row item-view-info">
     <div class="col-md-4">
