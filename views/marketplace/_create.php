@@ -111,6 +111,7 @@ use yii\helpers\Html;
         </div>
     </div>
 
+    <?php if ($model->isNewRecord) { ?>
     <!-- Upload -->
     <div class="form-group">
         <?= Html::activeLabel($modelPhoto, 'file', ['for' => 'upload', 'class' => 'col-sm-2 control-label']); ?>
@@ -118,6 +119,7 @@ use yii\helpers\Html;
             <?= Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']); ?>
         </div>
     </div>
+    <?php } ?>
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
