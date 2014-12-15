@@ -7,9 +7,18 @@ use yii\codeception\DbTestCase;
 use Codeception\Specify;
 use Yii;
 
+use app\tests\codeception\unit\fixtures\UsedItemFixture;
+
 class UsedItemTest extends DbTestCase
 {
     use Specify;
+
+    public function fixtures()
+    {
+        return [
+            'items' => UsedItemFixture::className(),
+        ];
+    }
 
     public function testGetCategory()
     {
@@ -65,6 +74,31 @@ class UsedItemTest extends DbTestCase
             $_GET['UsedItem']['price_min'] = 1;
             $_GET['UsedItem']['price_max'] = 10000;
             expect('empty search result', $model->search(Yii::$app->request->get()))->notEmpty();
+        });
+    }
+
+    public function testDelete()
+    {
+
+        /*$item = UsedItem::findOne('5');
+        print_r($item);
+        \Codeception\Util\Debug::debug($item->photos);*/
+
+        $this->specify('delete item with related records', function () {
+//            $item = UsedItem::findOne('5');
+
+//            print_r($item);
+//            \Codeception\Util\Debug::debug($item);
+
+//            expect('there are related photos', $item->photos)->notEmpty();
+
+//            $item->delete();
+//            $this->assertTrue($item->delete());
+
+//            $item = UsedItem::findOne('5');
+//            expect('there are related photos', $item)->null();
+
+//            expect('empty search result', $model->search(Yii::$app->request->get()))->notEmpty();
         });
     }
 }
