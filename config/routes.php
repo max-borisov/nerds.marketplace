@@ -12,6 +12,7 @@ return [
         'category/update/<id:\d+>'  => 'category/update',
         'category/delete/<id:\d+>'  => 'category/delete',
 
+        'item/create'           => 'marketplace/create',
         'item/view/<id:\d+>'    => 'marketplace/view',
         'item/delete/<id:\d+>'  => 'marketplace/delete',
         'item/edit/<id:\d+>'    => 'marketplace/edit',
