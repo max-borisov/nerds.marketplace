@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use app\components\HelperBase;
 use app\components\HelperUser;
+use app\components\HelperMarketPlace;
 
 /* @var $data UsedItem */
 ?>
@@ -56,7 +57,12 @@ use app\components\HelperUser;
             <div class="col-xs-3"><?= $data->getAttributeLabel('created_at') ?></div>
             <div class="col-xs-4"><?= date('d/m/Y H:i', $data->created_at) ?></div>
         </div>
-        <p class="item-description"><?= Html::encode($data->description) ?></p>
+        <p class="item-description">
+            <?= Html::encode(HelperMarketPlace::makeShortDescription(
+                $data->description,
+                HelperBase::getParam('itemDescriptionMaxLength')))
+            ?>
+        </p>
         <p class="more-link"><?= Html::a('More', '/item/view/' . $data->id) ?></p>
     </div>
     <div class="col-md-3">

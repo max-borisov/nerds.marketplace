@@ -15,6 +15,8 @@ $config = [
     'siteName' => 'Nerds marketplace',
     // Shown on the catalog page
     'currency' => 'DKK',
+    // Max length of the shown description text
+    'itemDescriptionMaxLength' => 200,
 ];
 
 return array_merge(

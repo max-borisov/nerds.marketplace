@@ -82,4 +82,20 @@ class HelperMarketPlace extends Component
             return $defaultSort;
         }
     }
+
+    /**
+     * Make long description shorter
+     * @param $description Description text
+     * @param $maxLen max text length
+     * @return string
+     */
+    public static function makeShortDescription($description, $maxLen)
+    {
+        if (strlen($description) <= $maxLen) return $description;
+
+        // Get first several sentences
+        $split = explode('.', substr($description, 0, $maxLen));
+        array_pop($split);
+        return implode('.', $split) . '.';
+    }
 }
