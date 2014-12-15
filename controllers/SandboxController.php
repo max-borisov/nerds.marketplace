@@ -24,6 +24,12 @@ class SandboxController extends Controller
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
 
+        HelperBase::dump(UsedItem::findOne('20'));
+
+//        $photoModel = UsedItemPhoto::findOne('20');
+//        HelperBase::dump($photoModel->delete());
+
+
 //        HelperBase::dump(HelperUser::isGuest());
 //        HelperBase::dump(HelperUser::uid());
 //        HelperBase::dump(HelperUser::uIdentity());
@@ -123,19 +129,4 @@ class SandboxController extends Controller
 //        HelperBase::dump($item->attributes);
 //        HelperBase::dump($item->preview);
     }
-
-    public function actionSplittext()
-    {
-        $text = 'Available in assorted designs, each sold separately; design selection chosen at random. When the lights go down, make sure you light up the enemy with this wired headset. Designed for use with the Xbox 360, this headset delivers sleek, yet colorful style with an illuminated and visible component board. Plus, with comfortable features, a directional microphone and an oversize mute button, this headset allows your gaming action to continue long after the sun sets. Turn off the lights and light up your online gameplay with the Afterglow Wired Communicator for Xbox 360. With a visible component board and bright illumination, this headset lets you talk to your opponents in bright and colorful style. The headset features an ergonomic over-the-ear speaker and comfortable design that is ideal for extended gameplay sessions. The new, sleek design of the headset blends well with your existing gaming setup, and allows you to look stylish while in the face of adversity. Command your squad, talk to your friends or taunt your adversaries easily with the directional microphone that is tuned for online chat on the Xbox 360. Prepare to amp up the fun when you take on the online gaming world with this Communicator.';
-
-        $split = explode(' ', substr($text, 0, 50));
-        array_pop($split);
-        $text = implode(' ', $split) . '...';
-
-        HelperBase::dump($text);
-//        HelperBase::dump($split);
-//        echo $text;
-
-    }
-
 }
