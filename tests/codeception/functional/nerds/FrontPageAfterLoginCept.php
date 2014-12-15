@@ -13,6 +13,7 @@ $I->see(HelperPage::FRONT_PAGE_HEADER, 'h1');
 
 $I->dontSeeLink('Sign In', '/signin');
 $I->expectTo('see additional top menu links');
+$I->seeLink('Add new item', '/item/create');
 $I->seeLink('Your items', '/items');
 $I->seeLink('Forum profile');
 
