@@ -26,14 +26,15 @@ use app\models\PhpbbUser;
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
+                <li><?= Html::a('Add new item', '/marketplace/create') ?></li>
                 <?php
                 // Only users how have posted some items
                 if ((new PhpbbUser)->hasItems(HelperUser::uid())) {
                     echo '<li>', Html::a('Your items', '/items'), '</li>';
-                    echo '<li>', Html::a('Forum profile', HelperBase::getForumProfileLink(HelperUser::uid())), '</li>';
-                    echo '<li class="divider"></li>';
                 }
                 ?>
+                <li><?= Html::a('Forum profile', HelperBase::getForumProfileLink(HelperUser::uid())) ?></li>
+                <li class="divider"></li>
                 <li><?= Html::a('Logout', '/logout') ?></li>
             </ul>
         </li>
