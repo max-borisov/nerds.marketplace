@@ -92,6 +92,35 @@ class UsedItemPhoto extends \app\components\ActiveRecord
         $this->original = Yii::getAlias('@photo_original_url') . '/' . $this->name;
     }
 
+    public function beforeDelete()
+    {
+        // Delete item photos from the system
+
+        // Get path to the files
+        $thumb      = Yii::getAlias('@photo_thumb_path') . '/' . $this->name;
+        $original   = Yii::getAlias('@photo_original_path') . '/' . $this->name;
+
+        // Try to delete thumb photo
+        if (file_exists($thumb) && !unlink($thumb)) {
+            HelperBase::logger(
+                'Photo thumb could not be deleted',
+                '',
+                ['fileName' => $this->name, 'path' => $thumb]
+            );
+        }
+
+        // Try to delete original photo
+        if (file_exists($original) && !unlink($original)) {
+            HelperBase::logger(
+                'Photo original could not be deleted',
+                '',
+                ['fileName' => $this->name, 'path' => $original]
+            );
+        }
+
+        return parent::beforeDelete();
+    }
+
     /**
      * Validate uploaded files and set errors to form model
      * @param $modelPhoto UsedItemPhoto model
