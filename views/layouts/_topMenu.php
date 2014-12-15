@@ -26,7 +26,7 @@ use app\models\PhpbbUser;
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-                <li><?= Html::a('Add new item', '/marketplace/create') ?></li>
+                <li><?= Html::a('Add new item', '/item/create') ?></li>
                 <?php
                 // Only users how have posted some items
                 if ((new PhpbbUser)->hasItems(HelperUser::uid())) {

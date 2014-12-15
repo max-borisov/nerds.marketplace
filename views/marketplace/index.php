@@ -14,7 +14,7 @@ if (HelperUser::isGuest()) {
 } else {
     echo Html::tag(
         'p',
-        Html::a('Add new item', '/marketplace/create', ['type' => 'button', 'class' => 'btn btn-primary'])
+        Html::a('Add new item', '/item/create', ['type' => 'button', 'class' => 'btn btn-primary'])
     );
 }
 ?>
