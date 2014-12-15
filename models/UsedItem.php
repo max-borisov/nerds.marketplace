@@ -178,4 +178,16 @@ class UsedItem extends \app\components\ActiveRecord
         }
         parent::afterFind();
     }
+
+    public function beforeDelete()
+    {
+        // Get related photo models and delete them
+        foreach ($this->photos as $photoModel) {
+            if (!$photoModel->delete()) {
+                throw new Exception('Photo model with id ' . $photoModel->id . ' could not be deleted.');
+            }
+        }
+
+        return parent::beforeDelete();
+    }
 }
