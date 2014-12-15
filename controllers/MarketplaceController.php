@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\base\Exception;
 use yii\helpers;
 use app\components\HelperMarketPlace;
 use app\components\HelperUser;
@@ -121,10 +122,18 @@ class MarketplaceController extends Controller
             $this->redirect('/');
             return false;
         }
-        if ($item->delete()) {
-            Yii::$app->session->setFlash('item_delete_success', 'Item has been deleted.');
-        } else {
-            Yii::$app->session->setFlash('item_delete_error', 'Item could not be deleted.');
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if ($item->delete()) {
+                Yii::$app->session->setFlash('item_delete_success', 'Item has been deleted.');
+            } else {
+                Yii::$app->session->setFlash('item_delete_error', 'Item could not be deleted.');
+            }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
         }
         $this->redirect('/items');
     }
