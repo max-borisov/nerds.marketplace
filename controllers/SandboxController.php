@@ -24,7 +24,8 @@ class SandboxController extends Controller
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
 
-        HelperBase::dump(UsedItem::findOne('20'));
+        $user = PhpbbUser::findOne(48);
+        HelperBase::dump($user->validatePassword('111111'));
 
 //        $photoModel = UsedItemPhoto::findOne('20');
 //        HelperBase::dump($photoModel->delete());
