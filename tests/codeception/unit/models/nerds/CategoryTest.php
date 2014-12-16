@@ -14,7 +14,7 @@ class CategoryTest extends DbTestCase
     public function fixtures()
     {
         return [
-            'categories' => CategoryFixture::className(),
+            'category' => CategoryFixture::className(),
         ];
     }
 
@@ -24,7 +24,12 @@ class CategoryTest extends DbTestCase
 
         $this->specify('category title is required', function () use ($category) {
             $category->title = '';
-            expect('model should return validation error', $category->validate())->false();
+            expect('validation error. category title cannot be blank.', $category->validate())->false();
+        });
+
+        $this->specify('category is unique', function () use ($category) {
+            $category->title = $this->category('accessories')->title;
+            expect('validation error. category title should be unique.', $category->validate())->false();
         });
 
         $this->specify('category title is ok', function () use ($category) {
@@ -35,15 +40,21 @@ class CategoryTest extends DbTestCase
 
     public function testPrepareDropDown()
     {
-        $this->specify('organize categories into array', function () {
+        $this->specify('get list of all available categories', function () {
             expect('categories list is not empty', (new Category)->prepareDropDown())->notEmpty();
         });
     }
 
     public function testGetAttachedItems()
     {
-        $this->specify('test items attached to the category', function () {
-            expect('category has attached items', Category::findOne(1)->attachedItems)->notEmpty();
+        $this->specify('get category`s attached items (items exist)', function () {
+            $categoryId = $this->category('accessories')->id;
+            expect('items list is not empty', Category::findOne($categoryId)->attachedItems)->notEmpty();
+        });
+
+        $this->specify('get category`s attached items (items not exist)', function () {
+            $categoryId = $this->category('empty')->id;
+            expect('items list is empty', Category::findOne($categoryId)->attachedItems)->isEmpty();
         });
     }
 }
