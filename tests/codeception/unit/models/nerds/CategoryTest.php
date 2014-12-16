@@ -5,10 +5,18 @@ namespace tests\codeception\unit\models\nerds;
 use app\models\Category;
 use yii\codeception\DbTestCase;
 use Codeception\Specify;
+use app\tests\codeception\unit\fixtures\CategoryFixture;
 
 class CategoryTest extends DbTestCase
 {
     use Specify;
+
+    public function fixtures()
+    {
+        return [
+            'categories' => CategoryFixture::className(),
+        ];
+    }
 
     public function testValidation()
     {
