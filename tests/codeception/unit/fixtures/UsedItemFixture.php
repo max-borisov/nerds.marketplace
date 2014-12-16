@@ -10,7 +10,7 @@ class UsedItemFixture extends ActiveFixture
 
     public function init()
     {
-        $this->dataFile = Yii::getAlias('@fixtures') . '/data/used_item.php';
+        $this->dataFile = Yii::getAlias('@fixtures') . '/data/models/used_item.php';
         parent::init();
     }
 }
