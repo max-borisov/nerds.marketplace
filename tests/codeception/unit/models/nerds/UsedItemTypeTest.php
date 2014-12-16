@@ -2,14 +2,22 @@
 
 namespace tests\codeception\unit\models\nerds;
 
+use Yii;
 use app\models\UsedItemType;
 use yii\codeception\DbTestCase;
 use Codeception\Specify;
-use Yii;
+use app\tests\codeception\unit\fixtures\UsedItemTypeFixture;
 
 class UsedItemTypeTest extends DbTestCase
 {
     use Specify;
+
+    public function fixtures()
+    {
+        return [
+            'type' => UsedItemTypeFixture::className(),
+        ];
+    }
 
     public function testPrepareList()
     {
