@@ -29,10 +29,10 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     private $_fileInstances = [];
 
     // Thumb image url
-    public $thumb       = '';
+    public $thumb = '';
 
     // Original image  url
-    public $original    = '';
+    public $original = '';
 
     /**
      * @inheritdoc
@@ -69,6 +69,9 @@ class UsedItemPhoto extends \app\components\ActiveRecord
 
     public function beforeSave($insert)
     {
+        if (empty($this->name)) {
+            throw new Exception('Image name must be specified.');
+        }
         if (empty($this->item_id)) {
             throw new Exception('Item id must be specified.');
         }
