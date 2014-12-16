@@ -2,11 +2,10 @@
 
 namespace tests\codeception\unit\models\nerds;
 
+use Yii;
 use app\models\UsedItem;
 use yii\codeception\DbTestCase;
 use Codeception\Specify;
-use Yii;
-
 use app\tests\codeception\unit\fixtures\UsedItemFixture;
 
 class UsedItemTest extends DbTestCase
