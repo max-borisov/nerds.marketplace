@@ -24,7 +24,69 @@ class UsedItemTest extends DbTestCase
 
     public function testValidation()
     {
-        $this->fail();
+        $model = new UsedItem();
+        $model->scenario = 'create';
+        $this->specify('validate model with empty attributes', function () use ($model) {
+            expect('validation errors', $model->validate())->false();
+        });
+
+        $this->specify('set models attributes before validation', function () use ($model) {
+            $model->warranty    = 1;
+            $model->invoice     = 1;
+            $model->packaging   = 1;
+            $model->manual      = 1;
+            $model->price       = 100;
+            $model->category_id = 1;
+            $model->title       = 'test';
+            $model->type_id     = 1;
+            $model->description = 'text';
+            expect('validation success', $model->validate())->true();
+        });
+
+        $this->specify('remove tags from item description', function () use ($model) {
+            $model->warranty    = 1;
+            $model->invoice     = 1;
+            $model->packaging   = 1;
+            $model->manual      = 1;
+            $model->price       = 100;
+            $model->category_id = 1;
+            $model->title       = 'test';
+            $model->type_id     = 1;
+            $model->description = 'text<p></p>';
+            $model->validate();
+            expect('no tags in description', $model->description)->notContains('<');
+        });
+    }
+
+    public function testSave()
+    {
+        $this->specify('save item with all attributes', function () {
+            $model = new UsedItem();
+            $model->scenario    = 'create';
+            $model->user_id     = 1;
+            $model->warranty    = 1;
+            $model->invoice     = 1;
+            $model->packaging   = 1;
+            $model->manual      = 1;
+            $model->price       = 100;
+            $model->category_id = 1;
+            $model->title       = 'auto created';
+            $model->type_id     = 1;
+            $model->description = 'text<p></p>';
+            expect('save successful', $model->save(true))->true();
+        });
+    }
+
+    public function testEdit()
+    {
+        $this->specify('update item', function () {
+            $item = UsedItem::findOne($this->item('edit_item')->id);
+            $item->scenario = 'edit';
+            $item->warranty = 0;
+            $item->price    = 670;
+            $item->description = 'new updated text';
+            expect('update successful', $item->save(true))->true();
+        });
     }
 
     public function testGetCategory()
