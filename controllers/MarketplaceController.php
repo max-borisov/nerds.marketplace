@@ -75,6 +75,7 @@ class MarketplaceController extends Controller
         $model->setScenario('create');
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             $modelPhoto->validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $model);
+            $model->user_id = HelperUser::uid();
             if ($model->validate(null, false) && $model->save(false)) {
                 if ($modelPhoto->hasUploadedFiles()) {
                     $modelPhoto->saveUploadedFileNames($model->id);
