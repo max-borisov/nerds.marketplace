@@ -23,20 +23,22 @@ class UsedItemPhotoTest extends DbTestCase
 
     public function testSave()
     {
-        $photoModel = new UsedItemPhoto();
-
-        $this->specify('exception thrown if image name is empty', function () use ($photoModel) {
+        $this->specify('image title is empty', function () {
+            $photoModel = new UsedItemPhoto();
             $photoModel->save(false);
         }, ['throws' => 'yii\base\Exception']);
 
-        $photoModel->name = 'test';
-        $this->specify('exception thrown if item id is empty', function () use ($photoModel) {
+        $this->specify('item id for image is empty', function () {
+            $photoModel = new UsedItemPhoto();
+            $photoModel->name = 'test';
             $photoModel->save(false);
         }, ['throws' => 'yii\base\Exception']);
 
-        $photoModel->item_id = $this->item('item_1')->id;
-        $this->specify('photo model has been saved successfully', function () use ($photoModel) {
-            expect('save is ok', $photoModel->save(false))->true();
+        $this->specify('set title and item id for image', function () {
+            $photoModel = new UsedItemPhoto();
+            $photoModel->name = 'test';
+            $photoModel->item_id = $this->item('has_photos')->id;
+            expect('save success', $photoModel->save(false))->true();
         });
     }
 
