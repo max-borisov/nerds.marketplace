@@ -10,9 +10,9 @@ $I->wantTo('ensure that view tem page works');
 
 $I->amOnPage('/item/view/1');
 $I->expectTo('see Back button');
-$I->seeElement('a.btn');
+$I->seeLink('Back');
 $I->expectTo('see table with item info');
-$I->seeElement('table.table');
+$I->seeElement('table.item-info-table');
 
 $I->wantTo('click to Back button');
 $I->click('Back');
