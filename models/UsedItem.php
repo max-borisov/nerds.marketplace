@@ -151,10 +151,9 @@ class UsedItem extends \app\components\ActiveRecord
 
     public function beforeSave($insert)
     {
-         if (!HelperUser::uid()) {
-             throw new Exception('User id cannot be blank.');
-         }
-        $this->user_id = HelperUser::uid();
+        if (empty($this->user_id)) {
+            throw new Exception('User id cannot be blank.');
+        }
         return parent::beforeSave($insert);
     }
 
