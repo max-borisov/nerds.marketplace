@@ -8,6 +8,8 @@ use yii\helpers;
 use app\models\Category;
 use yii\filters\AccessControl;
 
+use app\components\HelperBase;
+
 class CategoryController extends Controller
 {
     public $layout = 'marketplace';
@@ -67,5 +69,26 @@ class CategoryController extends Controller
         return $this->render('update', ['model' => $model]);
     }
 
-    public function actionDelete() {}
+    public function actionDelete($id)
+    {
+        // Category id should be valid
+        if (!$category = Category::findOne($id)) {
+            Yii::$app->session->setFlash('category_delete_error', 'Invalid category.');
+            $this->redirect('/category');
+        }
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if ($category->delete()) {
+                Yii::$app->session->setFlash('category_delete_success', 'Category has been deleted.');
+            } else {
+                Yii::$app->session->setFlash('category_delete_error', 'Category could not be deleted.');
+            }
+            $transaction->commit();
+            $this->redirect('/category');
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+    }
 }
