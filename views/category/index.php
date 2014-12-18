@@ -10,12 +10,7 @@ use app\components\HelperPage;
 $this->params['isCategoryPage'] = true;
 
 echo $this->render('../_common/header', ['header' => HelperPage::CATEGORIES_PAGE_HEADER]);
-?>
 
-<p>
-    <?= Html::a('New category', '/category/create', ['type' => 'button', 'class' => 'btn btn-primary']) ?>
-</p>
-<?php
 if (Yii::$app->session->hasFlash('category_create_success')) {
     echo $this->render(
         '../_common/flashSuccess',
@@ -29,8 +24,27 @@ if (Yii::$app->session->hasFlash('category_update_success')) {
         ['message' => Yii::$app->session->getFlash('category_update_success')]
     );
 }
+
+if (Yii::$app->session->hasFlash('category_delete_success')) {
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('category_delete_success')]
+    );
+}
+
+if (Yii::$app->session->hasFlash('category_delete_error')) {
+    echo $this->render(
+        '../_common/flashError',
+        ['message' => Yii::$app->session->getFlash('category_delete_error')]
+    );
+}
 ?>
-<table class="table table-striped table-hover">
+
+<p>
+    <?= Html::a('New category', '/category/create', ['type' => 'button', 'class' => 'btn btn-primary']) ?>
+</p>
+
+<table class="table table-striped table-hover category-table">
     <thead>
         <tr>
             <th>Num.</th>
@@ -46,16 +60,16 @@ if (Yii::$app->session->hasFlash('category_update_success')) {
         $counter = 0;
         foreach ($data as $item) {
             echo "<tr>";
-                echo '<td>' . ++$counter . '</td>';
-                echo '<td>' . Html::encode($item->title) . '</td>';
-                echo '<td>' . count($item->attachedItems) . '</td>';
-                echo '<td>' . date('d/m/Y H:i:s', $item->created_at) . '</td>';
-                echo '<td>' . date('d/m/Y H:i:s', $item->updated_at) . '</td>';
+                echo '<td>' , ++$counter , '</td>';
+                echo '<td>' , Html::encode($item->title) , '</td>';
+                echo '<td>' , count($item->attachedItems) , '</td>';
+                echo '<td>' , date('d/m/Y H:i:s', $item->created_at) , '</td>';
+                echo '<td>' , date('d/m/Y H:i:s', $item->updated_at) , '</td>';
                 echo '<td>'
-                    . Html::a('Update', Url::to(['category/update', 'id' => $item->id]), ['id' => $counter == 1 ? 'first-link' : ''])
-                .'</td>';
-                    /*. ' / '
-                    . Html::a('Delete', Url::to(['category/delete', 'id' => $item->id]))*/
+                    , Html::a('Update', Url::to(['category/update', 'id' => $item->id]), ['id' => $counter == 1 ? 'first-link' : ''])
+                    , '&nbsp;&nbsp;|&nbsp;&nbsp;'
+                    , Html::a('Delete', Url::to(['category/delete', 'id' => $item->id]), ['class' => 'delete-category-link'])
+                    ,'</td>';
             echo "</tr>";
         }
         ?>
