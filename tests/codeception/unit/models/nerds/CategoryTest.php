@@ -57,4 +57,27 @@ class CategoryTest extends DbTestCase
             expect('items list is empty', Category::findOne($categoryId)->attachedItems)->isEmpty();
         });
     }
+
+    public function testDeleteCategory()
+    {
+        $categoryWithNoItems = Category::findOne($this->category('delete_with_no_items')->id);
+
+        $this->specify('category does not have related items', function () use ($categoryWithNoItems) {
+            expect('items list is empty', $categoryWithNoItems->attachedItems)->isEmpty();
+        });
+
+        $this->specify('delete category', function () use ($categoryWithNoItems) {
+            expect('delete returns true', (bool)$categoryWithNoItems->delete())->true();
+        });
+
+        $categoryWithItems = Category::findOne($this->category('delete_with_items')->id);
+
+        $this->specify('category has related items', function () use ($categoryWithItems) {
+            expect('items list is not empty', $categoryWithItems->attachedItems)->notEmpty();
+        });
+
+        $this->specify('delete category', function () use ($categoryWithItems) {
+            expect('delete returns true', (bool)$categoryWithItems->delete())->true();
+        });
+    }
 }
