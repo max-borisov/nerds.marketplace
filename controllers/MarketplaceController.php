@@ -62,7 +62,10 @@ class MarketplaceController extends Controller
             $data = $model->search(Yii::$app->request->get());
         } else {
             // Get items with specified order
-            $data = UsedItem::find()->orderBy(HelperMarketPlace::getSortParamForItemsList())->all();
+            $data = UsedItem::find()
+                ->where('category_id > 0')
+                ->orderBy(HelperMarketPlace::getSortParamForItemsList())
+                ->all();
         }
         return $this->render('index', ['data' => $data, 'model' => $model]);
     }
