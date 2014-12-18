@@ -71,4 +71,16 @@ class Category extends \app\components\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        // Set category as zero for all related items
+        $sql = 'UPDATE _used_item SET category_id = 0, updated_at = :time WHERE category_id = :category_id';
+        $command = Yii::$app->db->createCommand($sql);
+        $command->bindValue(':category_id', $this->id);
+        $command->bindValue(':time', time());
+        $command->execute();
+    }
 }
