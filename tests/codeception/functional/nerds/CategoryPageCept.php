@@ -17,8 +17,12 @@ CategoryPage::openBy($I);
 $I->expect('page has a proper title');
 $I->see(HelperPage::CATEGORIES_PAGE_HEADER, 'h1');
 
+$I->wantTo('ensure that there are buttons "Update" and "Delete"');
+$I->seeLink('Update');
+$I->seeLink('Delete');
+
 $I->wantTo('ensure that New category button works');
-$I->click('a[type="button"]');
+$I->click('New category');
 $I->expect('new page has a proper title');
 $I->see(HelperPage::ADD_NEW_CATEGORY_PAGE_HEADER, 'h1');
 
