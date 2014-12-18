@@ -7,6 +7,7 @@ use app\models\UsedItem;
 use app\models\UsedItemPhoto;
 use app\models\UsedItemType;
 use Yii;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\helpers;
 use app\models\Category;
@@ -24,8 +25,8 @@ class SandboxController extends Controller
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
 
-        $user = PhpbbUser::findOne(48);
-        HelperBase::dump($user->validatePassword('111111'));
+//        $user = PhpbbUser::findOne(48);
+//        HelperBase::dump($user->validatePassword('111111'));
 
 //        $photoModel = UsedItemPhoto::findOne('20');
 //        HelperBase::dump($photoModel->delete());
@@ -129,5 +130,19 @@ class SandboxController extends Controller
 //        $item = UsedItem::findOne(2);
 //        HelperBase::dump($item->attributes);
 //        HelperBase::dump($item->preview);
+    }
+
+    public function actionDeletecategory()
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $model = Category::findOne(6);
+            if ($model->delete()) {
+                $transaction->commit();
+            }
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
     }
 }
