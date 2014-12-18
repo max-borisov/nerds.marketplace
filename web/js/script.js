@@ -19,5 +19,13 @@ $(function() {
             location.href = $(this).attr('href');
         }
     })
+
+    // Delete category
+    $('.category-table .delete-category-link').on('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete category ?')) {
+            location.href = $(this).attr('href');
+        }
+    })
 })
 
