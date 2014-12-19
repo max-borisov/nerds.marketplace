@@ -27,5 +27,9 @@ $(function() {
             location.href = $(this).attr('href');
         }
     })
+
+    $('#form-upload-images input[type="file"]').on('change', function() {
+        $(this).closest('form').submit();
+    })
 })
 
