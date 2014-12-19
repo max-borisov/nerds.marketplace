@@ -145,6 +145,8 @@ class UsedItem extends \app\components\ActiveRecord
         /*$query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);*/
 
+        // Only items related to active categories
+        $query->andWhere('category_id > 0');
         $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
         return $query->all();
     }
