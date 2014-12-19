@@ -10,6 +10,7 @@ class NerdsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/application.css',
+        'css/jquery.fileupload-ui.css',
     ];
     public $js = [
         'js/script.js',
