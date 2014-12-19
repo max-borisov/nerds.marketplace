@@ -18,3 +18,6 @@ if ($model->hasErrors()) {
     'categories'    => $categories,
     'typeData'      => $typeData
 ]) ?>
+
+<?= $this->render('_upload', ['model' => $modelPhoto, 'item' => $model] ) ?>
+<?= $model->photos ? $this->render('_images', ['model' => $model]) : '' ?>
