@@ -30,7 +30,7 @@ echo $this->render('../_common/header', ['header' => Html::encode($data->title)]
     echo Html::tag(
         'div',
         Html::tag('ul', $imgBlock, ['class' => 'list-inline']),
-        ['class' => 'row item-photos-block img-rounded text-center']
+        ['class' => 'row item-previews-block img-rounded text-center']
     );
 }
 ?>
