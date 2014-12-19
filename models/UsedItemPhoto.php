@@ -48,7 +48,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png',],
+            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
@@ -69,9 +69,9 @@ class UsedItemPhoto extends \app\components\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if (empty($this->name)) {
+        /*if (empty($this->name)) {
             throw new Exception('Image name must be specified.');
-        }
+        }*/
         if (empty($this->item_id)) {
             throw new Exception('Item id must be specified.');
         }
