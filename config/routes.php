@@ -16,6 +16,7 @@ return [
         'item/view/<id:\d+>'    => 'marketplace/view',
         'item/delete/<id:\d+>'  => 'marketplace/delete',
         'item/edit/<id:\d+>'    => 'marketplace/edit',
+        'item/upload'           => 'marketplace/upload',
 
         'items' => 'marketplace/items',
     ],

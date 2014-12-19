@@ -16,6 +16,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 
 use app\components\HelperBase;
+use yii\web\UploadedFile;
 
 class MarketplaceController extends Controller
 {
@@ -29,7 +30,7 @@ class MarketplaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'items', 'delete', 'edit'],
+                        'actions' => ['create', 'items', 'delete', 'edit', 'upload'],
                         'roles' => ['@'],
                     ],
                     [
@@ -155,8 +156,47 @@ class MarketplaceController extends Controller
         }
         return $this->render('edit', [
             'model'         => $model,
+            'modelPhoto'    => new UsedItemPhoto(),
             'categories'    => (new Category())->prepareDropDown(),
             'typeData'      => (new UsedItemType())->prepareList()
         ]);
+    }
+
+    // Upload images for items (edit item page)
+    public function actionUpload()
+    {
+
+        // @todo update validateUploadedFilesAndPassErrorsToFromModel and use it
+        // @todo display validation errors
+
+        $model = new UsedItemPhoto();
+
+        if (Yii::$app->request->isPost) {
+            $files = UploadedFile::getInstances($model, 'file');
+
+            $itemId = Yii::$app->request->post('UsedItemPhoto')['item_id'];
+
+//            HelperBase::dump($model->file);
+
+//            if ($model->file && $model->validate()) {
+            foreach ($files as $file) {
+                $photoModel = new UsedItemPhoto();
+                $photoModel->item_id = $itemId;
+                $photoModel->file = $file;
+                if ($photoModel->validate()) {
+                    $photoModel->save(false);
+                }
+            }
+
+            /*if ($model->file && $model->validate()) {
+
+                foreach ($model->file as $file) {
+//                    HelperBase::dump($file->baseName);
+//                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+
+            HelperBase::dump($model->getErrors());*/
+        }
     }
 }
