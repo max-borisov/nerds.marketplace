@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\db\Exception;
 use yii\helpers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -15,7 +16,7 @@ use app\models\Category;
 use app\models\PhpbbUser;
 
 //use yii\base\Exception;
-//use app\components\HelperBase;
+use app\components\HelperBase;
 
 class MarketplaceController extends Controller
 {
@@ -29,7 +30,7 @@ class MarketplaceController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'items', 'delete', 'edit', 'upload'],
+                        'actions' => ['create', 'items', 'delete', 'edit', 'upload', 'deletepreview'],
                         'roles' => ['@'],
                     ],
                     [
@@ -194,5 +195,23 @@ class MarketplaceController extends Controller
             // @todo log action
             $this->redirect('/');
         }
+    }
+
+    public function actionDeletepreview($id)
+    {
+        if (!$preview = UsedItemPhoto::findOne($id)) {
+            throw new Exception('Invalid preview id ' . $id);
+        }
+        $item = $preview->item;
+        // Only user who posted image can delete it
+        if ($item->user->id != HelperUser::uid()) {
+            throw new Exception('Trying to get access to forbidden records. Preview id ' . $id);
+        }
+        if ($preview->delete()) {
+            Yii::$app->session->setFlash('item_preview_delete_success', 'Preview has been delete');
+        } else {
+            Yii::$app->session->setFlash('item_preview_delete_error', 'Preview could not be delete');
+        }
+        $this->redirect('/item/edit/' . $item->id);
     }
 }
