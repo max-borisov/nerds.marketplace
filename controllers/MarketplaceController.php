@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use yii\base\Exception;
+//use yii\base\Exception;
 use yii\helpers;
 use app\components\HelperMarketPlace;
 use app\components\HelperUser;
@@ -14,9 +14,9 @@ use app\models\Category;
 use app\models\PhpbbUser;
 use yii\web\Controller;
 use yii\filters\AccessControl;
+//use app\components\HelperBase;
 
-use app\components\HelperBase;
-use yii\web\UploadedFile;
+//use yii\web\UploadedFile;
 
 class MarketplaceController extends Controller
 {
@@ -152,6 +152,7 @@ class MarketplaceController extends Controller
         $model = UsedItem::findOne($id);
         $model->setScenario('edit');
 
+        // Add validation error to main model
         if (Yii::$app->session->hasFlash('edit_item_upload_photo_validation_error')) {
             $model->addError('file', Yii::$app->session->getFlash('edit_item_upload_photo_validation_error'));
         }
@@ -174,15 +175,12 @@ class MarketplaceController extends Controller
     public function actionUpload()
     {
         // @todo add files limit
-        // @todo Yii::app->session refactoring
-
-        $model = new UsedItemPhoto();
 
         if (Yii::$app->request->isPost) {
             $modelPhoto = new UsedItemPhoto();
-            $itemId = Yii::$app->request->post('UsedItemPhoto')['item_id'];
+            // Get item id from hidden form input
+            $modelPhoto->item_id = Yii::$app->request->post('UsedItemPhoto')['item_id'];
             $modelPhoto->validateUploadedFiles();
-            $modelPhoto->item_id = $itemId;
             if ($modelPhoto->hasErrors('file')) {
                 Yii::$app->session->setFlash('edit_item_upload_photo_validation_error', $modelPhoto->getErrors('file')[0]);
             } else {
@@ -192,8 +190,7 @@ class MarketplaceController extends Controller
                     Yii::$app->session->setFlash('edit_item_upload_photo_error', 'New images could not be uploaded');
                 }
             }
-
-            $this->redirect('/item/edit/' . $itemId);
+            $this->redirect('/item/edit/' . $modelPhoto->item_id);
         } else {
             $this->redirect('/');
         }
