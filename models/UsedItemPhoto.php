@@ -164,18 +164,23 @@ class UsedItemPhoto extends \app\components\ActiveRecord
 
     /**
      * Add a new table row for each new image
-     * @param $itemId Item id images attached to
+     * @return bool
+     * @throws \yii\base\Exception
      * @throws \yii\db\Exception
      */
-    public function saveUploadedFileNames($itemId)
+    public function saveUploadedFiles()
     {
+        if (empty($this->item_id)) {
+            throw new Exception('Item id could not be empty');
+        }
         foreach ($this->_fileInstances as $file) {
             $_model = new self;
-            $_model->item_id    = $itemId;
+            $_model->item_id    = $this->item_id;
             $_model->file       = $file;
             if (!$_model->save(false)) {
                 throw new \yii\db\Exception('Item photo could not be saved.');
             }
         }
+        return true;
     }
 }
