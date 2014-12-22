@@ -126,4 +126,4 @@ use yii\helpers\Html;
             <?= Html::submitInput('Save', ['class' =>  'btn btn-default']); ?>
         </div>
     </div>
-<?php Html::endForm(); ?>
+<?= Html::endForm(); ?>
