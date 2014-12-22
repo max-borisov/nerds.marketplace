@@ -78,7 +78,10 @@ class MarketplaceController extends Controller
         $modelPhoto = new UsedItemPhoto();
         $model->setScenario('create');
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $modelPhoto->validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $model);
+            $modelPhoto->validateUploadedFiles();
+            if ($modelPhoto->hasErrors('file')) {
+                $model->addError('file', $modelPhoto->getErrors('file')[0]);
+            }
             $model->user_id = HelperUser::uid();
             if ($model->validate(null, false) && $model->save(false)) {
                 if ($modelPhoto->hasUploadedFiles()) {
@@ -148,6 +151,11 @@ class MarketplaceController extends Controller
     {
         $model = UsedItem::findOne($id);
         $model->setScenario('edit');
+
+        if (Yii::$app->session->hasFlash('edit_item_upload_photo_validation_error')) {
+            $model->addError('file', Yii::$app->session->getFlash('edit_item_upload_photo_validation_error'));
+        }
+
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             if ($model->validate() && $model->save(false)) {
                 Yii::$app->session->setFlash('item_edit_success', 'Item data has been updated.');
@@ -165,38 +173,29 @@ class MarketplaceController extends Controller
     // Upload images for items (edit item page)
     public function actionUpload()
     {
-
-        // @todo update validateUploadedFilesAndPassErrorsToFromModel and use it
-        // @todo display validation errors
+        // @todo add files limit
+        // @todo Yii::app->session refactoring
 
         $model = new UsedItemPhoto();
 
         if (Yii::$app->request->isPost) {
-            $files = UploadedFile::getInstances($model, 'file');
-
+            $modelPhoto = new UsedItemPhoto();
             $itemId = Yii::$app->request->post('UsedItemPhoto')['item_id'];
-
-//            HelperBase::dump($model->file);
-
-//            if ($model->file && $model->validate()) {
-            foreach ($files as $file) {
-                $photoModel = new UsedItemPhoto();
-                $photoModel->item_id = $itemId;
-                $photoModel->file = $file;
-                if ($photoModel->validate()) {
-                    $photoModel->save(false);
+            $modelPhoto->validateUploadedFiles();
+            $modelPhoto->item_id = $itemId;
+            if ($modelPhoto->hasErrors('file')) {
+                Yii::$app->session->setFlash('edit_item_upload_photo_validation_error', $modelPhoto->getErrors('file')[0]);
+            } else {
+                if ($modelPhoto->save(false)) {
+                    Yii::$app->session->setFlash('edit_item_upload_photo_success', 'New images have been added');
+                } else {
+                    Yii::$app->session->setFlash('edit_item_upload_photo_error', 'New images could not be uploaded');
                 }
             }
 
-            /*if ($model->file && $model->validate()) {
-
-                foreach ($model->file as $file) {
-//                    HelperBase::dump($file->baseName);
-//                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-                }
-            }
-
-            HelperBase::dump($model->getErrors());*/
+            $this->redirect('/item/edit/' . $itemId);
+        } else {
+            $this->redirect('/');
         }
     }
 }
