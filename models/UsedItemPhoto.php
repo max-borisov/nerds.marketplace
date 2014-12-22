@@ -131,13 +131,11 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     public function validateUploadedFiles()
     {
         $this->_fileInstances = UploadedFile::getInstances($this, 'file');
-
         // Limit for uploaded files amount
-        /*if (count($this->_fileInstances) > HelperBase::getParam('maxUploadImages')) {
-            $modelForm->addError('file', 'Max. ' . HelperBase::getParam('maxUploadImages') . ' images can be uploaded for one item.');
+        if (count($this->_fileInstances) > HelperBase::getParam('maxUploadImages')) {
+            $this->addError('file', 'Max. ' . HelperBase::getParam('maxUploadImages') . ' images can be uploaded at ones for one item.');
             return false;
-        }*/
-
+        }
         // Validate each uploaded image
         foreach ($this->_fileInstances as $file) {
             $_model = new self;
