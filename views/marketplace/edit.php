@@ -22,6 +22,20 @@ if (Yii::$app->session->hasFlash('edit_item_upload_photo_error')) {
     );
 }
 
+if (Yii::$app->session->hasFlash('item_preview_delete_success')) {
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('item_preview_delete_success')]
+    );
+}
+
+if (Yii::$app->session->hasFlash('item_preview_delete_error')) {
+    echo $this->render(
+        '../_common/flashError',
+        ['message' => Yii::$app->session->getFlash('item_preview_delete_error')]
+    );
+}
+
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
 }
