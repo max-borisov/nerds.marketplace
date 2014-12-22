@@ -28,6 +28,7 @@ $(function() {
         }
     })
 
+    // Submit form(upload images for item) when file has been selected
     $('#form-upload-images input[type="file"]').on('change', function() {
         $(this).closest('form').submit();
     })

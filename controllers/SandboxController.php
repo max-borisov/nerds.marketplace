@@ -31,7 +31,6 @@ class SandboxController extends Controller
 //        $photoModel = UsedItemPhoto::findOne('20');
 //        HelperBase::dump($photoModel->delete());
 
-
 //        HelperBase::dump(HelperUser::isGuest());
 //        HelperBase::dump(HelperUser::uid());
 //        HelperBase::dump(HelperUser::uIdentity());
