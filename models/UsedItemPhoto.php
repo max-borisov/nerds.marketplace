@@ -48,7 +48,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
+            [['file'], 'file', 'maxFiles' => 1, 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
@@ -125,13 +125,9 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     }
 
     /**
-     * Validate uploaded files and set errors to form model
-     * @param $modelPhoto UsedItemPhoto model
-     * @param $modelForm UsedItem model
+     * Validate uploaded files
      * @return bool
      */
-//    public function validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $modelForm)
-//    public function validateUploadedFilesAndPassErrorsToFromModel()
     public function validateUploadedFiles()
     {
         $this->_fileInstances = UploadedFile::getInstances($this, 'file');
@@ -146,14 +142,8 @@ class UsedItemPhoto extends \app\components\ActiveRecord
         foreach ($this->_fileInstances as $file) {
             $_model = new self;
             $_model->file = $file;
-//            if (!$_model->validate() && $_model->hasErrors()) {
             if (!$_model->validate('file')) {
                 $this->addError('file', $_model->getErrors('file')[0]);
-                /*foreach ($_model->getErrors() as $error) {
-//                    $modelForm->addError('file', $error[0]);
-                    $this->addError('file', $error[0]);
-                }*/
-//                break;
                 return false;
             }
         }
