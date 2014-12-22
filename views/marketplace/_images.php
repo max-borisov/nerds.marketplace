@@ -5,7 +5,10 @@ use yii\helpers\Html;
     <ul class="list-inline">
     <?php
     foreach ($model->photos as $photo) {
-        echo '<li>',Html::img($photo->thumb, ['alt' => '', 'class' => 'img-rounded'])  ,'</li>';
+        echo '<li>',
+            Html::img($photo->thumb, ['alt' => '', 'class' => 'img-rounded']),
+            Html::tag('div', Html::a('Delete', '/item/preview/delete/' . $photo['id'], ['class' => 'delete-item-image']))
+        ,'</li>';
     }
     ?>
     </ul>
