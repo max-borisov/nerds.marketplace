@@ -9,11 +9,17 @@ echo $this->render('../_common/backButton', ['link' => '/items']);
 echo $this->render('../_common/header', ['header' => HelperPage::EDIT_ITEM_PAGE_HEADER]);
 
 if (Yii::$app->session->hasFlash('edit_item_upload_photo_success')) {
-    echo $this->render('../_common/flashSuccess', ['message' => Yii::$app->session->getFlash('edit_item_upload_photo_success')]);
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('edit_item_upload_photo_success')]
+    );
 }
 
 if (Yii::$app->session->hasFlash('edit_item_upload_photo_error')) {
-    echo $this->render('../_common/flashError', ['message' => Yii::$app->session->getFlash('edit_item_upload_photo_error')]);
+    echo $this->render(
+        '../_common/flashError',
+        ['message' => Yii::$app->session->getFlash('edit_item_upload_photo_error')]
+    );
 }
 
 if ($model->hasErrors()) {

@@ -1,11 +1,6 @@
 <?php
-
 use yii\helpers\Html;
-
-use app\components\HelperBase;
-//HelperBase::dump($model->photos);
 ?>
-
 <div class="row text-center item-previews-block">
     <ul class="list-inline">
     <?php
