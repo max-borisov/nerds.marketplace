@@ -32,5 +32,13 @@ $(function() {
     $('#form-upload-images input[type="file"]').on('change', function() {
         $(this).closest('form').submit();
     })
+
+    // Delete item preview
+    $('.item-previews-block .delete-item-image').on('click', function(event) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this preview ? ')) {
+            location.href = $(this).attr('href');
+        }
+    })
 })
 
