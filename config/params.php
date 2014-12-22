@@ -10,7 +10,7 @@ $config = [
         'placeholder'   => 'http://placehold.it/250x200',
     ],
 
-    // Max amount of images could be added to one item
+    // Max amount of images could be uploaded for one item at one time
     'maxUploadImages' => 5,
     'siteName' => 'Nerds marketplace',
     // Shown on the catalog page

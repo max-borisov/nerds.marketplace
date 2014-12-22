@@ -3,8 +3,9 @@
 namespace app\controllers;
 
 use Yii;
-//use yii\base\Exception;
 use yii\helpers;
+use yii\web\Controller;
+use yii\filters\AccessControl;
 use app\components\HelperMarketPlace;
 use app\components\HelperUser;
 use app\models\UsedItem;
@@ -12,11 +13,9 @@ use app\models\UsedItemType;
 use app\models\UsedItemPhoto;
 use app\models\Category;
 use app\models\PhpbbUser;
-use yii\web\Controller;
-use yii\filters\AccessControl;
-//use app\components\HelperBase;
 
-//use yii\web\UploadedFile;
+//use yii\base\Exception;
+//use app\components\HelperBase;
 
 class MarketplaceController extends Controller
 {
@@ -91,6 +90,7 @@ class MarketplaceController extends Controller
                 $this->redirect('/');
             }
         }
+
         return $this->render('create', [
             'model'         => $model,
             'modelPhoto'    => $modelPhoto,
@@ -174,8 +174,6 @@ class MarketplaceController extends Controller
     // Upload images for items (edit item page)
     public function actionUpload()
     {
-        // @todo add files limit
-
         if (Yii::$app->request->isPost) {
             $modelPhoto = new UsedItemPhoto();
             // Get item id from hidden form input
@@ -192,6 +190,7 @@ class MarketplaceController extends Controller
             }
             $this->redirect('/item/edit/' . $modelPhoto->item_id);
         } else {
+            // @todo log action
             $this->redirect('/');
         }
     }
