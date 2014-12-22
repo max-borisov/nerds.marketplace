@@ -130,25 +130,31 @@ class UsedItemPhoto extends \app\components\ActiveRecord
      * @param $modelForm UsedItem model
      * @return bool
      */
-    public function validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $modelForm)
+//    public function validateUploadedFilesAndPassErrorsToFromModel($modelPhoto, $modelForm)
+//    public function validateUploadedFilesAndPassErrorsToFromModel()
+    public function validateUploadedFiles()
     {
-        $this->_fileInstances = UploadedFile::getInstances($modelPhoto, 'file');
+        $this->_fileInstances = UploadedFile::getInstances($this, 'file');
 
         // Limit for uploaded files amount
-        if (count($this->_fileInstances) > HelperBase::getParam('maxUploadImages')) {
+        /*if (count($this->_fileInstances) > HelperBase::getParam('maxUploadImages')) {
             $modelForm->addError('file', 'Max. ' . HelperBase::getParam('maxUploadImages') . ' images can be uploaded for one item.');
             return false;
-        }
+        }*/
 
         // Validate each uploaded image
         foreach ($this->_fileInstances as $file) {
             $_model = new self;
             $_model->file = $file;
-            if (!$_model->validate() && $_model->hasErrors()) {
-                foreach ($_model->getErrors() as $error) {
-                    $modelForm->addError('file', $error[0]);
-                }
-                break;
+//            if (!$_model->validate() && $_model->hasErrors()) {
+            if (!$_model->validate('file')) {
+                $this->addError('file', $_model->getErrors('file')[0]);
+                /*foreach ($_model->getErrors() as $error) {
+//                    $modelForm->addError('file', $error[0]);
+                    $this->addError('file', $error[0]);
+                }*/
+//                break;
+                return false;
             }
         }
         return true;
