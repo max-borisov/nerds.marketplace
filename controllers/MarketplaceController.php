@@ -84,7 +84,8 @@ class MarketplaceController extends Controller
             $model->user_id = HelperUser::uid();
             if ($model->validate(null, false) && $model->save(false)) {
                 if ($modelPhoto->hasUploadedFiles()) {
-                    $modelPhoto->saveUploadedFileNames($model->id);
+                    $modelPhoto->item_id = $model->id;
+                    $modelPhoto->saveUploadedFiles();
                 }
                 Yii::$app->session->setFlash('item_create_success', 'A new item has been added.');
                 $this->redirect('/');
@@ -182,7 +183,7 @@ class MarketplaceController extends Controller
             if ($modelPhoto->hasErrors('file')) {
                 Yii::$app->session->setFlash('edit_item_upload_photo_validation_error', $modelPhoto->getErrors('file')[0]);
             } else {
-                if ($modelPhoto->save(false)) {
+                if ($modelPhoto->saveUploadedFiles()) {
                     Yii::$app->session->setFlash('edit_item_upload_photo_success', 'New images have been added');
                 } else {
                     Yii::$app->session->setFlash('edit_item_upload_photo_error', 'New images could not be uploaded');
