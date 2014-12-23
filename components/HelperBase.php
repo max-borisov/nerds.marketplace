@@ -79,7 +79,7 @@ class HelperBase extends Component
         return $result;
     }
 
-    public static function logger($msg = '', $file = '', $params = [])
+    public static function logger($msg = '', $file = null, $params = [])
     {
         $defaultFile = Yii::getAlias('@app') . '/runtime/logs/errors.log';
         $file = $file ? $file : $defaultFile;
