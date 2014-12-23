@@ -8,6 +8,7 @@ use yii\imagine\Image;
 use yii\web\View;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use app\components\HelperBase;
 
 class HelperMarketPlace extends Component
 {
@@ -33,9 +34,12 @@ class HelperMarketPlace extends Component
         // name shipped with extension
         $original       = Yii::getAlias('@photo_original_path')  . '/' . $model->name;
         $thumb          = Yii::getAlias('@photo_thumb_path')     . '/' . $model->name;
-        $model->file->saveAs($original);
-        Image::thumbnail($original, $thumbParams['width'], $thumbParams['height'])
-            ->save($thumb, ['quality' => $thumbParams['quality']]);
+        if ($model->file->saveAs($original)) {
+            Image::thumbnail($original, $thumbParams['width'], $thumbParams['height'])
+                ->save($thumb, ['quality' => $thumbParams['quality']]);
+        } else {
+            HelperBase::logger('Uploaded file could not be saved', null, ['filename' => $model->name]);
+        }
     }
 
     /**
