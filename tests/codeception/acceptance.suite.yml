@@ -11,7 +11,12 @@
 class_name: AcceptanceTester
 modules:
     enabled:
+        #- WebDriver
+        #- AcceptanceHelper
         - PhpBrowser
+        - Yii2
+        - Asserts
+        #- tests\codeception\common\fixtures\FixtureHelper
 # you can use WebDriver instead of PhpBrowser to test javascript and ajax.
 # This will require you to install selenium. See http://codeception.com/docs/04-AcceptanceTests#Selenium
 # "restart" option is used by the WebDriver to start each time per test-file new session and cookies,
@@ -20,7 +25,10 @@ modules:
     config:
         PhpBrowser:
             url: 'http://localhost:8080'
-#        WebDriver:
-#            url: 'http://localhost'
-#            browser: firefox
-#            restart: true
+        Yii2:
+            configFile: 'codeception/config/acceptance.php'
+        #WebDriver:
+            #url: 'http://localhost'
+            #url: 'http://local.marketplace.nerds/index-test.php'
+            #browser: firefox
+            #restart: true
