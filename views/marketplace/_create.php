@@ -116,7 +116,8 @@ use yii\helpers\Html;
     <div class="form-group">
         <?= Html::activeLabel($modelPhoto, 'file', ['for' => 'upload', 'class' => 'col-sm-2 control-label']); ?>
         <div class="col-sm-8">
-            <?= Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']); ?>
+            <?php //Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']); ?>
+            <?= Html::fileInput('UsedItemPhoto[file][0]', null, ['id' => 'upload', 'multiple' => '']); ?>
         </div>
     </div>
     <?php } ?>
