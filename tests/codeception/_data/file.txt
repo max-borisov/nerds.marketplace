@@ -1,0 +1,5 @@
+extension=/opt/local/lib/php55/extensions/no-debug-non-zts-20121212/mcrypt.so
+
+sudo port install php55-mbstring
+
+/opt/local/var/db/php55/mbstring.ini
