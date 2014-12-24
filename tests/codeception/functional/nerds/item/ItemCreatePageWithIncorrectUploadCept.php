@@ -10,7 +10,7 @@ $I = new FunctionalTester($scenario);
 
 TestCommon::logMeIn($I);
 
-sleep(3);
+//sleep(3);
 
 $I->wantTo('ensure that add item page works');
 $page = ItemCreatePage::openBy($I);
