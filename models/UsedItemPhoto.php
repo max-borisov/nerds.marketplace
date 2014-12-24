@@ -48,7 +48,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['file'], 'file', 'maxFiles' => 1, 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
+            [['file'], 'file', 'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
