@@ -3,6 +3,7 @@
 use tests\codeception\_pages\nerds\SignInPage;
 use app\components\HelperPage;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that login works');
 

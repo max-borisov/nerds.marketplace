@@ -2,6 +2,7 @@
 
 use app\components\HelperPage;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that front page works');
 

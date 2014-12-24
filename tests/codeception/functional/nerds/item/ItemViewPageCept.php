@@ -3,7 +3,9 @@
 use tests\common\TestCommon;
 use app\components\HelperPage;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
+
 TestCommon::logMeIn($I);
 
 $I->wantTo('ensure that view tem page works');

@@ -4,13 +4,10 @@ use tests\codeception\_pages\nerds\ItemCreatePage;
 use tests\common\TestCommon;
 use app\components\HelperPage;
 
-return;
-
+$scenario->group('upload');
 $I = new FunctionalTester($scenario);
 
 TestCommon::logMeIn($I);
-
-//sleep(3);
 
 $I->wantTo('ensure that add item page works');
 $page = ItemCreatePage::openBy($I);

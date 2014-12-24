@@ -3,6 +3,7 @@
 use app\components\HelperPage;
 use tests\common\TestCommon;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that front page works after login');
 

@@ -4,6 +4,7 @@ use tests\codeception\_pages\nerds\CategoryPage;
 use tests\common\TestCommon;
 use app\components\HelperPage;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that category page works');
 CategoryPage::openBy($I);

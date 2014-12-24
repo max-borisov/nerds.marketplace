@@ -3,6 +3,7 @@
 use tests\codeception\_pages\nerds\SignUpPage;
 use app\components\HelperPage;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that sign up page  works');
 

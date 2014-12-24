@@ -3,6 +3,7 @@
 use tests\codeception\_pages\nerds\SearchItemPage;
 use app\components\HelperPage;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that search items page works');
 

@@ -2,6 +2,7 @@
 
 use tests\common\TestCommon;
 
+$scenario->group('all');
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that logout link works');
 
