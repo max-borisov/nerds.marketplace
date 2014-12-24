@@ -116,8 +116,14 @@ use yii\helpers\Html;
     <div class="form-group">
         <?= Html::activeLabel($modelPhoto, 'file', ['for' => 'upload', 'class' => 'col-sm-2 control-label']); ?>
         <div class="col-sm-8">
-            <?php //Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']); ?>
-            <?= Html::fileInput('UsedItemPhoto[file][0]', null, ['id' => 'upload', 'multiple' => '']); ?>
+            <?php
+            if (YII_ENV === 'test') {
+                // 0 should be set. Otherwise codeception could not attache file for test case
+                echo Html::fileInput('UsedItemPhoto[file][0]', null, ['id' => 'upload', 'multiple' => '']);
+            } else {
+                echo Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']);
+            }
+            ?>
         </div>
     </div>
     <?php } ?>

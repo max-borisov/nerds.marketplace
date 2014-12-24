@@ -1,15 +1,21 @@
 <?php
 use yii\helpers\Html;
-?>
-<form method="post" enctype="multipart/form-data" action="/item/upload" id="form-upload-images">
-<?= Html::beginForm(
-    '/upload',
+
+echo Html::beginForm(
+    '/item/upload',
     'post',
     ['enctype' => 'multipart/form-data', 'id' => 'form-upload-images']) ?>
     <span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>
         <span>Select files...</span>
         <?= Html::activeHiddenInput($model, 'item_id', ['value' => $item->id]); ?>
-        <?= Html::activeFileInput($model, 'file[]', ['id' => 'fileupload', 'multiple' => '']); ?>
+        <?php
+        if (YII_ENV === 'test') {
+            echo Html::activeFileInput($model, 'file[0]', ['id' => 'fileupload', 'multiple' => '']);
+            echo Html::submitInput('Upload');
+        } else {
+            echo Html::activeFileInput($model, 'file[]', ['id' => 'fileupload', 'multiple' => '']);
+        }
+        ?>
     </span>
-</form>
+<?= Html::endForm() ?>
