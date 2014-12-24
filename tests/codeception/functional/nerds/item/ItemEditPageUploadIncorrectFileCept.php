@@ -3,6 +3,8 @@
 use tests\common\TestCommon;
 use app\components\HelperPage;
 
+return;
+
 $I = new FunctionalTester($scenario);
 
 TestCommon::logMeIn($I);
