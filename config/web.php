@@ -1,5 +1,7 @@
 <?php
 
+//use \Mandrill;
+
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -39,8 +41,10 @@ $config = [
             ],
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'transport' => require(__DIR__ . '/swift-local.php'),
+            'class'     => 'app\components\Mandrill',
+            'debug'     => YII_DEBUG ? true : false,
+            'fromEmail' => 'message.from_email@example.com',
+            'fromName'  => 'Example Mandrill Name',
         ],
         'db' => require(__DIR__ . '/db-local.php'),
     ],
