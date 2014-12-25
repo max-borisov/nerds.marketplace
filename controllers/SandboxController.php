@@ -10,6 +10,7 @@ use Yii;
 use yii\base\Exception;
 use yii\web\Controller;
 use yii\helpers;
+
 use app\models\Category;
 use app\components\HelperBase;
 use app\components\HelperSignUp;
@@ -147,18 +148,18 @@ class SandboxController extends Controller
 
     public function actionMailer()
     {
-        $from = 'max@nerds.com';
-        $to = 'max.borisov@yahoo.com';
-        $subj = 'hello';
-        $res = Yii::$app->mailer->compose('test')
-            ->setFrom($from)
-            ->setTo($to)
-            ->setSubject($subj)
-            ->send();
-
-        HelperBase::dump($res);
-
-//        HelperBase::dump($res->toString());
-
+        $params = [
+            'html' => '<h2>Hello, boy!</h2>',
+            'text' => 'hello Boy',
+            'subject' => 'mandrill subject',
+            'to' => [
+                [
+                    'email' => 'max.borisov@yahoo.com',
+                    'name' => 'max borisov',
+                    'type' => 'to'
+                ]
+            ],
+        ];
+        Yii::$app->mailer->send($params);
     }
 }
