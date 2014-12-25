@@ -160,6 +160,6 @@ class SandboxController extends Controller
                 ]
             ],
         ];
-        Yii::$app->mailer->send($params);
+        HelperBase::dump(Yii::$app->mailer->send($params));
     }
 }
