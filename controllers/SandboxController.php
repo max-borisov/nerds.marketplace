@@ -144,4 +144,21 @@ class SandboxController extends Controller
             throw $e;
         }
     }
+
+    public function actionMailer()
+    {
+        $from = 'max@nerds.com';
+        $to = 'max.borisov@yahoo.com';
+        $subj = 'hello';
+        $res = Yii::$app->mailer->compose('test')
+            ->setFrom($from)
+            ->setTo($to)
+            ->setSubject($subj)
+            ->send();
+
+        HelperBase::dump($res);
+
+//        HelperBase::dump($res->toString());
+
+    }
 }

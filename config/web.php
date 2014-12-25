@@ -38,6 +38,10 @@ $config = [
                 ],
             ],
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'transport' => require(__DIR__ . '/swift-local.php'),
+        ],
         'db' => require(__DIR__ . '/db-local.php'),
     ],
     'params' => require(__DIR__ . '/params.php'),
