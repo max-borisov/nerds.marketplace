@@ -16,21 +16,4 @@ echo $this->render('../_common/header', ['header' => Html::encode($data->title)]
 </div>
 
 <!--Prepare block for lightbox -->
-<?php if ($data->photos) {
-    // li items with a and img inside
-    $imgBlock = '';
-    foreach ($data->photos as $itemPhoto) {
-        $link = Html::a(
-            Html::img($itemPhoto->thumb, ['alt' => '', 'class' => 'img-responsive']),
-            $itemPhoto->original,
-            ['data-toggle' => "lightbox", 'data-gallery' => "multiimages", 'data-title' => 'thumbnail']
-        );
-        $imgBlock .= Html::tag('li', $link);
-    }
-    echo Html::tag(
-        'div',
-        Html::tag('ul', $imgBlock, ['class' => 'list-inline']),
-        ['class' => 'row item-previews-block img-rounded text-center']
-    );
-}
-?>
+<?= $data->photos ? $this->render('_previews', ['previews' => $data->photos]) : '' ?>
