@@ -39,10 +39,20 @@ class HelperBase extends Component
      */
     public static function getParam($key)
     {
-        return Yii::$app->params[$key];
+        if (isset(Yii::$app->params[$key])) {
+            return Yii::$app->params[$key];
+        }
+        return null;
     }
 
-    public static function curl($url, $params = array())
+    /**
+     * @todo Add test
+     * @param $url Requested url
+     * @param array $params
+     * @return mixed
+     * @throws \yii\base\Exception
+     */
+    public static function curl($url, $params = [])
     {
         if (empty($url)) {
             throw new Exception('Url parameter is empty.');
@@ -93,8 +103,11 @@ class HelperBase extends Component
      * @param $uid User id
      * @return string
      */
-    public static function getForumProfileLink($uid)
+    public static function getForumProfileLink($uid = null)
     {
+        if (!$uid) {
+            return '#';
+        }
         return HelperBase::getParam('phpBBHost') . '/memberlist.php?mode=viewprofile&u=' . $uid;
     }
 }
