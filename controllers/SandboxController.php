@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\components\HelperMarketPlace;
 use app\models\PhpbbUser;
+use app\models\SignInForm;
 use app\models\UsedItem;
 use app\models\UsedItemPhoto;
 use app\models\UsedItemType;
@@ -25,6 +27,18 @@ class SandboxController extends Controller
     public function actionIndex()
     {
 //        HelperBase::dump(Yii::$app->user->identity->username);
+
+//        HelperBase::dump(HelperBase::getParam('thumb'));
+
+//        HelperBase::dump(HelperBase::curl('http://google.com'));
+
+//        $_GET['sort'] = 'cheap-first';
+//        HelperBase::dump(HelperMarketPlace::makeShortDescription('hello', 10));
+
+        $user = new SignInForm();
+        $user->email = 'max.borisov@yahoo.com';
+        HelperBase::dump($user->login());
+        HelperBase::dump(Yii::$app->user->identity);
 
 //        $user = PhpbbUser::findOne(48);
 //        HelperBase::dump($user->validatePassword('111111'));
