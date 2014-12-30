@@ -8,6 +8,7 @@ return [
         '/signup' => 'session/signup',
         '/signin' => 'session/signin',
         '/logout' => 'session/logout',
+        '/update-password' => 'session/updatepassword',
 
         'category/update/<id:\d+>'  => 'category/update',
         'category/delete/<id:\d+>'  => 'category/delete',

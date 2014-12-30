@@ -15,4 +15,5 @@ class HelperPage extends Component
     const UPDATE_CATEGORY_PAGE_HEADER   = 'Update category';
     const NEW_ITEM_PAGE_HEADER          = 'Add used item';
     const EDIT_ITEM_PAGE_HEADER         = 'Edit item';
+    const UPDATE_PASSWORD_PAGE_HEADER   = 'Update password';
 }
