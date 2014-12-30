@@ -35,10 +35,13 @@ class SandboxController extends Controller
 //        $_GET['sort'] = 'cheap-first';
 //        HelperBase::dump(HelperMarketPlace::makeShortDescription('hello', 10));
 
-        $user = new SignInForm();
-        $user->email = 'max.borisov@yahoo.com';
-        HelperBase::dump($user->login());
-        HelperBase::dump(Yii::$app->user->identity);
+//        HelperBase::dump(HelperUser::uid());
+//        (new PhpbbUser)->hasItems(HelperUser::uid())
+
+//        $user = new SignInForm();
+//        $user->email = 'max.borisov@yahoo.com';
+//        HelperBase::dump($user->login());
+//        HelperBase::dump(Yii::$app->user->identity);
 
 //        $user = PhpbbUser::findOne(48);
 //        HelperBase::dump($user->validatePassword('111111'));
