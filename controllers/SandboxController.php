@@ -19,8 +19,9 @@ use app\components\HelperSignUp;
 use app\components\HelperUser;
 
 use yii\imagine\Image;
-
 use yii\bootstrap\BootstrapAsset;
+
+use FastFeed\Factory;
 
 class SandboxController extends Controller
 {
@@ -178,5 +179,21 @@ class SandboxController extends Controller
             ],
         ];
         HelperBase::dump(Yii::$app->mailer->send($params));
+    }
+
+    public function actionFeed()
+    {
+        $feed = Factory::create();
+        $feed->addFeed('def', 'http://www.hifi4all.dk/ksb/rss.xml');
+        $data = $feed->fetch('def');
+        HelperBase::dump($data[0]->getId());
+        HelperBase::dump($data[0]->getContent());
+        HelperBase::dump($data[0]->getName());
+        HelperBase::dump($data[0]->getIntro());
+        HelperBase::dump($data[0]->getImage());
+        HelperBase::dump($data[0]->getSource());
+        HelperBase::dump($data[0]->getAuthor());
+        HelperBase::dump($data[0]->getDate());
+//        HelperBase::dump($data[0]->getExtra());
     }
 }

@@ -20,6 +20,7 @@
         "yiisoft/yii2-imagine": "*",
         "yiisoft/yii2-codeception": "*",
         "mandrill/mandrill": "dev-master",
+        "fastfeed/fastfeed": "dev-master",
         "bower-asset/ekko-lightbox": "*"
     },
     "require-dev": {
