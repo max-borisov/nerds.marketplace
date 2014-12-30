@@ -3,8 +3,11 @@
 namespace app\controllers;
 
 use app\components\HelperBase;
+use app\components\HelperUser;
+use app\models\PhpbbUser;
 use app\models\SignUpForm;
 use app\models\SignInForm;
+use app\models\UpdatePasswordForm;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -21,7 +24,7 @@ class SessionController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'updatepassword'],
                         'roles' => ['@'],
                     ],
                     [
@@ -96,5 +99,27 @@ class SessionController extends Controller
     {
         Yii::$app->user->logout();
         $this->goHome();
+    }
+
+    public function actionUpdatepassword()
+    {
+        $user = PhpbbUser::findOne(HelperUser::uid());
+        $model = new UpdatePasswordForm();
+        $model->setUser($user);
+        $request = Yii::$app->request;
+
+        if ($request->isPost
+            && $model->load($request->post())
+            && $model->validate()) {
+            $user->yii_password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+            if ($user->save(false)) {
+                Yii::$app->user->logout();
+
+            } else {
+                HelperBase::logger('Password update error', null, ['uid' => HelperUser::uid()]);
+            }
+            $this->refresh();
+        }
+        return $this->render('updatePassword', ['model' => $model]);
     }
 }
