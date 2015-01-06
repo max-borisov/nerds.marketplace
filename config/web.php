@@ -1,7 +1,5 @@
 <?php
 
-//use \Mandrill;
-
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),

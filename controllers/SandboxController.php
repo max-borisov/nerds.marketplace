@@ -32,6 +32,15 @@ class SandboxController extends Controller
 
 //        HelperBase::dump(HelperBase::getParam('thumb'));
 
+
+//        $user = PhpbbUser::findOne(48);
+//        HelperUser::sendConfirmationEmail($user);
+
+
+//        PhpbbUser::confirmEmail('8080e376ee5fa73ab6ecc6417bee51be');
+
+//        HelperBase::dump(md5(uniqid()));
+
 //        HelperBase::dump(HelperBase::curl('http://google.com'));
 
 //        $_GET['sort'] = 'cheap-first';
