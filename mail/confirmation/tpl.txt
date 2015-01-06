@@ -1,0 +1,7 @@
+Hi, {username}.
+
+Please, confirm your email by activating your account.
+
+Follow the link {url}
+
+Support team.

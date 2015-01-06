@@ -27,6 +27,7 @@ class SignInForm extends Model
             [['email', 'password'], 'required'],
             ['email', 'email'],
             ['password', 'validatePassword'],
+            ['email', 'validateEmail'],
         ];
     }
 
@@ -40,14 +41,24 @@ class SignInForm extends Model
         }
     }
 
+    public function validateEmail($attribute, $params)
+    {
+        if (empty($this->getUserByEmail()->yii_confirmation_timestamp)) {
+            $this->addError(
+                $attribute,
+                'Please, activate your account first. Check your mailbox for confirmation email.'
+            );
+        }
+    }
+
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'email'             => 'Email:',
-            'password'          => 'Password:',
+            'email'     => 'Email:',
+            'password'  => 'Password:',
         ];
     }
 

@@ -29,7 +29,7 @@ class SessionController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['signup', 'signin'],
+                        'actions' => ['signup', 'signin', 'confirmemail'],
                         'roles' => ['?'],
                     ],
                 ],
@@ -121,5 +121,15 @@ class SessionController extends Controller
             $this->refresh();
         }
         return $this->render('updatePassword', ['model' => $model]);
+    }
+
+    public function actionConfirmemail($hash)
+    {
+        if (PhpbbUser::confirmEmail($hash)) {
+            Yii::$app->session->setFlash('email_confirmation_success', 'Email has been confirmed.');
+        } else {
+            Yii::$app->session->setFlash('email_confirmation_error', 'Email has not been confirmed.');
+        }
+        $this->redirect('/signin');
     }
 }

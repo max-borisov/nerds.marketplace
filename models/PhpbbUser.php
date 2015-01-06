@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 
+use app\components\HelperBase;
+
 /**
  * This is the model class for table "phpbb_users".
  *
@@ -74,6 +76,8 @@ use Yii;
  * @property integer $user_reminded
  * @property integer $user_reminded_time
  * @property integer $yii_password
+ * @property integer $yii_confirmation_hash
+ * @property integer $yii_confirmation_timestamp
  */
 class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -280,5 +284,18 @@ class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
     public static function findUser($uid)
     {
         return self::find()->where('user_id = :uid', [':uid' => $uid])->one();
+    }
+
+    public static function confirmEmail($hash)
+    {
+        $user = PhpbbUser::find()->where('yii_confirmation_hash = :hash', [':hash' => $hash])->one();
+        // User is already activated
+        if ($user->yii_confirmation_timestamp) {
+            // @todo log error
+            return false;
+        } else {
+            $user->yii_confirmation_timestamp = time();
+            return (bool)$user->update(false);
+        }
     }
 }

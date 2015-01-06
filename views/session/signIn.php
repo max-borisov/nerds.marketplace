@@ -19,6 +19,20 @@ if (Yii::$app->session->hasFlash('signup_success')) {
         ['message' => Yii::$app->session->getFlash('signup_success')]
     );
 }
+
+if (Yii::$app->session->hasFlash('email_confirmation_success')) {
+    echo $this->render(
+        '../_common/flashSuccess',
+        ['message' => Yii::$app->session->getFlash('email_confirmation_success')]
+    );
+}
+
+if (Yii::$app->session->hasFlash('email_confirmation_error')) {
+    echo $this->render(
+        '../_common/flashError',
+        ['message' => Yii::$app->session->getFlash('email_confirmation_error')]
+    );
+}
 ?>
 
 <div class="row">
