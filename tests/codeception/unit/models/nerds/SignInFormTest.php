@@ -41,10 +41,17 @@ class SignInFormTest extends TestCase
             expect('validate password error', $model->validate())->false();
         });
 
-        $this->specify('set correct email and password', function() use ($model) {
+        $this->specify('set correct email and password. User account is activated.', function() use ($model) {
             $model->email = $this->user('max')->user_email;
             $model->password = '111111';
             expect('validation success', $model->validate())->true();
+        });
+
+        $this->specify('set correct email and password. User account is not activated.', function() {
+            $model = new SignInForm();
+            $model->email = $this->user('not_confirmed_account')->user_email;
+            $model->password = '111111';
+            expect('signin error', $model->validate())->false();
         });
     }
 

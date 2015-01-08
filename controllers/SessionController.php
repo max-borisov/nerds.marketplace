@@ -69,8 +69,9 @@ class SessionController extends Controller
                 'post_fields' => $params,
             ]);
             if ($response && HelperUser::parseSaveUserResponse($response)) {
-                $user = PhpbbUser::findByEmail($model->email);
-                HelperUser::sendConfirmationEmail($user);
+                if (YII_ENV !== 'test') {
+                    HelperUser::sendConfirmationEmail(PhpbbUser::findByEmail($model->email));
+                }
                 Yii::$app->session->setFlash(
                     'signup_success',
                     'Your account has been created. Please, check your mailbox for confirmation email.'
@@ -122,7 +123,9 @@ class SessionController extends Controller
             && $model->validate()) {
             $user->yii_password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
             if ($user->save(false)) {
-                HelperUser::sendPasswordUpdateNotification($user);
+                if (YII_ENV !== 'test') {
+                    HelperUser::sendPasswordUpdateNotification($user);
+                }
                 Yii::$app->user->logout();
             } else {
                 HelperBase::logger('Password update error', null, ['uid' => HelperUser::uid()]);

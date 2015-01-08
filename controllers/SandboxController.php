@@ -33,6 +33,13 @@ class SandboxController extends Controller
 //        HelperBase::dump(HelperBase::getParam('thumb'));
 
 
+        $user = new SignInForm();
+//        $user->email = 'user12345@bk.ru';
+        $user->email = 'new_max@bk.ru';
+        $user->password = '111111';
+        HelperBase::dump($user->validate());
+        HelperBase::dump($user->errors);
+
 //        $user = PhpbbUser::findOne(48);
 //        HelperUser::sendConfirmationEmail($user);
 
@@ -88,8 +95,8 @@ class SandboxController extends Controller
         HelperBase::dump(Yii::$app->request->get());
         HelperBase::dump((new UsedItem)->search(Yii::$app->request->get()));*/
 
-        $passw = '111111';
-        echo $hash = Yii::$app->security->generatePasswordHash($passw);
+//        $passw = '111111';
+//        echo $hash = Yii::$app->security->generatePasswordHash($passw);
 
 //        $h = '$2y$13$978qTmEzCMExd2gSbdZxZugncXai1Bs88MCbd/NhizAgWhY8UAxaW';
 //        echo Yii::$app->security->validatePassword($passw, $h);*/
