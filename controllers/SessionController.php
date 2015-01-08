@@ -122,8 +122,8 @@ class SessionController extends Controller
             && $model->validate()) {
             $user->yii_password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
             if ($user->save(false)) {
+                HelperUser::sendPasswordUpdateNotification($user);
                 Yii::$app->user->logout();
-
             } else {
                 HelperBase::logger('Password update error', null, ['uid' => HelperUser::uid()]);
             }

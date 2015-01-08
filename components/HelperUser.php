@@ -62,6 +62,33 @@ class HelperUser extends Component
         return Yii::$app->mailer->send($params);
     }
 
+    public static function sendPasswordUpdateNotification(\app\models\PhpbbUser $user)
+    {
+        $tplTxt = str_replace(
+            '{username}',
+            $user->username,
+            file_get_contents(Yii::getAlias('@app') . '/mail/update_password/tpl.txt')
+        );
+        $tplHtml = str_replace(
+            '{username}',
+            $user->username,
+            file_get_contents(Yii::getAlias('@app') . '/mail/update_password/tpl.html')
+        );
+        $params = [
+            'html' => $tplHtml,
+            'text' => $tplTxt,
+            'subject' => 'Nerds.dk Password update notification',
+            'to' => [
+                [
+                    'email' => $user->user_email,
+                    'name'  => $user->username,
+                    'type'  => 'to'
+                ]
+            ],
+        ];
+        return Yii::$app->mailer->send($params);
+    }
+
     public static function getHash()
     {
         return md5(uniqid());

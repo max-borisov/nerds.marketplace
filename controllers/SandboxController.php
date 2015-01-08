@@ -88,8 +88,8 @@ class SandboxController extends Controller
         HelperBase::dump(Yii::$app->request->get());
         HelperBase::dump((new UsedItem)->search(Yii::$app->request->get()));*/
 
-//        $passw = 'max';
-//        echo $hash = Yii::$app->security->generatePasswordHash($passw);
+        $passw = '111111';
+        echo $hash = Yii::$app->security->generatePasswordHash($passw);
 
 //        $h = '$2y$13$978qTmEzCMExd2gSbdZxZugncXai1Bs88MCbd/NhizAgWhY8UAxaW';
 //        echo Yii::$app->security->validatePassword($passw, $h);*/

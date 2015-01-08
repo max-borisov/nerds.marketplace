@@ -1,0 +1,5 @@
+Hi, {username}.
+
+You have updated your password recently.
+
+Support team.
