@@ -39,5 +39,5 @@ $I->amGoingTo('set correct data');
 $loginPage->login('Max_' . $time , 'new_max_' . $time . '@bk.ru', '111111', '111111');
 
 $I->expectTo('see success message');
-$I->see('Your account has been registered');
+$I->seeElement('.alert-success');
 $I->seeCurrentUrlEquals('/signin');
