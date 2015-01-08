@@ -60,6 +60,7 @@ class SessionController extends Controller
                 'email'         => $model->email,
                 'password'      => $model->password,
                 'yii_password'  => Yii::$app->security->generatePasswordHash($model->password),
+                'yii_confirmation_hash' => HelperUser::getHash(),
                 'secret'        => HelperBase::getParam('phpBBExternalRegistrationSecret'),
             ];
             $url = HelperBase::getParam('host') . '/' . HelperBase::getParam('phpBBExternalRegistrationScriptName');
@@ -67,12 +68,20 @@ class SessionController extends Controller
                 'method' => 'post',
                 'post_fields' => $params,
             ]);
-
-            if (!$response) {
-                Yii::$app->session->setFlash('signup_error', 'Some errors appeared. Please, try to sign up later.');
-            } else {
-                Yii::$app->session->setFlash('signup_success', 'Your account has been registered. Please, sign in to continue.');
+            if ($response && HelperUser::parseSaveUserResponse($response)) {
+                $user = PhpbbUser::findByEmail($model->email);
+                HelperUser::sendConfirmationEmail($user);
+                Yii::$app->session->setFlash(
+                    'signup_success',
+                    'Your account has been created. Please, check your mailbox for confirmation email.'
+                );
                 $this->redirect('/signin');
+            } else {
+                Yii::$app->session->setFlash(
+                    'signup_error',
+                    'Some errors appeared. Please, try to sign up later.'
+                );
+                HelperBase::logger('Add new user error', null, ['response' => $response]);
             }
         }
         return $this->render('signUp', ['model' => $model]);
@@ -126,7 +135,7 @@ class SessionController extends Controller
     public function actionConfirmemail($hash)
     {
         if (PhpbbUser::confirmEmail($hash)) {
-            Yii::$app->session->setFlash('email_confirmation_success', 'Email has been confirmed.');
+            Yii::$app->session->setFlash('email_confirmation_success', 'Your email address has been confirmed and now you can log in to the system.');
         } else {
             Yii::$app->session->setFlash('email_confirmation_error', 'Email has not been confirmed.');
         }

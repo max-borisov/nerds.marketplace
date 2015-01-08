@@ -43,11 +43,13 @@ class SignInForm extends Model
 
     public function validateEmail($attribute, $params)
     {
-        if (empty($this->getUserByEmail()->yii_confirmation_timestamp)) {
-            $this->addError(
-                $attribute,
-                'Please, activate your account first. Check your mailbox for confirmation email.'
-            );
+        if (!$this->hasErrors()) {
+            if (empty($this->getUserByEmail()->yii_confirmation_timestamp)) {
+                $this->addError(
+                    $attribute,
+                    'Please, activate your account first. Check your mailbox for confirmation email.'
+                );
+            }
         }
     }
 

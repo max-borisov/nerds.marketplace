@@ -9,8 +9,8 @@ class m150106_122525_add_email_confirmtion_users_table extends Migration
 
     public function up()
     {
-        $this->addColumn($this->_table, 'yii_confirmation_hash', 'string NOT NULL');
-        $this->addColumn($this->_table, 'yii_confirmation_timestamp', 'integer NOT NULL');
+        $this->addColumn($this->_table, 'yii_confirmation_hash', 'string NOT NULL DEFAULT ""');
+        $this->addColumn($this->_table, 'yii_confirmation_timestamp', 'integer NOT NULL DEFAULT 0');
     }
 
     public function down()

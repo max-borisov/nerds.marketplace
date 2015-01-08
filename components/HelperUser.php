@@ -33,7 +33,7 @@ class HelperUser extends Component
 
     public static function sendConfirmationEmail(\app\models\PhpbbUser $user)
     {
-        $confirmLinkTxt = HelperBase::getParam('host') . '/confirm-email/1212121';
+        $confirmLinkTxt = HelperBase::getParam('host') . '/confirm-email/' . $user->yii_confirmation_hash;
         $tplTxt = str_replace(
             ['{username}', '{url}'],
             [$user->username, $confirmLinkTxt],
@@ -53,13 +53,26 @@ class HelperUser extends Component
             'subject' => 'Nerds.dk SignUp confirmation',
             'to' => [
                 [
-//                    'email' => $user->user_email,
-                    'email' => 'max.borisov@yahoo.com',
+                    'email' => $user->user_email,
                     'name'  => $user->username,
                     'type'  => 'to'
                 ]
             ],
         ];
-        HelperBase::dump(Yii::$app->mailer->send($params));
+        return Yii::$app->mailer->send($params);
+    }
+
+    public static function getHash()
+    {
+        return md5(uniqid());
+    }
+
+    public static function parseSaveUserResponse($response)
+    {
+        // If response contains 'error' message
+        if ($response && is_string($response) && preg_match('/error/i', $response)) {
+            return false;
+        }
+        return true;
     }
 }

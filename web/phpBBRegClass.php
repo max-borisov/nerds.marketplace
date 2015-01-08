@@ -30,6 +30,7 @@ class PhpBBRegClass
             'username'              => $this->username,
             'user_password'         => $this->password,
             'yii_password'          => $this->yii_password,
+            'yii_confirmation_hash' => $this->yii_confirmation_hash,
             'user_email'            => $this->email,
 
             'group_id'              => $this->group_id,
