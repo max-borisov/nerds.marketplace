@@ -15,6 +15,10 @@ use yii\helpers\ArrayHelper;
  */
 class UsedItemType extends \yii\db\ActiveRecord
 {
+    const SELL      = 1;
+    const BUY       = 2;
+    const EXCHANGE  = 3;
+
     /**
      * @inheritdoc
      */

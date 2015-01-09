@@ -49,9 +49,11 @@ class UsedItem extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required', 'on' => ['create', 'edit']],
+//            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required', 'on' => ['create', 'edit']],
+            [['title', 'category_id', 'type_id', 'description'], 'required', 'on' => ['create', 'edit']],
             [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create', 'edit']],
             [['price'], 'number', 'on' => ['create', 'edit']],
+            [['price'], 'default', 'value' => 0, 'on' => ['create', 'edit']],
             [['title'], 'string', 'max' => 255, 'on' => ['create', 'edit']],
             [['description'], 'string', 'on' => ['create', 'edit']],
 
@@ -59,7 +61,7 @@ class UsedItem extends \app\components\ActiveRecord
                     return trim(strip_tags($value));
             }, 'on' => ['create', 'edit']],
 
-            [['warranty', 'packaging', 'manual'], 'integer', 'on' => ['search']],
+            [['warranty', 'packaging', 'manual', 'type_id'], 'integer', 'on' => ['search']],
             [['search_text'], 'string', 'max' => 255, 'on' => ['search']],
             [['price_min, price_max'], 'number', 'on' => ['search']],
         ];
@@ -136,6 +138,7 @@ class UsedItem extends \app\components\ActiveRecord
             'warranty'  => $this->warranty,
             'packaging' => $this->packaging,
             'manual'    => $this->manual,
+            'type_id'   => $this->type_id,
         ]);
         $query->andFilterWhere(['>=', 'price', $this->price_min]);
         $query->andFilterWhere(['<=', 'price', $this->price_max]);

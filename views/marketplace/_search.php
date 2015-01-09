@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\models\UsedItemType;
 
 /* @var $model app\models\UsedItem */
 ?>
@@ -69,6 +70,19 @@ use yii\helpers\Html;
 
                 <div class="col-sm-5">
                     <?= Html::activeTextInput($model, 'price_max', ['id' => 'price_max', 'class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <!-- Want To -->
+            <div class="form-group">
+                <?= Html::activeLabel($model, 'type_id', ['for' => 'manual-yes', 'class' => 'col-sm-4 control-label']); ?>
+
+                <div class="col-sm-7">
+                    <?= Html::activeRadio($model, 'type_id', ['label' => 'Sell', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => UsedItemType::SELL]); ?>
+
+                    <?= Html::activeRadio($model, 'type_id', ['label' => 'Buy', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => UsedItemType::BUY]); ?>
+
+                    <?= Html::activeRadio($model, 'type_id', ['label' => 'Exchange', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => UsedItemType::EXCHANGE]); ?>
                 </div>
             </div>
 

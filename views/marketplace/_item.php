@@ -51,7 +51,7 @@ use app\components\HelperMarketPlace;
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('type_id') ?></div>
-            <div class="col-xs-4"><?= $data->type_id ? 'Yes' : 'No' ?></div>
+            <div class="col-xs-4"><?= Html::encode($data->type->title) ?></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('created_at') ?></div>
