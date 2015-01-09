@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 
 use app\components\HelperBase;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "phpbb_users".
@@ -289,10 +290,12 @@ class PhpbbUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
     public static function confirmEmail($hash)
     {
         $user = PhpbbUser::find()->where('yii_confirmation_hash = :hash', [':hash' => $hash])->one();
+        if (!$user) {
+            throw new Exception('Incorrect hash.');
+        }
         // User is already activated
         if ($user->yii_confirmation_timestamp) {
-            // @todo log error
-            return false;
+            return true;
         } else {
             $user->yii_confirmation_timestamp = time();
             return (bool)$user->update(false);
