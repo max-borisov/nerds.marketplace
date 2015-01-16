@@ -3,6 +3,7 @@ namespace app\components;
 
 use Yii;
 use yii\base\Component;
+use yii\base\Exception;
 
 class HiFi4AllParser extends Component
 {
@@ -26,63 +27,108 @@ class HiFi4AllParser extends Component
         return $tidy;
     }
 
-    public static function parse($id)
+    public static function parsePage($id)
     {
         $html = self::tidy('http://www.hifi4all.dk/ksb/Annonce.asp?id=' . $id);
         $data = [];
+        $data['id'] = $id;
 
         $pattern = '|<td\s+width="604"\s+valign="top">(.*)</td>|is';
         preg_match_all($pattern, $html, $matches);
         $root = $matches[0][0];
 
+//        $root = mb_convert_encoding($root, 'UTF-8');
+//        HelperBase::dump($root, true);
+        /*echo $root = preg_replace(
+            ['/æ/', '/ø/', '/å/', '/Æ/', '/Ø/', '/Å/'],
+            ['&aelig;', '&oslash;', '&aring;', '&AElig;', '&Oslash;', '&Aring;'],
+            $root
+        );*/
+
+        $root = str_replace('</font>', '', $root);
+        $root = preg_replace('|<font[^>]+>|is', '', $root);
+        $root = str_replace(['<br>', '<br/>', '<br />'], '', $root);
+
         // Item title
         $pattern = '|<td\s+width="90%"\s+background=".*?">\s+<b>(.*?)</b>\s+</td>\s+|isx';
         preg_match_all($pattern, $root, $matches);
-        $title = $matches[1][0];
-        $data['title'] = $title;
+        if (isset($matches[1], $matches[1][0])) {
+//            $title = iconv('ISO-8859-1', 'UTF-8//IGNORE', $matches[1][0]);
+//            $title = utf8_encode($matches[1][0]);
+//            $title = mb_convert_encoding($matches[1][0], 'UTF-8');
+//            $data['title'] = trim($title);
+            $data['title'] = trim($matches[1][0]);
+        } else {
+            throw new Exception('Could not get item title. Page id ' . $id);
+        }
 
         // User name
-        $pattern = '|<td\s+width="37%">([\w\s./]+)<a href=(?:.*?)></a>\s+</td>|is';
+        $pattern = '|<td\s+width="37%">([^<]+)<a href=(?:.*?)></a>\s+</td>|is';
         preg_match_all($pattern, $root, $matches);
-        $userName = $matches[1][0];
-        $data['user'] = trim($userName);
+        if (isset($matches[1], $matches[1][0])) {
+            $data['user'] = trim($matches[1][0]);
+        } else {
+            throw new Exception('Could not get user name. Page id ' . $id);
+        }
 
         // Location and phone
         $pattern = '|<td\s+width="37%">(.*?)</td>|is';
         preg_match_all($pattern, $root, $matches);
-
-        $location = $matches[1][1];
-        $data['location'] = trim($location);
-        $phone = $matches[1][2];
-        $data['phone'] = trim($phone);
+        if (isset($matches[1], $matches[1][1])) {
+            $data['location'] = trim($matches[1][1]);
+        } else {
+            throw new Exception('Could not get user location. Page id ' . $id);
+        }
+        if (isset($matches[1], $matches[1][2])) {
+            $phone = trim($matches[1][2]);
+            if (preg_match('/[a-z]+/', $phone)) {
+                $phone = '';
+            }
+            $data['phone'] = $phone;
+        } else {
+            throw new Exception('Could not get user phone. Page id ' . $id);
+        }
 
         // Email
-        $emailRaw = $matches[1][3];
-        if (strpos($emailRaw, 'Privat') !== false) {
-            $email = '';
+        if (isset($matches[1], $matches[1][3])) {
+            $emailRaw = $matches[1][3];
+            if (strpos($emailRaw, 'Privat') !== false) {
+                $email = '';
+            } else {
+                $emailRaw = strip_tags($emailRaw, '<img>');
+                $emailRaw = str_replace('//', '', $emailRaw);
+                $pattern = '|[^<]+|is';
+                preg_match_all($pattern, $emailRaw, $matches);
+                $emailPartName = $matches[0][0];
+                $pattern = '|>([\w./]+)|is';
+                preg_match_all($pattern, $emailRaw, $matches);
+                $emailPartDomain = $matches[0][0];
+                $emailPartDomain = str_replace('>', '', $emailPartDomain);
+                $email = trim($emailPartName . '@' . $emailPartDomain);
+            }
+            $data['email'] = $email;
         } else {
-            $emailRaw = strip_tags($emailRaw, '<img>');
-            $emailRaw = str_replace('//', '', $emailRaw);
-            $pattern = '|[^<]+|is';
-            preg_match_all($pattern, $emailRaw, $matches);
-            $emailPartName = $matches[0][0];
-            $pattern = '|>([\w./]+)|is';
-            preg_match_all($pattern, $emailRaw, $matches);
-            $emailPartDomain = $matches[0][0];
-            $emailPartDomain = str_replace('>', '', $emailPartDomain);
-            $email = trim($emailPartName . '@' . $emailPartDomain);
+            throw new Exception('Could not get user email. Page id ' . $id);
         }
-        $data['email'] = $email;
 
         // Item type, Ad type, pub date
         $pattern = '|<td\s+width="28%">(.*?)</td>|is';
         preg_match_all($pattern, $root, $matches);
-        $itemType = trim($matches[1][0]);
-        $data['type'] = $itemType;
-        $adType = trim($matches[1][1]);
-        $data['ad'] = $adType;
-        $pubDate = trim($matches[1][2]);
-        $data['date'] = $pubDate;
+        if (isset($matches[1], $matches[1][0])) {
+            $data['type'] = trim($matches[1][0]);
+        } else {
+            throw new Exception('Could not get item type. Page id ' . $id);
+        }
+        if (isset($matches[1], $matches[1][1])) {
+            $data['adv'] = trim($matches[1][1]);
+        } else {
+            throw new Exception('Could not get advertisement type. Page id ' . $id);
+        }
+        if (isset($matches[1], $matches[1][2])) {
+            $data['date'] = trim($matches[1][2]);
+        } else {
+            throw new Exception('Could not get pub date. Page id ' . $id);
+        }
 
         // Price
         $pattern = '|<b>[\w./\s]*pris:\s+(\d+)(?:&nbsp;)?DKK</b>|is';
@@ -131,5 +177,33 @@ class HiFi4AllParser extends Component
         $data['info'] = $addInfo;
 
         return $data;
+    }
+
+    public static function getLinks($offset)
+    {
+        set_time_limit(0);
+
+        $html = self::tidy('http://www.hifi4all.dk/ksb/index.asp');
+        $data = [];
+
+        $pattern = '|<td\s+width="224">(?:.*?)(\d+)(?:.*?)</td>|is';
+        preg_match_all($pattern, $html, $matches);
+
+        if (empty($matches[1])) {
+            throw new Exception('Could not retrieve data.');
+        }
+
+        HelperBase::dump(count($matches[1]));
+
+        foreach ($matches[1] as $itemId) {
+//            echo $itemId, '<br>';
+            $data = self::parsePage($itemId);
+            HelperBase::dump($data);
+            sleep(1);
+        }
+
+//        HelperBase::dump($matches);
+//        $root = $matches[0][0];
+//        $ids = $matches[1];
     }
 }
