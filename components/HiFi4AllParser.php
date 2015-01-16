@@ -4,6 +4,7 @@ namespace app\components;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
+use app\models\UsedItem;
 
 class HiFi4AllParser extends Component
 {
@@ -134,7 +135,7 @@ class HiFi4AllParser extends Component
         $pattern = '|<b>[\w./\s]*pris:\s+(\d+)(?:&nbsp;)?DKK</b>|is';
         preg_match_all($pattern, $root, $matches);
         if (empty($matches[0])) {
-            $price = '';
+            $price = 0;
         } else {
             $price = $matches[1][0];
         }
@@ -193,17 +194,53 @@ class HiFi4AllParser extends Component
             throw new Exception('Could not retrieve data.');
         }
 
-        HelperBase::dump(count($matches[1]));
+        return $matches[1];
+    }
 
-        foreach ($matches[1] as $itemId) {
-//            echo $itemId, '<br>';
-            $data = self::parsePage($itemId);
-            HelperBase::dump($data);
-            sleep(1);
+    public static function saveItem($data)
+    {
+        $item = new UsedItem();
+        $item->user_id      = 112233;
+        $item->category_id  = 5;
+        $item->type_id      = 4;
+
+        $item->s_id         = 1;
+        $item->s_item_id    = $data['id'];
+        $item->s_user       = $data['user'];
+        $item->s_location   = $data['location'];
+        $item->s_phone      = $data['phone'];
+        $item->s_email      = $data['email'];
+        $item->s_type       = $data['type'];
+        $item->s_adv        = $data['adv'];
+        $item->s_date       = $data['date'];
+        $item->price        = $data['price'];
+        $item->description  = $data['description'];
+        $item->preview      = $data['preview'];
+        $item->s_age        = $data['info']['age'];
+        $item->s_warranty   = $data['info']['warranty'];
+        $item->s_package    = $data['info']['package'];
+        $item->s_delivery   = $data['info']['delivery'];
+        $item->s_akn        = $data['info']['ack'];
+        $item->s_manual     = $data['info']['manual'];
+        $item->s_expires    = $data['info']['expires'];
+
+        if (!$item->save(false)) {
+            throw new Exception('Data could not be saved. Id ' . $data['s_id']);
         }
+//        HelperBase::dump($item->attributes);
+//        HelperBase::dump($item->save(false));
+    }
 
-//        HelperBase::dump($matches);
-//        $root = $matches[0][0];
-//        $ids = $matches[1];
+    public static function fillUpDatabase()
+    {
+        $ids = self::getLinks(0);
+//        HelperBase::dump($ids, true);
+
+        foreach ($ids as $itemId) {
+            $data = self::parsePage($itemId);
+//            HelperBase::dump($data);
+            self::saveItem($data);
+//            sleep(1);
+        }
     }
 }
