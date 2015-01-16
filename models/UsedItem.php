@@ -27,6 +27,23 @@ use yii\base\Exception;
  * @property string $preview
  * @property string $price_min
  * @property string $price_max
+ * @property integer s_id
+ * @property string s_item_id
+ * @property string s_user
+ * @property string s_location
+ * @property string s_phone
+ * @property string s_email
+ * @property string s_type
+ * @property string s_adv
+ * @property string s_date
+ * @property string s_preview
+ * @property string s_age
+ * @property string s_warranty
+ * @property string s_package
+ * @property string s_delivery
+ * @property string s_akn
+ * @property string s_manual
+ * @property string s_expires
  */
 class UsedItem extends \app\components\ActiveRecord
 {
