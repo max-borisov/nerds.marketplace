@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\FeedParser;
 use app\components\HelperMarketPlace;
+use app\components\HiFi4AllParser;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
 use app\models\UsedItem;
@@ -33,12 +34,12 @@ class SandboxController extends Controller
 //        HelperBase::dump(HelperBase::getParam('thumb'));
 
 
-        $user = new SignInForm();
+//        $user = new SignInForm();
 //        $user->email = 'user12345@bk.ru';
-        $user->email = 'new_max@bk.ru';
-        $user->password = '111111';
-        HelperBase::dump($user->validate());
-        HelperBase::dump($user->errors);
+//        $user->email = 'new_max@bk.ru';
+//        $user->password = '111111';
+//        HelperBase::dump($user->validate());
+//        HelperBase::dump($user->errors);
 
 //        $user = PhpbbUser::findOne(48);
 //        HelperUser::sendConfirmationEmail($user);
@@ -201,5 +202,17 @@ class SandboxController extends Controller
     public function actionFeed()
     {
         HelperBase::dump((new FeedParser())->addFeed('http://www.hifi4all.dk/ksb/rss.xml')->parse());
+    }
+
+    public function actionHifi4all()
+    {
+//        $id = isset($_GET['id']) ? $_GET['id'] : '284516';
+//        $data = HiFi4AllParser::parsePage($id);
+//        HelperBase::dump($data);
+//        HiFi4AllParser::saveItem($data);
+
+//        $data = HiFi4AllParser::getLinks(0);
+
+        HiFi4AllParser::fillUpDatabase();
     }
 }
