@@ -1,6 +1,9 @@
 <?php
 namespace app\components;
 
+use app\models\Category;
+use app\models\ExternalSite;
+use app\models\UsedItemType;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
@@ -201,10 +204,10 @@ class HiFi4AllParser extends Component
     {
         $item = new UsedItem();
         $item->user_id      = 112233;
-        $item->category_id  = 5;
-        $item->type_id      = 4;
+        $item->category_id  = Category::HIFI4ALL;
+        $item->type_id      = UsedItemType::UNKNOWN;
 
-        $item->s_id         = 1;
+        $item->s_id         = ExternalSite::HIFI4ALL;
         $item->s_item_id    = $data['id'];
         $item->s_user       = $data['user'];
         $item->s_location   = $data['location'];
@@ -215,7 +218,7 @@ class HiFi4AllParser extends Component
         $item->s_date       = $data['date'];
         $item->price        = $data['price'];
         $item->description  = $data['description'];
-        $item->preview      = $data['preview'];
+        $item->s_preview    = $data['preview'];
         $item->s_age        = $data['info']['age'];
         $item->s_warranty   = $data['info']['warranty'];
         $item->s_package    = $data['info']['package'];
@@ -234,13 +237,10 @@ class HiFi4AllParser extends Component
     public static function fillUpDatabase()
     {
         $ids = self::getLinks(0);
-//        HelperBase::dump($ids, true);
-
         foreach ($ids as $itemId) {
             $data = self::parsePage($itemId);
-//            HelperBase::dump($data);
             self::saveItem($data);
-//            sleep(1);
+            sleep(1);
         }
     }
 }
