@@ -16,6 +16,8 @@ use yii\helpers\ArrayHelper;
  */
 class Category extends \app\components\ActiveRecord
 {
+    const HIFI4ALL = 5;
+
     /**
      * @inheritdoc
      */
