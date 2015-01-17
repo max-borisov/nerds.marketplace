@@ -133,6 +133,20 @@ class UsedItem extends \app\components\ActiveRecord
             'price_min' => 'Min price:',
             'price_max' => 'Max price:',
             'created_at' => 'Post date:',
+
+            // Parsed data
+            's_user' => 'User:',
+            's_location' => 'Location:',
+            's_phone' => 'Phone:',
+            's_email' => 'Email:',
+            's_adv' => 'Advertisement:',
+            's_age' => 'Age:',
+            's_warranty' => 'Warranty:',
+            's_package' => 'Package:',
+            's_delivery' => 'Delivery:',
+            's_manual' => 'Manual:',
+            's_akn' => 'Receipt:',
+            's_expires' => 'Expires:',
         ];
     }
 
@@ -184,6 +198,11 @@ class UsedItem extends \app\components\ActiveRecord
         // Set preview for each item
         // Default(blank) preview
         $this->preview = HelperBase::getParam('thumb')['placeholder'];
+
+        if (!empty($this->s_preview) && $this->s_id == ExternalSite::HIFI4ALL) {
+            $this->preview = HelperBase::getParam('HiFi4AllPic') . '/' . $this->s_preview;
+        }
+
         if (($photos = $this->photos) && is_array($photos)) {
             $photoName = $photos[0]->name;
             $photoPath =
