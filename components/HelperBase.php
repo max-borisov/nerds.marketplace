@@ -110,4 +110,19 @@ class HelperBase extends Component
         }
         return HelperBase::getParam('phpBBHost') . '/memberlist.php?mode=viewprofile&u=' . $uid;
     }
+
+    /**
+     * Encode email make it safe to show in html code
+     * @param $email Source email
+     * @return string Encoded string
+     */
+    public static function encodeEmail($email)
+    {
+        $output = '';
+        for ($i = 0; $i < strlen($email); $i++)
+        {
+            $output .= '&#'.ord($email[$i]).';';
+        }
+        return $output;
+    }
 }
