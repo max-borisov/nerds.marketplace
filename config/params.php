@@ -17,6 +17,9 @@ $config = [
     'currency' => 'DKK',
     // Max length of the shown description text
     'itemDescriptionMaxLength' => 200,
+
+    // Images base url
+    'HiFi4AllPic' => 'http://www.hifi4all.dk/ksb',
 ];
 
 return array_merge(
