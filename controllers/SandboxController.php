@@ -217,5 +217,7 @@ class SandboxController extends Controller
 //        $data = HiFi4AllParser::getLinks(0);
 
         HiFi4AllParser::fillUpDatabase();
+
+//        HiFi4AllParser::getExistingRows(1);
     }
 }

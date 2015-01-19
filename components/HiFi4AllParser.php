@@ -8,6 +8,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use app\models\UsedItem;
+use yii\helpers\ArrayHelper;
 
 class HiFi4AllParser extends Component
 {
@@ -187,7 +188,7 @@ class HiFi4AllParser extends Component
     {
         set_time_limit(0);
 
-        $html = self::tidy('http://www.hifi4all.dk/ksb/index.asp');
+        $html = self::tidy('http://www.hifi4all.dk/ksb/index.asp?offset=' . $offset);
         $data = [];
 
         $pattern = '|<td\s+width="224">(?:.*?)(\d+)(?:.*?)</td>|is';
@@ -227,6 +228,34 @@ class HiFi4AllParser extends Component
         $item->s_manual     = $data['info']['manual'];
         $item->s_expires    = $data['info']['expires'];
 
+        if (strpos($item->s_warranty, 'Ja') !== false) {
+            $item->warranty = 1;
+        }
+
+        if (strpos($item->s_package, 'ikke') !== false
+            || strpos($item->s_package, 'betydning') !== false
+            || strpos($item->s_package, 'nskeligt') !== false) {
+        $item->packaging = 0;
+        } else {
+            $item->packaging = 1;
+        }
+
+        if (strpos($item->s_manual, 'ikke') !== false
+            || strpos($item->s_manual, 'betydning') !== false
+            || strpos($item->s_manual, 'nskeligt') !== false) {
+            $item->manual = 0;
+        } else {
+            $item->manual = 1;
+        }
+
+        if (strpos($item->s_adv, 'LGES') !== false) {
+            $item->type_id = UsedItemType::SELL;
+        } elseif (strpos($item->s_adv, 'BES') !== false) {
+            $item->type_id = UsedItemType::BUY;
+        } elseif (strpos($item->s_adv, 'BYTTES') !== false) {
+            $item->type_id = UsedItemType::EXCHANGE;
+        }
+
         if (!$item->save(false)) {
             throw new Exception('Data could not be saved. Id ' . $data['s_id']);
         }
@@ -234,13 +263,35 @@ class HiFi4AllParser extends Component
 //        HelperBase::dump($item->save(false));
     }
 
+    public static function getExistingRows($siteId)
+    {
+        $data = (new \yii\db\Query())
+            ->select('s_item_id')
+            ->from('_used_item')
+            ->where('s_id = :sid', ['sid' => $siteId])
+            ->all();
+
+        if ($data) {
+            $tmp = [];
+            foreach ($data as $item) {
+                $tmp[] = $item['s_item_id'];
+            }
+            $data = $tmp;
+        }
+        return $data;
+    }
+
     public static function fillUpDatabase()
     {
+        $existingRows = self::getExistingRows(ExternalSite::HIFI4ALL);
         $ids = self::getLinks(0);
         foreach ($ids as $itemId) {
+            if (in_array($itemId, $existingRows)) continue;
             $data = self::parsePage($itemId);
             self::saveItem($data);
             sleep(1);
         }
+
+        echo "<h1>Done!</h1>";
     }
 }
