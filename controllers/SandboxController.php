@@ -210,6 +210,6 @@ class SandboxController extends Controller
 //        HiFi4AllParser::saveItem($data);
 //        $data = HiFi4AllParser::getLinks(0);
 
-        HiFi4AllParser::fillUpDatabase();
+        HiFi4AllParser::copyData();
     }
 }

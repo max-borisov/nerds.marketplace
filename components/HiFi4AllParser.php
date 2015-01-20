@@ -308,7 +308,7 @@ class HiFi4AllParser extends Component
     /**
      * Get info from all pages and save it
      */
-    public static function fillUpDatabase()
+    public static function copyData()
     {
         $existingRows = self::getExistingRows(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
@@ -320,7 +320,7 @@ class HiFi4AllParser extends Component
 
             break;
         }
-        echo "<h1>Done!</h1>";
+        echo "Done!\r\n";
     }
 
     /**
