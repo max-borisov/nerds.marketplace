@@ -4,6 +4,9 @@ use app\components\HelperBase;
 use app\components\HelperUser;
 use app\components\HelperMarketPlace;
 
+
+//HelperBase::dump($data, true);
+
 /* @var $data UsedItem */
 ?>
 <div class="row used-item-row">
@@ -20,11 +23,21 @@ use app\components\HelperMarketPlace;
             <div class="col-xs-3">Post author:</div>
             <div class="col-xs-4">
                 <strong>
-                <?= Html::a(
-                    $data->user->username,
-                    HelperBase::getForumProfileLink($data->user->id),
-                    ['target' => '_blank']
-                ) ?>
+                <?php
+                if ($data->user) {
+                    echo Html::a(
+                        $data->user->username,
+                        HelperBase::getForumProfileLink($data->user->id),
+                        ['target' => '_blank']
+                    );
+                } else {
+                    echo Html::a(
+                        $data->s_user,
+                        '#',
+                        ['target' => '_blank']
+                    );
+                }
+                ?>
                 </strong>
             </div>
         </div>
