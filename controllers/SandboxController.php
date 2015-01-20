@@ -23,8 +23,6 @@ use app\components\HelperUser;
 use yii\imagine\Image;
 use yii\bootstrap\BootstrapAsset;
 
-use FastFeed\Factory;
-
 class SandboxController extends Controller
 {
     public function actionIndex()

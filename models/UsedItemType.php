@@ -49,6 +49,7 @@ class UsedItemType extends \yii\db\ActiveRecord
         $data = (new \yii\db\Query())
             ->select('id, title')
             ->from($this->tableName())
+            ->where('id < 4')
             ->orderBy('id ASC')
             ->all();
         return ArrayHelper::map($data, 'id', 'title');

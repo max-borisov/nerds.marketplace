@@ -74,6 +74,7 @@ class HiFi4AllParser extends Component
 //            $title = mb_convert_encoding($matches[1][0], 'UTF-8');
 //            $data['title'] = trim($title);
             $data['title'] = trim($matches[1][0]);
+            $data['title'] = substr($data['title'], 0, strrpos($data['title'], '-')-1);
         } else {
             throw new Exception('Could not get item title. Page id ' . $id);
         }
@@ -228,6 +229,7 @@ class HiFi4AllParser extends Component
         $item->type_id      = UsedItemType::UNKNOWN;
 
         $item->s_id         = ExternalSite::HIFI4ALL;
+        $item->title        = $data['title'];
         $item->s_item_id    = $data['id'];
         $item->s_user       = $data['user'];
         $item->s_location   = $data['location'];
@@ -315,6 +317,8 @@ class HiFi4AllParser extends Component
             $ids = self::getLinks($offset);
             self::_parsePageAndSave($ids, $existingRows);
             $offset += $baseOffset;
+
+            break;
         }
         echo "<h1>Done!</h1>";
     }

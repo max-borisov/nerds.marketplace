@@ -35,5 +35,6 @@ body { padding-top: 30px; padding-bottom: 30px; }
 .item-info-table .item-param-name { text-align: right; width: 50%; padding-right: 20px; }
 
 .item-view-info { margin-top: 40px; }
+.item-view-info img { width: 300px; }
 
 .item-previews-block img { width: 230px; }

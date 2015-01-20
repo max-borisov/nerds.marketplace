@@ -17,7 +17,7 @@ use app\components\HelperMarketPlace;
         ) ?>
     </div>
     <div class="col-md-5">
-        <h3><?= ucfirst(Html::encode($data->title)) ?></h3>
+        <h3><?= ucfirst(Html::encode($data->title)) . ' - [' . $data->type->title . ']' ?></h3>
         <?php if (!HelperUser::isGuest()) { ?>
         <div class="row">
             <div class="col-xs-3">Post author:</div>
@@ -39,7 +39,16 @@ use app\components\HelperMarketPlace;
         <?php } ?>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('category_id') ?></div>
-            <div class="col-xs-4"><strong><?= $data->category->title ?></strong></div>
+            <div class="col-xs-4">
+                <strong>
+                    <?php
+                    if (!empty($data->s_type)) {
+                        echo $data->s_type;
+                    } else {
+                        echo $data->category->title;
+                    }
+                    ?>
+                </strong></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('warranty') ?></div>
@@ -56,10 +65,6 @@ use app\components\HelperMarketPlace;
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('manual') ?></div>
             <div class="col-xs-4"><?= $data->manual ? 'Yes' : 'No' ?></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3"><?= $data->getAttributeLabel('type_id') ?></div>
-            <div class="col-xs-4"><?= Html::encode($data->type->title) ?></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('created_at') ?></div>
