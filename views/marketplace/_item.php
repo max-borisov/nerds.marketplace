@@ -25,18 +25,13 @@ use app\components\HelperMarketPlace;
                 <strong>
                 <?php
                 if ($data->user) {
-                    echo Html::a(
-                        $data->user->username,
-                        HelperBase::getForumProfileLink($data->user->id),
-                        ['target' => '_blank']
-                    );
+                    $userName = $data->user->username;
+                    $href = HelperBase::getForumProfileLink($data->user->id);
                 } else {
-                    echo Html::a(
-                        $data->s_user,
-                        '#',
-                        ['target' => '_blank']
-                    );
+                    $userName = $data->s_user;
+                    $href = '#';
                 }
+                echo Html::a($userName, $href, ['target' => '_blank']);
                 ?>
                 </strong>
             </div>
