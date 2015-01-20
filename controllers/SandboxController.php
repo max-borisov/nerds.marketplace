@@ -206,18 +206,12 @@ class SandboxController extends Controller
 
     public function actionHifi4all()
     {
-//        HelperBase::dump(UsedItem::find('129')->one()->attributes);
-//        HelperBase::dump(UsedItem::find('129')->one()->preview);
-
 //        $id = isset($_GET['id']) ? $_GET['id'] : '284516';
 //        $data = HiFi4AllParser::parsePage($id);
 //        HelperBase::dump($data);
 //        HiFi4AllParser::saveItem($data);
-
 //        $data = HiFi4AllParser::getLinks(0);
 
         HiFi4AllParser::fillUpDatabase();
-
-//        HiFi4AllParser::getExistingRows(1);
     }
 }

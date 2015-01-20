@@ -182,7 +182,7 @@ class UsedItem extends \app\components\ActiveRecord
         // Only items related to active categories
         $query->andWhere('category_id > 0');
         $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
-        return $query->all();
+        return $query;
     }
 
     public function beforeSave($insert)

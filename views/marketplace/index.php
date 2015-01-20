@@ -32,9 +32,13 @@ if (Yii::$app->session->hasFlash('item_create_success')) {
 
 if ($data) {
     echo '<p class="lead">There is <span class="badge">' . count($data) . '</span> items found</p>';
+
+    echo $this->render('_itemLinkPager', ['pages' => $pages]);
     foreach ($data as $usedItem) {
         echo $this->render('_item', ['data' => $usedItem]);
     }
+    echo $this->render('_itemLinkPager', ['pages' => $pages]);
+
 } else {
     echo Html::tag('p', 'There are no items appropriate for the filter.', ['class' => 'bg-info col-md-9 text-center']);
 }

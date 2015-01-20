@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\data\Pagination;
 use yii\db\Exception;
 use yii\helpers;
 use yii\web\Controller;
@@ -60,15 +61,23 @@ class MarketplaceController extends Controller
         if (Yii::$app->request->get('UsedItem')) {
             $model->setScenario('search');
             // Search items according to received GET parameters
-            $data = $model->search(Yii::$app->request->get());
+            $query = $model->search(Yii::$app->request->get());
         } else {
-            // Get items with specified order
-            $data = UsedItem::find()
+            $query = UsedItem::find()
                 ->where('category_id > 0')
-                ->orderBy(HelperMarketPlace::getSortParamForItemsList())
-                ->all();
+                ->orderBy(HelperMarketPlace::getSortParamForItemsList());
         }
-        return $this->render('index', ['data' => $data, 'model' => $model]);
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $data = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('index', [
+            'data'  => $data,
+            'pages' => $pages,
+            'model' => $model
+        ]);
     }
 
     // Create item page

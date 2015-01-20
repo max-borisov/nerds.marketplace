@@ -20,6 +20,7 @@ $config = [
 
     // Images base url
     'HiFi4AllPic' => 'http://www.hifi4all.dk/ksb',
+    'linkPagerMaxButtonCount' => 15,
 ];
 
 return array_merge(
