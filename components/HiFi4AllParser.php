@@ -8,10 +8,15 @@ use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use app\models\UsedItem;
-use yii\helpers\ArrayHelper;
 
 class HiFi4AllParser extends Component
 {
+    /**
+     * Fix and prepare html for parsing
+     * @param $page Page url
+     * @param bool $saveToFile Save result html code or not
+     * @return \tidy
+     */
     private static function tidy($page, $saveToFile = false)
     {
         $tidy = new \tidy;
@@ -32,6 +37,12 @@ class HiFi4AllParser extends Component
         return $tidy;
     }
 
+    /**
+     * Parse page by unique id. Get all necessary info.
+     * @param $id Page id
+     * @return array Page data
+     * @throws \yii\base\Exception
+     */
     public static function parsePage($id)
     {
         $html = self::tidy('http://www.hifi4all.dk/ksb/Annonce.asp?id=' . $id);
@@ -184,16 +195,19 @@ class HiFi4AllParser extends Component
         return $data;
     }
 
+    /**
+     * Parse catalog to get links to items pages
+     * @param $offset Offset to catalog pager
+     * @return mixed
+     * @throws \yii\base\Exception
+     */
     public static function getLinks($offset)
     {
         set_time_limit(0);
-
         $html = self::tidy('http://www.hifi4all.dk/ksb/index.asp?offset=' . $offset);
         $data = [];
-
         $pattern = '|<td\s+width="224">(?:.*?)(\d+)(?:.*?)</td>|is';
         preg_match_all($pattern, $html, $matches);
-
         if (empty($matches[1])) {
             throw new Exception('Could not retrieve data.');
         }
@@ -201,6 +215,11 @@ class HiFi4AllParser extends Component
         return $matches[1];
     }
 
+    /**
+     * Save parsed item data to the database
+     * @param $data
+     * @throws \yii\base\Exception
+     */
     public static function saveItem($data)
     {
         $item = new UsedItem();
@@ -259,10 +278,13 @@ class HiFi4AllParser extends Component
         if (!$item->save(false)) {
             throw new Exception('Data could not be saved. Id ' . $data['s_id']);
         }
-//        HelperBase::dump($item->attributes);
-//        HelperBase::dump($item->save(false));
     }
 
+    /**
+     * Get items from database to prevent adding the same data
+     * @param $siteId Site the data were fetched from
+     * @return array
+     */
     public static function getExistingRows($siteId)
     {
         $data = (new \yii\db\Query())
@@ -281,17 +303,34 @@ class HiFi4AllParser extends Component
         return $data;
     }
 
+    /**
+     * Get info from all pages and save it
+     */
     public static function fillUpDatabase()
     {
         $existingRows = self::getExistingRows(ExternalSite::HIFI4ALL);
-        $ids = self::getLinks(0);
+        $baseOffset = 53;
+        $offset = 0;
+        for ($i=0; $i <= 17; $i++) {
+            $ids = self::getLinks($offset);
+            self::_parsePageAndSave($ids, $existingRows);
+            $offset += $baseOffset;
+        }
+        echo "<h1>Done!</h1>";
+    }
+
+    /**
+     * Process catalog page
+     * @param $ids
+     * @param $existingRows
+     */
+    private static function _parsePageAndSave($ids, $existingRows)
+    {
         foreach ($ids as $itemId) {
             if (in_array($itemId, $existingRows)) continue;
             $data = self::parsePage($itemId);
             self::saveItem($data);
             sleep(1);
         }
-
-        echo "<h1>Done!</h1>";
     }
 }
