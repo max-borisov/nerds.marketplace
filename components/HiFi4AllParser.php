@@ -334,7 +334,7 @@ class HiFi4AllParser extends Component
             if (in_array($itemId, $existingRows)) continue;
             $data = self::parsePage($itemId);
             self::saveItem($data);
-            sleep(1);
+            usleep(300000);
         }
     }
 }
