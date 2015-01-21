@@ -14,13 +14,14 @@ class ParserController extends Controller
 {
     public function actionHifi4all()
     {
+        if (YII_ENV_DEV) {
+            echo "Command does not work update DEV environment.\r\n";
+        }
 
+//        echo YII_ENV_DEV;
 //        $t = new \tidy;
-
 //        print_r(get_loaded_extensions());
-
-        echo extension_loaded('tidy') ? 'ok' : 'no';
-
+//        echo extension_loaded('tidy') ? 'ok' : 'no';
 //        HiFi4AllParser::copyData();
     }
 }
