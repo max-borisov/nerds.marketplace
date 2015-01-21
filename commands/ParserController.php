@@ -15,7 +15,7 @@ class ParserController extends Controller
     public function actionHifi4all()
     {
         if (YII_ENV_DEV) {
-            echo "Command does not work update DEV environment.\r\n";
+            echo "Command does not work under DEV environment.\r\n";
         } else {
             HiFi4AllParser::copyData();
         }

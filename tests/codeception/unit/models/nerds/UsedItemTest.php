@@ -137,12 +137,12 @@ class UsedItemTest extends DbTestCase
             $_GET['UsedItem']['search_text'] = 'bla bla bla oops';
             $_GET['UsedItem']['price_min'] = '';
             $_GET['UsedItem']['price_max'] = '';
-            expect('search result is empty', $model->search(Yii::$app->request->get()))->isEmpty();
+            expect('search result is empty', $model->search(Yii::$app->request->get())->all())->isEmpty();
 
             $_GET['UsedItem']['search_text'] = '';
             $_GET['UsedItem']['price_min'] = 1;
             $_GET['UsedItem']['price_max'] = 10000;
-            expect('search result is not empty', $model->search(Yii::$app->request->get()))->notEmpty();
+            expect('search result is not empty', $model->search(Yii::$app->request->get())->all())->notEmpty();
         });
     }
 

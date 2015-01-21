@@ -305,6 +305,21 @@ class HiFi4AllParser extends Component
     }
 
     /**
+     * Process catalog page
+     * @param $ids
+     * @param $existingRows
+     */
+    private static function _parsePageAndSave($ids, $existingRows)
+    {
+        foreach ($ids as $itemId) {
+            if (in_array($itemId, $existingRows)) continue;
+            $data = self::parsePage($itemId);
+            self::saveItem($data);
+            usleep(300000);
+        }
+    }
+
+    /**
      * Get info from all pages and save it
      */
     public static function copyData()
@@ -321,20 +336,5 @@ class HiFi4AllParser extends Component
 //            break;
         }
         echo "Done!\r\n";
-    }
-
-    /**
-     * Process catalog page
-     * @param $ids
-     * @param $existingRows
-     */
-    private static function _parsePageAndSave($ids, $existingRows)
-    {
-        foreach ($ids as $itemId) {
-            if (in_array($itemId, $existingRows)) continue;
-            $data = self::parsePage($itemId);
-            self::saveItem($data);
-            usleep(300000);
-        }
     }
 }
