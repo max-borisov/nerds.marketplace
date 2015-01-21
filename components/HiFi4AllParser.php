@@ -318,8 +318,7 @@ class HiFi4AllParser extends Component
             $ids = self::getLinks($offset);
             self::_parsePageAndSave($ids, $existingRows);
             $offset += $baseOffset;
-
-            break;
+//            break;
         }
         echo "Done!\r\n";
     }
