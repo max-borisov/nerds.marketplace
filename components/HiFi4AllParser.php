@@ -204,7 +204,6 @@ class HiFi4AllParser extends Component
      */
     public static function getLinks($offset)
     {
-        set_time_limit(0);
         $html = self::tidy('http://www.hifi4all.dk/ksb/index.asp?offset=' . $offset);
         $data = [];
         $pattern = '|<td\s+width="224">(?:.*?)(\d+)(?:.*?)</td>|is';
@@ -310,6 +309,8 @@ class HiFi4AllParser extends Component
      */
     public static function copyData()
     {
+        set_time_limit(0);
+
         $existingRows = self::getExistingRows(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;

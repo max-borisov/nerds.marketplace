@@ -16,12 +16,9 @@ class ParserController extends Controller
     {
         if (YII_ENV_DEV) {
             echo "Command does not work update DEV environment.\r\n";
+        } else {
+            HiFi4AllParser::copyData();
         }
-
-//        echo YII_ENV_DEV;
-//        $t = new \tidy;
 //        print_r(get_loaded_extensions());
-//        echo extension_loaded('tidy') ? 'ok' : 'no';
-//        HiFi4AllParser::copyData();
     }
 }
