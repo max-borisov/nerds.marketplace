@@ -30,6 +30,15 @@ class HiFi4AllNews extends HiFi4AllBase
         // Af
         $data['af'] = $this->_getAf($root);
 
+        // Notification
+        $data['notice'] = $this->_getNotification($root);
+
+        // Notification
+        $data['img'] = $this->_getImages($root);
+
+        // Post text
+        $data['post'] = $this->_getPostText($root);
+
         HelperBase::dump($data);
 
     }
@@ -76,4 +85,38 @@ class HiFi4AllNews extends HiFi4AllBase
             throw new Exception('Could not get Af attribute. News id ' . $this->_newsId);
         }
     }
+
+    private function _getNotification($html)
+    {
+        $pattern = '|<b>([^<]+)</b>|is';
+        preg_match_all($pattern, $html, $matches);
+        if (isset($matches[1], $matches[1][0])) {
+            return trim($matches[1][0]);
+        } else {
+            throw new Exception('Could not get notification message. News id ' . $this->_newsId);
+        }
+    }
+
+    private function _getImages($html)
+    {
+        $pattern = '|src="(http://www.hifi4all.dk[^"]+)"|is';
+        preg_match_all($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            throw new Exception('Could not get post images. News id ' . $this->_newsId);
+        }
+    }
+
+    private function _getPostText($html)
+    {
+        $pattern = '|<td\s+width="100%"\s+valign="top">(.*?)</td>|is';
+        preg_match_all($pattern, $html, $matches);
+        if (isset($matches[1], $matches[1][0])) {
+            return strip_tags($matches[1][0], '<p>, <ul>, <li>, <a>, <b>, <u>, <img>');
+        } else {
+            throw new Exception('Could not get post text. News id ' . $this->_newsId);
+        }
+    }
+//HelperBase::dump($matches, true);
 }
