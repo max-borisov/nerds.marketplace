@@ -4,7 +4,8 @@ namespace app\controllers;
 
 use app\components\FeedParser;
 use app\components\HelperMarketPlace;
-use app\components\HiFi4AllParser;
+use app\components\hifi4all\HiFi4AllMarket;
+use app\components\hifi4all\HiFi4AllNews;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
 use app\models\UsedItem;
@@ -204,13 +205,50 @@ class SandboxController extends Controller
 
     public function actionHifi4all()
     {
+        $actions = ['market', 'news', 'review'];
+        if (isset($_GET['action'])) {
+            if (!in_array($_GET['action'], $actions)) {
+                exit('Unknown action.');
+            }
+            $action = $_GET['action'];
+
+            if ($action === 'market') {
+                return true;
+
+                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllMarket.php';
+                $parser = new HiFi4AllMarket();
+                $parser->run();
+
+                return true;
+            }
+
+            if ($action === 'news') {
+                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllNews.php';
+                $parser = new HiFi4AllNews();
+
+                $parser->parsePage($_GET['id']);
+//                $parser->run();
+
+                return false;
+            }
+
+            if ($action === 'review') {
+                return true;
+            }
+        }
+
+
 //        $id = isset($_GET['id']) ? $_GET['id'] : '284516';
 //        $data = HiFi4AllParser::parsePage($id);
 //        HelperBase::dump($data);
 //        HiFi4AllParser::saveItem($data);
 //        $data = HiFi4AllParser::getLinks(0);
 
-        HiFi4AllParser::copyData();
+//        HiFi4AllParser::copyData();
+
+//        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllMarket.php';
+//        $parser = new HiFi4AllMarket();
+//        $parser->run();
 
 //        $page = HiFi4AllParser::parsePage(285048);
 //        HelperBase::dump($page);

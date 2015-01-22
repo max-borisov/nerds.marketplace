@@ -1,41 +1,19 @@
 <?php
-namespace app\components;
+namespace app\components\hifi4all;
 
+use app\components\hifi4all\HiFi4AllBase;
 use app\models\Category;
 use app\models\ExternalSite;
 use app\models\UsedItemType;
 use Yii;
-use yii\base\Component;
 use yii\base\Exception;
 use app\models\UsedItem;
 
-class HiFi4AllParser extends Component
+require_once __DIR__ . '/HiFi4AllBase.php';
+
+class HiFi4AllMarket extends HiFi4AllBase
 {
-    /**
-     * Fix and prepare html for parsing
-     * @param $page Page url
-     * @param bool $saveToFile Save result html code or not
-     * @return \tidy
-     */
-    private static function tidy($page, $saveToFile = false)
-    {
-        $tidy = new \tidy;
-        $config = array(
-            'indent'         => true,
-            'output-xhtml'   => true,
-            'wrap'           => 200);
-        $tidy->parseString(file_get_contents($page), $config, 'latin1');
-        $tidy->cleanRepair();
-
-        if ($saveToFile) {
-            ob_start();
-                echo $tidy;
-            $html = ob_get_clean();
-            file_put_contents(Yii::getAlias('@app') . '/runtime/parse_html.html', $html);
-        }
-
-        return $tidy;
-    }
+    private $_baseUrl = 'http://www.hifi4all.dk/ksb/';
 
     /**
      * Parse page by unique id. Get all necessary info.
@@ -43,9 +21,9 @@ class HiFi4AllParser extends Component
      * @return array Page data
      * @throws \yii\base\Exception
      */
-    public static function parsePage($id)
+    public function parsePage($id)
     {
-        $html = self::tidy('http://www.hifi4all.dk/ksb/Annonce.asp?id=' . $id);
+        $html = $this->tidy($this->_baseUrl . 'Annonce.asp?id=' . $id);
         $data = [];
         $data['id'] = $id;
 
@@ -55,7 +33,7 @@ class HiFi4AllParser extends Component
         $root = str_replace('</font>', '', $root);
         $root = preg_replace('|<font[^>]+>|is', '', $root);
         $root = str_replace(['<br>', '<br/>', '<br />'], '', $root);
-        $root = self::iconv($root);
+        $root = $this->iconv($root);
 
         // Item title
         $pattern = '|<td\s+width="90%"\s+background=".*?">\s+<b>(.*?)</b>\s+</td>\s+|isx';
@@ -190,9 +168,9 @@ class HiFi4AllParser extends Component
      * @return mixed
      * @throws \yii\base\Exception
      */
-    public static function getLinks($offset)
+    public function getCatalogLinks($offset)
     {
-        $html = self::tidy('http://www.hifi4all.dk/ksb/index.asp?offset=' . $offset);
+        $html = $this->tidy($this->_baseUrl . 'index.asp?offset=' . $offset);
         $data = [];
         $pattern = '|<td\s+width="224">(?:.*?)(\d+)(?:.*?)</td>|is';
         preg_match_all($pattern, $html, $matches);
@@ -209,7 +187,7 @@ class HiFi4AllParser extends Component
      * @return int
      * @throws \yii\base\Exception
      */
-    public static function saveItem($data)
+    public function saveItem($data)
     {
         $item = new UsedItem();
         $item->user_id      = 112233;
@@ -272,63 +250,35 @@ class HiFi4AllParser extends Component
     }
 
     /**
-     * Get items from database to prevent adding the same data
-     * @param $siteId Site the data were fetched from
-     * @return array
-     */
-    public static function getExistingRows($siteId)
-    {
-        $data = (new \yii\db\Query())
-            ->select('s_item_id')
-            ->from('_used_item')
-            ->where('s_id = :sid', ['sid' => $siteId])
-            ->all();
-
-        if ($data) {
-            $tmp = [];
-            foreach ($data as $item) {
-                $tmp[] = $item['s_item_id'];
-            }
-            $data = $tmp;
-        }
-        return $data;
-    }
-
-    /**
      * Process catalog page
      * @param $ids
      * @param $existingRows
      */
-    private static function _parsePageAndSave($ids, $existingRows)
+    private function _parsePageAndSave($ids, $existingRows)
     {
         foreach ($ids as $itemId) {
             if (in_array($itemId, $existingRows)) continue;
-            $data = self::parsePage($itemId);
-            self::saveItem($data);
-            usleep(300000);
+            $data = $this->parsePage($itemId);
+            $this->saveItem($data);
+            usleep(10000);
         }
-    }
-
-    public static function iconv($string)
-    {
-        return iconv('latin1', 'utf8', $string);
     }
 
     /**
      * Get info from all pages and save it
      */
-    public static function copyData()
+    public function run()
     {
         set_time_limit(0);
 
-        $existingRows = self::getExistingRows(ExternalSite::HIFI4ALL);
+        $existingRecords = $this->getExistingRecords(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;
         for ($i=0; $i <= 17; $i++) {
-            $ids = self::getLinks($offset);
-            self::_parsePageAndSave($ids, $existingRows);
+            $ids = $this->getCatalogLinks($offset);
+            $this->_parsePageAndSave($ids, $existingRecords);
             $offset += $baseOffset;
-//            break;
+            break;
         }
         echo "Done!\r\n";
     }
