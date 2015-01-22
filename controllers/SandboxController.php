@@ -211,5 +211,11 @@ class SandboxController extends Controller
 //        $data = HiFi4AllParser::getLinks(0);
 
         HiFi4AllParser::copyData();
+
+//        $page = HiFi4AllParser::parsePage(285048);
+//        HelperBase::dump($page);
+//        $res = HiFi4AllParser::saveItem($page);
+//        HelperBase::dump($res);
+
     }
 }

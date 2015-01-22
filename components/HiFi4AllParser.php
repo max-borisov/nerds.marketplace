@@ -24,7 +24,7 @@ class HiFi4AllParser extends Component
             'indent'         => true,
             'output-xhtml'   => true,
             'wrap'           => 200);
-        $tidy->parseString(file_get_contents($page), $config, 'utf8');
+        $tidy->parseString(file_get_contents($page), $config, 'latin1');
         $tidy->cleanRepair();
 
         if ($saveToFile) {
@@ -52,27 +52,15 @@ class HiFi4AllParser extends Component
         $pattern = '|<td\s+width="604"\s+valign="top">(.*)</td>|is';
         preg_match_all($pattern, $html, $matches);
         $root = $matches[0][0];
-
-//        $root = mb_convert_encoding($root, 'UTF-8');
-//        HelperBase::dump($root, true);
-        /*echo $root = preg_replace(
-            ['/æ/', '/ø/', '/å/', '/Æ/', '/Ø/', '/Å/'],
-            ['&aelig;', '&oslash;', '&aring;', '&AElig;', '&Oslash;', '&Aring;'],
-            $root
-        );*/
-
         $root = str_replace('</font>', '', $root);
         $root = preg_replace('|<font[^>]+>|is', '', $root);
         $root = str_replace(['<br>', '<br/>', '<br />'], '', $root);
+        $root = self::iconv($root);
 
         // Item title
         $pattern = '|<td\s+width="90%"\s+background=".*?">\s+<b>(.*?)</b>\s+</td>\s+|isx';
         preg_match_all($pattern, $root, $matches);
         if (isset($matches[1], $matches[1][0])) {
-//            $title = iconv('ISO-8859-1', 'UTF-8//IGNORE', $matches[1][0]);
-//            $title = utf8_encode($matches[1][0]);
-//            $title = mb_convert_encoding($matches[1][0], 'UTF-8');
-//            $data['title'] = trim($title);
             $data['title'] = trim($matches[1][0]);
             $data['title'] = substr($data['title'], 0, strrpos($data['title'], '-')-1);
         } else {
@@ -218,6 +206,7 @@ class HiFi4AllParser extends Component
     /**
      * Save parsed item data to the database
      * @param $data
+     * @return int
      * @throws \yii\base\Exception
      */
     public static function saveItem($data)
@@ -279,6 +268,7 @@ class HiFi4AllParser extends Component
         if (!$item->save(false)) {
             throw new Exception('Data could not be saved. Id ' . $data['s_id']);
         }
+        return $item->id;
     }
 
     /**
@@ -319,6 +309,11 @@ class HiFi4AllParser extends Component
         }
     }
 
+    public static function iconv($string)
+    {
+        return iconv('latin1', 'utf8', $string);
+    }
+
     /**
      * Get info from all pages and save it
      */
@@ -333,7 +328,8 @@ class HiFi4AllParser extends Component
             $ids = self::getLinks($offset);
             self::_parsePageAndSave($ids, $existingRows);
             $offset += $baseOffset;
-//            break;
+
+            break;
         }
         echo "Done!\r\n";
     }
