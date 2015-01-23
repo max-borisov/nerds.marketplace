@@ -11,6 +11,7 @@ require_once __DIR__ . '/HiFi4AllBase.php';
 class HiFi4AllNews extends HiFi4AllBase
 {
     private $_baseUrl = 'http://hifi4all.dk/content/templates/nyheder.asp?articleid=';
+    private $_baseCatalogUrl = 'http://hifi4all.dk/content/nyheder_new.asp?side=';
 
     private $_newsId = 0;
 
@@ -39,8 +40,7 @@ class HiFi4AllNews extends HiFi4AllBase
         // Post text
         $data['post'] = $this->_getPostText($root);
 
-        HelperBase::dump($data);
-
+        return $data;
     }
 
     public function saveItem($data)
@@ -48,9 +48,39 @@ class HiFi4AllNews extends HiFi4AllBase
 
     }
 
+    /**
+     * Parse catalog to get links to news pages
+     * @param integer $side Catalog page number
+     * @return mixed
+     * @throws \yii\base\Exception
+     */
+    public function getCatalogLinks($side)
+    {
+        $html = $this->tidy($this->_baseCatalogUrl . $side);
+        $pattern = '|<td\s+width="336">(?:.*?)(\d{4})(?:.*?)</td>|is';
+        preg_match_all($pattern, $html, $matches);
+        if (isset($matches[1], $matches[1][0])) {
+            return $matches[1];
+        } else {
+            throw new Exception('Could not retrieve news ids from catalog page. Page id ' . $side);
+        }
+    }
+
     public function run()
     {
+        set_time_limit(0);
 
+        $side = 1;
+        $ids = $this->getCatalogLinks($side);
+        foreach ($ids as $newsId) {
+            $data = $this->parsePage($newsId);
+            HelperBase::dump($data);
+            break;
+//            echo "<hr>";
+        }
+
+
+//        HelperBase::dump($ids, true);
     }
 
     private function _getRootBlock($html)
@@ -113,10 +143,10 @@ class HiFi4AllNews extends HiFi4AllBase
         $pattern = '|<td\s+width="100%"\s+valign="top">(.*?)</td>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
-            return strip_tags($matches[1][0], '<p>, <ul>, <li>, <a>, <b>, <u>, <img>');
+            $post = trim(strip_tags($matches[1][0], '<p>, <ul>, <li>, <a>, <b>, <u>, <img>'));
+            return preg_replace('|\s+|', ' ', $post);
         } else {
             throw new Exception('Could not get post text. News id ' . $this->_newsId);
         }
     }
-//HelperBase::dump($matches, true);
 }
