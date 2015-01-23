@@ -2,6 +2,8 @@
 namespace app\components\hifi4all;
 
 use app\components\hifi4all\HiFi4AllBase;
+use app\models\ExternalSite;
+use app\models\News;
 use Yii;
 use app\components\HelperBase;
 use yii\base\Exception;
@@ -45,7 +47,19 @@ class HiFi4AllNews extends HiFi4AllBase
 
     public function saveItem($data)
     {
+        $item = new News();
+        $item->site_id  = ExternalSite::HIFI4ALL;
+        $item->news_id  = $data['id'];
+        $item->title    = $data['title'];
+        $item->af       = $data['af'];
+        $item->notice   = $data['notice'];
+        $item->post     = $data['post'];
 
+        if ($item->validate() && $item->save(false)) {
+            return $item->id;
+        } else {
+            throw new Exception('News data could not be saved. News id ' . $data['id']);
+        }
     }
 
     /**
@@ -75,12 +89,11 @@ class HiFi4AllNews extends HiFi4AllBase
         foreach ($ids as $newsId) {
             $data = $this->parsePage($newsId);
             HelperBase::dump($data);
-            break;
+            HelperBase::dump($this->saveItem($data));
+            usleep(10000);
+//            break;
 //            echo "<hr>";
         }
-
-
-//        HelperBase::dump($ids, true);
     }
 
     private function _getRootBlock($html)

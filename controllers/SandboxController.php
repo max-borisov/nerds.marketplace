@@ -6,6 +6,7 @@ use app\components\FeedParser;
 use app\components\HelperMarketPlace;
 use app\components\hifi4all\HiFi4AllMarket;
 use app\components\hifi4all\HiFi4AllNews;
+use app\models\News;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
 use app\models\UsedItem;
@@ -256,5 +257,17 @@ class SandboxController extends Controller
 //        $res = HiFi4AllParser::saveItem($page);
 //        HelperBase::dump($res);
 
+    }
+
+    public function actionTest()
+    {
+        $m = new News();
+        $m->af = '11212';
+        $m->title = '11212_t';
+        $m->notice = 'scdscds';
+        $m->post = 'saasxs';
+
+        HelperBase::dump($m->validate());
+        HelperBase::dump($m->save(false));
     }
 }

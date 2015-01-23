@@ -8,6 +8,8 @@ use Yii;
  * This is the model class for table "_news".
  *
  * @property integer $id
+ * @property integer $site_id
+ * @property integer $news_id
  * @property string $title
  * @property string $af
  * @property string $notice
@@ -15,7 +17,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class News extends \yii\db\ActiveRecord
+class News extends \app\components\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -31,9 +33,10 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'af', 'notice', 'post'], 'required'],
-            [['title', 'af', 'notice'], 'string', 'max' => 255, 'allowEmpty' => true],
-            [['post'], 'string', 'allowEmpty' => true],
+//            [['title', 'af', 'notice', 'post'], 'required'],
+            [['title', 'af', 'post'], 'required'],
+            [['title', 'af', 'notice'], 'string', 'max' => 255],
+            [['post'], 'string'],
         ];
     }
 
