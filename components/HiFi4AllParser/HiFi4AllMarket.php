@@ -265,6 +265,29 @@ class HiFi4AllMarket extends HiFi4AllBase
     }
 
     /**
+     * Get items from database to prevent adding the same data
+     * @param integer $siteId Site the data were fetched from
+     * @return array
+     */
+    public function getExistingRecords($siteId)
+    {
+        $data = (new \yii\db\Query())
+            ->select('s_item_id')
+            ->from('_used_item')
+            ->where('s_id = :sid', ['sid' => $siteId])
+            ->all();
+
+        if ($data) {
+            $tmp = [];
+            foreach ($data as $item) {
+                $tmp[] = $item['s_item_id'];
+            }
+            $data = $tmp;
+        }
+        return $data;
+    }
+
+    /**
      * Get info from all pages and save it
      */
     public function run()

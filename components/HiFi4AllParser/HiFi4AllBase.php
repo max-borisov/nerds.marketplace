@@ -8,6 +8,7 @@ abstract class HiFi4AllBase extends Component
 {
     abstract public function parsePage($id);
     abstract public function saveItem($data);
+    abstract public function getExistingRecords($siteId);
     abstract public function run();
 
     /**
@@ -34,30 +35,6 @@ abstract class HiFi4AllBase extends Component
         }
 
         return $tidy;
-    }
-
-    /**
-     * Get items from database to prevent adding the same data
-     * @param integer $siteId Site the data were fetched from
-     * @param integer $recordType Record type: news, review, item...
-     * @return array
-     */
-    public function getExistingRecords($siteId, $recordType = 0)
-    {
-        $data = (new \yii\db\Query())
-            ->select('s_item_id')
-            ->from('_used_item')
-            ->where('s_id = :sid', ['sid' => $siteId])
-            ->all();
-
-        if ($data) {
-            $tmp = [];
-            foreach ($data as $item) {
-                $tmp[] = $item['s_item_id'];
-            }
-            $data = $tmp;
-        }
-        return $data;
     }
 
     public function iconv($string)

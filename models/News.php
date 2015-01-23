@@ -14,6 +14,7 @@ use Yii;
  * @property string $af
  * @property string $notice
  * @property string $post
+ * @property string $post_date
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -34,8 +35,8 @@ class News extends \app\components\ActiveRecord
     {
         return [
 //            [['title', 'af', 'notice', 'post'], 'required'],
-            [['title', 'af', 'post'], 'required'],
-            [['title', 'af', 'notice'], 'string', 'max' => 255],
+            [['title', 'af', 'post', 'site_id', 'news_id'], 'required'],
+            [['title', 'af', 'notice', 'post_date'], 'string', 'max' => 255],
             [['post'], 'string'],
         ];
     }

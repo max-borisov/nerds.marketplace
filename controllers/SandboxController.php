@@ -227,7 +227,7 @@ class SandboxController extends Controller
                 require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllNews.php';
                 $parser = new HiFi4AllNews();
 
-//                $parser->parsePage($_GET['id']);
+//                HelperBase::dump($parser->parsePage($_GET['id']));
 //                $parser->getCatalogLinks();
                 $parser->run();
 

@@ -33,6 +33,9 @@ class HiFi4AllNews extends HiFi4AllBase
         // Af
         $data['af'] = $this->_getAf($root);
 
+        // Date
+        $data['date'] = $this->_getDate($root);
+
         // Notification
         $data['notice'] = $this->_getNotification($root);
 
@@ -48,18 +51,37 @@ class HiFi4AllNews extends HiFi4AllBase
     public function saveItem($data)
     {
         $item = new News();
-        $item->site_id  = ExternalSite::HIFI4ALL;
-        $item->news_id  = $data['id'];
-        $item->title    = $data['title'];
-        $item->af       = $data['af'];
-        $item->notice   = $data['notice'];
-        $item->post     = $data['post'];
+        $item->site_id      = ExternalSite::HIFI4ALL;
+        $item->news_id      = $data['id'];
+        $item->title        = $data['title'];
+        $item->af           = $data['af'];
+        $item->notice       = $data['notice'];
+        $item->post         = $data['post'];
+        $item->post_date    = $data['date'];
 
-        if ($item->validate() && $item->save(false)) {
+        if ($item->save(false)) {
             return $item->id;
         } else {
             throw new Exception('News data could not be saved. News id ' . $data['id']);
         }
+    }
+
+    public function getExistingRecords($siteId)
+    {
+        $data = (new \yii\db\Query())
+            ->select('news_id')
+            ->from('_news')
+            ->where('site_id = :sid', ['sid' => $siteId])
+            ->all();
+
+        if ($data) {
+            $tmp = [];
+            foreach ($data as $item) {
+                $tmp[] = $item['news_id'];
+            }
+            $data = $tmp;
+        }
+        return $data;
     }
 
     /**
@@ -84,16 +106,18 @@ class HiFi4AllNews extends HiFi4AllBase
     {
         set_time_limit(0);
 
-        $side = 1;
-        $ids = $this->getCatalogLinks($side);
-        foreach ($ids as $newsId) {
-            $data = $this->parsePage($newsId);
-            HelperBase::dump($data);
-            HelperBase::dump($this->saveItem($data));
-            usleep(10000);
-//            break;
-//            echo "<hr>";
+        $existingRecords = $this->getExistingRecords(ExternalSite::HIFI4ALL);
+        for ($side = 1; $side <= 8; $side++) {
+            $ids = $this->getCatalogLinks($side);
+            foreach ($ids as $newsId) {
+                if (in_array($newsId, $existingRecords)) continue;
+                $data = $this->parsePage($newsId);
+                $this->saveItem($data);
+//                break;
+                usleep(1000);
+            }
         }
+        echo "DONE!\r\n";
     }
 
     private function _getRootBlock($html)
@@ -124,6 +148,17 @@ class HiFi4AllNews extends HiFi4AllBase
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
             return trim(str_replace('&nbsp;', '', $matches[1][0]));
+        } else {
+            throw new Exception('Could not get Af attribute. News id ' . $this->_newsId);
+        }
+    }
+
+    private function _getDate($html)
+    {
+        $pattern = '|<font\s+color="#999999">(.*?)</font>|is';
+        preg_match_all($pattern, $html, $matches);
+        if (isset($matches[1], $matches[1][0])) {
+            return str_replace(['[', ']'], '', $matches[1][0]);
         } else {
             throw new Exception('Could not get Af attribute. News id ' . $this->_newsId);
         }
