@@ -22,5 +22,7 @@ return [
         'item/preview/delete/<id:\d+>' => 'marketplace/deletepreview',
 
         'items' => 'marketplace/items',
+
+        '/news/view/<id:\d+>' => 'news/view',
     ],
 ];

@@ -191,7 +191,7 @@ class HiFi4AllNews extends HiFi4AllBase
         $pattern = '|<td\s+width="100%"\s+valign="top">(.*?)</td>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
-            $post = trim(strip_tags($matches[1][0], '<p>, <ul>, <li>, <a>, <b>, <u>, <img>'));
+            $post = trim(strip_tags($matches[1][0], '<p>, <ul>, <li>, <a>, <b>, <u>, <img>, <br>, <strong>'));
             return preg_replace('|\s+|', ' ', $post);
         } else {
             throw new Exception('Could not get post text. News id ' . $this->_newsId);

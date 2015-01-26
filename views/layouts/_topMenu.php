@@ -18,6 +18,9 @@ use app\models\PhpbbUser;
         <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
             <?= Html::a('Categories', Url::to('/category')) ?>
         </li>
+        <li>
+            <?= Html::a('News', Url::to('/news')) ?>
+        </li>
     </ul>
 
     <!--    Action links-->

@@ -41,6 +41,15 @@ class News extends \app\components\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        $this->title    = iconv('latin1', 'utf8', $this->title);
+        $this->af       = iconv('latin1', 'utf8', $this->af);
+        $this->notice   = iconv('latin1', 'utf8', $this->notice);
+        $this->post     = iconv('latin1', 'utf8', $this->post);
+        return parent::beforeSave($insert);
+    }
+
     /**
      * @inheritdoc
      */

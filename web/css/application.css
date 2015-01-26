@@ -23,6 +23,10 @@ body { padding-top: 30px; padding-bottom: 30px; }
 
 .item-action-links { margin-top: 40px; }
 
+.news-af span { margin-left: 10px; color: #aaa; }
+
+.news-post img { margin: 20px 20px; }
+
 .form-signin { margin: 0 auto; padding: 15px; max-width: 400px; }
 .form-signin input { margin: 10px 0; }
 
