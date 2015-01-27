@@ -48,24 +48,6 @@ class HiFi4AllNews extends HiFi4AllBase
         return $data;
     }
 
-    public function saveItem($data)
-    {
-        $item = new News();
-        $item->site_id      = ExternalSite::HIFI4ALL;
-        $item->news_id      = $data['id'];
-        $item->title        = $data['title'];
-        $item->af           = $data['af'];
-        $item->notice       = $data['notice'];
-        $item->post         = $data['post'];
-        $item->post_date    = $data['date'];
-
-        if ($item->save(false)) {
-            return $item->id;
-        } else {
-            throw new Exception('News data could not be saved. News id ' . $data['id']);
-        }
-    }
-
     public function getExistingRecords($siteId)
     {
         $data = (new \yii\db\Query())
@@ -82,6 +64,24 @@ class HiFi4AllNews extends HiFi4AllBase
             $data = $tmp;
         }
         return $data;
+    }
+
+    public function saveItem($data)
+    {
+        $item = new News();
+        $item->site_id      = ExternalSite::HIFI4ALL;
+        $item->news_id      = $data['id'];
+        $item->title        = $data['title'];
+        $item->af           = $data['af'];
+        $item->notice       = $data['notice'];
+        $item->post         = $data['post'];
+        $item->post_date    = $data['date'];
+
+        if ($item->save(false)) {
+            return $item->id;
+        } else {
+            throw new Exception('News data could not be saved. News id ' . $data['id']);
+        }
     }
 
     /**
@@ -161,7 +161,7 @@ class HiFi4AllNews extends HiFi4AllBase
             $date = str_replace(['[', ']'], '', $matches[1][0]);
             return preg_replace('|(\d{2}).(\d{2}).(\d{4})|is', '$3-$2-$1', $date);
         } else {
-            throw new Exception('Could not get Af attribute. News id ' . $this->_newsId);
+            throw new Exception('Could not get date attribute. News id ' . $this->_newsId);
         }
     }
 

@@ -6,6 +6,7 @@ use app\components\FeedParser;
 use app\components\HelperMarketPlace;
 use app\components\hifi4all\HiFi4AllMarket;
 use app\components\hifi4all\HiFi4AllNews;
+use app\components\hifi4all\HiFi4AllReviews;
 use app\models\News;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
@@ -226,15 +227,14 @@ class SandboxController extends Controller
             if ($action === 'news') {
                 require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllNews.php';
                 $parser = new HiFi4AllNews();
-
-//                HelperBase::dump($parser->parsePage($_GET['id']));
-//                $parser->getCatalogLinks();
                 $parser->run();
-
                 return false;
             }
 
             if ($action === 'review') {
+                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllReviews.php';
+                $parser = new HiFi4AllReviews();
+                $parser->run();
                 return true;
             }
         }
