@@ -4,6 +4,8 @@
 
 use yii\helpers\Html;
 
+$this->params['isUsedItemPage'] = true;
+
 echo $this->render('../shared/backButton', ['link' => '/']);
 echo $this->render('../shared/header', ['header' => Html::encode($data->title)]);
 ?>

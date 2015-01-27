@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+$this->params['isNewsPage'] = true;
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
