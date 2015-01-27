@@ -11,7 +11,7 @@ use app\models\UsedItem;
 
 require_once __DIR__ . '/HiFi4AllBase.php';
 
-class HiFi4AllMarket extends HiFi4AllBase
+class HiFi4AllItems extends HiFi4AllBase
 {
     private $_baseUrl = 'http://www.hifi4all.dk/ksb/';
 

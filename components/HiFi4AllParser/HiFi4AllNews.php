@@ -158,7 +158,8 @@ class HiFi4AllNews extends HiFi4AllBase
         $pattern = '|<font\s+color="#999999">(.*?)</font>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
-            return str_replace(['[', ']'], '', $matches[1][0]);
+            $date = str_replace(['[', ']'], '', $matches[1][0]);
+            return preg_replace('|(\d{2}).(\d{2}).(\d{4})|is', '$3-$2-$1', $date);
         } else {
             throw new Exception('Could not get Af attribute. News id ' . $this->_newsId);
         }

@@ -216,7 +216,7 @@ class SandboxController extends Controller
             if ($action === 'market') {
                 return true;
 
-                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllMarket.php';
+                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
                 $parser = new HiFi4AllMarket();
                 $parser->run();
 
