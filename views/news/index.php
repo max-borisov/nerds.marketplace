@@ -4,6 +4,7 @@ use yii\helpers\Url;
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
+        <?= $this->render('../_common/linkPager', ['pages' => $pages]) ?>
         <table class="table table-striped table-hover news-table">
             <thead>
                 <tr>
@@ -25,5 +26,6 @@ use yii\helpers\Url;
             ?>
             </tbody>
         </table>
+        <?= $this->render('../_common/linkPager', ['pages' => $pages]) ?>
     </div>
 </div>

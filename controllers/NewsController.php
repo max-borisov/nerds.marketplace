@@ -5,9 +5,8 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
+use yii\data\Pagination;
 use app\models\News;
-
-use app\components\HelperBase;
 
 class NewsController extends Controller
 {
@@ -19,11 +18,6 @@ class NewsController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    /*[
-                        'allow' => true,
-                        'actions' => ['create', 'items', 'delete', 'edit', 'upload', 'deletepreview'],
-                        'roles' => ['@'],
-                    ],*/
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
@@ -45,18 +39,25 @@ class NewsController extends Controller
 
     public function actionIndex()
     {
-        $data = News::find()->select('id, title, post_date')->all();
-        return $this->render('index', ['data' => $data]);
+        $query = News::find()->select('id, title, post_date');
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $data = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('index', [
+            'data' => $data,
+            'pages' => $pages,
+        ]);
     }
 
     // View item page
     public function actionView($id)
     {
         $news = News::find()->where('id = :id', [':id' => $id])->one();
-//        HelperBase::dump($news->attributes);
-        /*if (!$item) {
-            $this->redirect('/');
-        }*/
+        if (!$news) {
+            $this->redirect('/news');
+        }
         return $this->render('view', ['news' => $news]);
     }
 }
