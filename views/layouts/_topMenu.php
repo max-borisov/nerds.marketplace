@@ -21,6 +21,9 @@ use app\models\PhpbbUser;
         <li class="<?= isset($this->params['isNewsPage']) ? 'active' : '' ?>">
             <?= Html::a('News', Url::to('/news')) ?>
         </li>
+        <li class="<?= isset($this->params['isReviewsPage']) ? 'active' : '' ?>">
+            <?= Html::a('Reviews', Url::to('/reviews')) ?>
+        </li>
     </ul>
 
     <!--    Action links-->

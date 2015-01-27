@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\ReviewsTypes;
 
 /**
  * This is the model class for table "_reviews".
@@ -50,6 +51,11 @@ class Reviews extends \app\components\ActiveRecord
         $this->notice   = iconv('latin1', 'utf8', $this->notice);
         $this->post     = iconv('latin1', 'utf8', $this->post);
         return parent::beforeSave($insert);
+    }
+
+    public function getType()
+    {
+        return $this->hasOne(ReviewsTypes::className(), ['id' => 'review_type_id']);
     }
 
     /**

@@ -24,5 +24,6 @@ return [
         'items' => 'marketplace/items',
 
         '/news/view/<id:\d+>' => 'news/view',
+        '/reviews/view/<id:\d+>' => 'reviews/view',
     ],
 ];
