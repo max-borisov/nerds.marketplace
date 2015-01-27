@@ -39,7 +39,7 @@ class NewsController extends Controller
 
     public function actionIndex()
     {
-        $query = News::find()->select('id, title, post_date')->orderBy('id DESC');
+        $query = News::find()->select('id, title, post_date')->orderBy('post_date DESC');
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $data = $query->offset($pages->offset)
