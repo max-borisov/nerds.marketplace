@@ -4,8 +4,8 @@
 
 use yii\helpers\Html;
 
-echo $this->render('../_common/backButton', ['link' => '/']);
-echo $this->render('../_common/header', ['header' => Html::encode($data->title)]);
+echo $this->render('../shared/backButton', ['link' => '/']);
+echo $this->render('../shared/header', ['header' => Html::encode($data->title)]);
 ?>
 
 <div class="row item-view-info">

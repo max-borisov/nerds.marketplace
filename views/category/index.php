@@ -9,32 +9,32 @@ use app\components\HelperPage;
 
 $this->params['isCategoryPage'] = true;
 
-echo $this->render('../_common/header', ['header' => HelperPage::CATEGORIES_PAGE_HEADER]);
+echo $this->render('../shared/header', ['header' => HelperPage::CATEGORIES_PAGE_HEADER]);
 
 if (Yii::$app->session->hasFlash('category_create_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('category_create_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('category_update_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('category_update_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('category_delete_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('category_delete_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('category_delete_error')) {
     echo $this->render(
-        '../_common/flashError',
+        '../shared/flashError',
         ['message' => Yii::$app->session->getFlash('category_delete_error')]
     );
 }

@@ -4,25 +4,25 @@
 
 use app\components\HelperPage;
 
-echo $this->render('../_common/header', ['header' => HelperPage::USER_ITEMS_PAGE_HEADER]);
+echo $this->render('../shared/header', ['header' => HelperPage::USER_ITEMS_PAGE_HEADER]);
 
 if (Yii::$app->session->hasFlash('item_delete_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('item_delete_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('item_edit_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('item_edit_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('item_delete_error')) {
     echo $this->render(
-        '../_common/flashError',
+        '../shared/flashError',
         ['message' => Yii::$app->session->getFlash('item_delete_error')]
     );
 }

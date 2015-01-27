@@ -7,7 +7,7 @@ use app\components\HelperUser;
 
 $this->params['isUsedItemPage'] = true;
 
-echo $this->render('../_common/header', ['header' => HelperPage::FRONT_PAGE_HEADER]);
+echo $this->render('../shared/header', ['header' => HelperPage::FRONT_PAGE_HEADER]);
 
 if (HelperUser::isGuest()) {
     echo '<p class="lead">You can add items after login.</p>';
@@ -25,19 +25,18 @@ if (HelperUser::isGuest()) {
 <?php
 if (Yii::$app->session->hasFlash('item_create_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('item_create_success')]
     );
 }
 
 if ($data) {
     echo '<p class="lead">There is <span class="badge">' . count($data) . '</span> items found</p>';
-
-    echo $this->render('_itemLinkPager', ['pages' => $pages]);
+    echo $this->render('../shared/linkPager', ['pages' => $pages]);
     foreach ($data as $usedItem) {
         echo $this->render('_item', ['data' => $usedItem]);
     }
-    echo $this->render('_itemLinkPager', ['pages' => $pages]);
+    echo $this->render('../shared/linkPager', ['pages' => $pages]);
 
 } else {
     echo Html::tag('p', 'There are no items appropriate for the filter.', ['class' => 'bg-info col-md-9 text-center']);

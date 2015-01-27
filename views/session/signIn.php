@@ -7,7 +7,7 @@ use app\components\HelperPage;
 ?>
 
 <?php
-echo $this->render('../_common/header', ['header' => HelperPage::SIGN_IN_PAGE_HEADER]);
+echo $this->render('../shared/header', ['header' => HelperPage::SIGN_IN_PAGE_HEADER]);
 
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
@@ -15,21 +15,21 @@ if ($model->hasErrors()) {
 
 if (Yii::$app->session->hasFlash('signup_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('signup_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('email_confirmation_success')) {
     echo $this->render(
-        '../_common/flashSuccess',
+        '../shared/flashSuccess',
         ['message' => Yii::$app->session->getFlash('email_confirmation_success')]
     );
 }
 
 if (Yii::$app->session->hasFlash('email_confirmation_error')) {
     echo $this->render(
-        '../_common/flashError',
+        '../shared/flashError',
         ['message' => Yii::$app->session->getFlash('email_confirmation_error')]
     );
 }

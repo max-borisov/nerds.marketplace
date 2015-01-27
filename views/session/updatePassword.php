@@ -6,7 +6,7 @@ use app\components\HelperPage;
 ?>
 
 <?php
-echo $this->render('../_common/header', ['header' => HelperPage::UPDATE_PASSWORD_PAGE_HEADER]);
+echo $this->render('../shared/header', ['header' => HelperPage::UPDATE_PASSWORD_PAGE_HEADER]);
 
 if ($model->hasErrors()) {
     echo Html::tag('div', Html::errorSummary($model), ['class' => 'error-summary']);
