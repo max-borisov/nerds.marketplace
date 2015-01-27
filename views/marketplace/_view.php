@@ -110,7 +110,7 @@ use app\components\HelperBase;
     <?php if ($user = $data->s_expires) { ?>
         <tr>
             <td class="item-param-name"><?= $data->getAttributeLabel('s_expires') ?></td>
-            <td><?= Html::encode($data->s_expires) ?></td>
+            <td><?= $data->s_expires ?></td>
         </tr>
     <?php } ?>
 
