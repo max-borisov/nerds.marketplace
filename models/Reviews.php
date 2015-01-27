@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $site_id
  * @property integer $review_id
+ * @property integer $review_type_id
  * @property string $title
  * @property string $af
  * @property string $notice

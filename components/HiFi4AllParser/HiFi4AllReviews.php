@@ -5,6 +5,7 @@ use app\components\hifi4all\HiFi4AllBase;
 use app\components\HelperBase;
 use app\models\Reviews;
 use app\models\ExternalSite;
+use app\models\ReviewsTypes;
 use yii\base\Exception;
 
 require_once __DIR__ . '/HiFi4AllBase.php';
@@ -40,7 +41,7 @@ class HiFi4AllReviews extends HiFi4AllBase
         return $data;
     }
 
-    private function _getBlocks()
+    private function _getBlocksHtml()
     {
         $html = $this->tidy($this->_catalogUrl);
         $pattern = '|<table\s+border="0"\s+width="100%"\s+bgcolor="#F5F5F5"\s+height="100%"\s+cellspacing="1">(.*?)</table>|is';
@@ -63,36 +64,38 @@ class HiFi4AllReviews extends HiFi4AllBase
         }
     }
 
-    public function getCatalogLinks()
+    private function _prepareBlocks($blocks)
     {
-        $blocks = $this->_getBlocks();
-//        HelperBase::dump($blocks[9]);
-
         $data = [];
-        $data['Forstærker'] = $this->_getBlockIds($blocks[0]); // Amplifier
-        $data['Højtaler']   = $this->_getBlockIds($blocks[1]); // Speaker
-        $data['Digital']    = $this->_getBlockIds($blocks[2]); // Digital
-        $data['Kabel']      = $this->_getBlockIds($blocks[3]); // Cable
-        $data['Analog']     = $this->_getBlockIds($blocks[4]); // Analog
-        $data['Tilbehør']   = $this->_getBlockIds($blocks[5]); // Accessories
-        $data['Surround']   = $this->_getBlockIds($blocks[6]); // Surround
-        $data['DVD']        = $this->_getBlockIds($blocks[7]); // DVD
-        $data['Billede']    = $this->_getBlockIds($blocks[8]); // Image
-
-//        $ids = $this->_getBlockIds($blocks[0]);
-//        HelperBase::dump($ids);
+        $data[ReviewsTypes::AMPLIFIER]      = $this->_getBlockIds($blocks[0]); // Amplifier Forstærker
+        $data[ReviewsTypes::SPEAKER]        = $this->_getBlockIds($blocks[1]); // Speaker Højtaler
+        $data[ReviewsTypes::DIGITAL]        = $this->_getBlockIds($blocks[2]); // Digital Digital
+        $data[ReviewsTypes::CABLE]          = $this->_getBlockIds($blocks[3]); // Cable Kabel
+        $data[ReviewsTypes::ANALOG]         = $this->_getBlockIds($blocks[4]); // Analog Analog
+        $data[ReviewsTypes::ACCESSORIES]    = $this->_getBlockIds($blocks[5]); // Accessories Tilbehør
+        $data[ReviewsTypes::SURROUND]       = $this->_getBlockIds($blocks[6]); // Surround Surround
+        $data[ReviewsTypes::DVD]            = $this->_getBlockIds($blocks[7]); // DVD
+        $data[ReviewsTypes::IMAGE]          = $this->_getBlockIds($blocks[8]); // Image Billede
+        return $data;
     }
 
-    public function saveItem($data)
+    public function getCatalogLinks()
+    {
+        $blocksHtml = $this->_getBlocksHtml();
+        return $this->_prepareBlocks($blocksHtml);
+    }
+
+    public function saveItem($data, $reviewType)
     {
         $item = new Reviews();
-        $item->site_id      = ExternalSite::HIFI4ALL;
-        $item->review_id    = $data['id'];
-        $item->title        = $data['title'];
-        $item->af           = $data['af'];
-        $item->notice       = $data['notice'];
-        $item->post         = $data['post'];
-        $item->post_date    = $data['date'];
+        $item->site_id          = ExternalSite::HIFI4ALL;
+        $item->review_id        = $data['id'];
+        $item->review_type_id   = $reviewType;
+        $item->title            = $data['title'];
+        $item->af               = $data['af'];
+        $item->notice           = $data['notice'];
+        $item->post             = $data['post'];
+        $item->post_date        = $data['date'];
 
         if ($item->save(false)) {
             return $item->id;
@@ -121,11 +124,17 @@ class HiFi4AllReviews extends HiFi4AllBase
 
     public function run()
     {
-
-        $this->getCatalogLinks();
-//        $data = $this->parsePage(901);
-
-//        echo $this->saveItem($data);
+        $blocks = $this->getCatalogLinks();
+        $existingReviews = $this->getExistingRecords(ExternalSite::HIFI4ALL);
+        foreach ($blocks as $reviewType => $blockIds) {
+            foreach ($blockIds as $id) {
+                if (in_array($id, $existingReviews)) continue;
+                $reviewData = $this->parsePage($id);
+                $this->saveItem($reviewData, $reviewType);
+                usleep(1000);
+            }
+            break;
+        }
     }
 
     private function _getTitle($html)

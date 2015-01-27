@@ -7,7 +7,6 @@ use yii\base\Component;
 abstract class HiFi4AllBase extends Component
 {
     abstract public function parsePage($id);
-    abstract public function saveItem($data);
     abstract public function getExistingRecords($siteId);
     abstract public function run();
 
