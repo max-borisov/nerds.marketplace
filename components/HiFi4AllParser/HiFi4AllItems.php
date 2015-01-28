@@ -301,7 +301,7 @@ class HiFi4AllItems extends HiFi4AllBase
             $ids = $this->getCatalogLinks($offset);
             $this->_parsePageAndSave($ids, $existingRecords);
             $offset += $baseOffset;
-            break;
+//            break;
         }
         echo "Done!\r\n";
     }
