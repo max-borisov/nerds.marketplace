@@ -131,9 +131,9 @@ class HiFi4AllReviews extends HiFi4AllBase
                 if (in_array($id, $existingReviews)) continue;
                 $reviewData = $this->parsePage($id);
                 $this->saveItem($reviewData, $reviewType);
-                usleep(1000);
+                usleep(10000);
             }
-            break;
+//            break;
         }
     }
 
