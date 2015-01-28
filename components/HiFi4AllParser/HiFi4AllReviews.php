@@ -135,6 +135,7 @@ class HiFi4AllReviews extends HiFi4AllBase
             }
 //            break;
         }
+        echo "DONE!\r\n";
     }
 
     private function _getTitle($html)
@@ -150,13 +151,14 @@ class HiFi4AllReviews extends HiFi4AllBase
 
     private function _getDate($html)
     {
-        $pattern = '|<font\s+color="#999999">(.*?)</font>|is';
-        preg_match_all($pattern, $html, $matches);
-        if (isset($matches[1], $matches[1][0])) {
-            $date = str_replace(['[', ']'], '', $matches[1][0]);
+        $pattern = '|<font\s+color="#999999">([^<]+)</font>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            $date = str_replace(['[', ']'], '', $matches[1]);
             return preg_replace('|(\d{2}).(\d{2}).(\d{4})|is', '$3-$2-$1', $date);
         } else {
-            throw new Exception('Could not get date attribute. Review id ' . $this->_reviewId);
+            return 0;
+//            throw new Exception('Could not get date attribute. Review id ' . $this->_reviewId);
         }
     }
 
