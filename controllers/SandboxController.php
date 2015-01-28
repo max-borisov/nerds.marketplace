@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\components\FeedParser;
 use app\components\HelperMarketPlace;
-use app\components\hifi4all\HiFi4AllMarket;
+use app\components\hifi4all\HiFi4AllItems;
 use app\components\hifi4all\HiFi4AllNews;
 use app\components\hifi4all\HiFi4AllReviews;
 use app\models\News;
@@ -218,7 +218,7 @@ class SandboxController extends Controller
                 return true;
 
                 require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
-                $parser = new HiFi4AllMarket();
+                $parser = new HiFi4AllItems();
                 $parser->run();
 
                 return true;

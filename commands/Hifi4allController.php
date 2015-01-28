@@ -7,12 +7,11 @@
 
 namespace app\commands;
 
-use app\components\hifi4all\HiFi4AllReviews;
 use Yii;
-use app\components\hifi4all\HiFi4AllMarket;
-use app\components\hifi4all\HiFi4AllNews;
 use yii\console\Controller;
-use app\components\HiFi4AllParser;
+use app\components\hifi4all\HiFi4AllItems;
+use app\components\hifi4all\HiFi4AllNews;
+use app\components\hifi4all\HiFi4AllReviews;
 
 class Hifi4allController extends Controller
 {
@@ -20,7 +19,7 @@ class Hifi4allController extends Controller
     {
         $this->_checkEnv();
         require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
-        (new HiFi4AllMarket())->run();
+        (new HiFi4AllItems())->run();
     }
 
     public function actionNews()
