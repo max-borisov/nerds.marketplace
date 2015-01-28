@@ -19,7 +19,7 @@ class Hifi4allController extends Controller
     public function actionItems()
     {
         $this->_checkEnv();
-        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllMarket.php';
+        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
         (new HiFi4AllMarket())->run();
     }
 
