@@ -207,21 +207,17 @@ class SandboxController extends Controller
 
     public function actionHifi4all()
     {
-        $actions = ['market', 'news', 'review'];
+        $actions = ['items', 'news', 'review'];
         if (isset($_GET['action'])) {
             if (!in_array($_GET['action'], $actions)) {
                 exit('Unknown action.');
             }
             $action = $_GET['action'];
 
-            if ($action === 'market') {
-                return true;
-
+            if ($action === 'items') {
                 require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
                 $parser = new HiFi4AllItems();
                 $parser->run();
-
-                return true;
             }
 
             if ($action === 'news') {
@@ -269,5 +265,12 @@ class SandboxController extends Controller
 
         HelperBase::dump($m->validate());
         HelperBase::dump($m->save(false));
+    }
+
+    public function actionTime()
+    {
+        $t = '2015-01-18';
+        echo strtotime($t);
+        echo date('M d, Y');
     }
 }

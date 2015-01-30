@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\components\HelperBase;
 
 $this->params['isReviewsPage'] = true;
 ?>
@@ -22,7 +23,7 @@ $this->params['isReviewsPage'] = true;
             foreach ($data as $reviewItem) {
                 echo "<tr>";
                     echo "<td>", $counter++, "</td>";
-                    echo "<td>", $reviewItem['post_date'], "</td>";
+                    echo "<td>", HelperBase::formatDate($reviewItem['post_date']), "</td>";
                     echo "<td>", $reviewItem->type['title'], "</td>";
                     echo "<td>", Html::a($reviewItem['title'], Url::to('/reviews/view/' . $reviewItem->id)), "</td>";
                 echo "</tr>";

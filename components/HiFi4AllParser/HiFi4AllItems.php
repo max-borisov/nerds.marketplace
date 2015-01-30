@@ -203,7 +203,7 @@ class HiFi4AllItems extends HiFi4AllBase
         $item->s_email      = $data['email'];
         $item->s_type       = $data['type'];
         $item->s_adv        = $data['adv'];
-        $item->s_date       = $data['date'];
+        $item->s_date       = date('Y-m-d', strtotime($data['date'])); // Convert date to Y-m-d format
         $item->price        = $data['price'];
         $item->description  = $data['description'];
         $item->s_preview    = $data['preview'];
@@ -297,7 +297,7 @@ class HiFi4AllItems extends HiFi4AllBase
         $existingRecords = $this->getExistingRecords(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;
-        for ($i=0; $i <= 17; $i++) {
+        for ($i=0; $i <= 20; $i++) {
             $ids = $this->getCatalogLinks($offset);
             $this->_parsePageAndSave($ids, $existingRecords);
             $offset += $baseOffset;

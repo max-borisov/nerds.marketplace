@@ -76,6 +76,7 @@ class MarketplaceController extends Controller
         return $this->render('index', [
             'data'  => $data,
             'pages' => $pages,
+            'allItemsCount' => $pages->totalCount,
             'model' => $model
         ]);
     }

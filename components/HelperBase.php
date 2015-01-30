@@ -125,4 +125,9 @@ class HelperBase extends Component
         }
         return $output;
     }
+
+    public static function formatDate($date)
+    {
+        return date('M d, Y', strtotime($date));
+    }
 }

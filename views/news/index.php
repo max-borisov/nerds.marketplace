@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\components\HelperBase;
 
 $this->params['isNewsPage'] = true;
 ?>
@@ -21,7 +22,7 @@ $this->params['isNewsPage'] = true;
             foreach ($data as $newsItem) {
                 echo "<tr>";
                     echo "<td>", $counter++, "</td>";
-                    echo "<td>", $newsItem['post_date'],"</td>";
+                    echo "<td>", HelperBase::formatDate($newsItem['post_date']), "</td>";
                     echo "<td>", Html::a($newsItem['title'], Url::to('/news/view/' . $newsItem->id)), "</td>";
                 echo "</tr>";
             }

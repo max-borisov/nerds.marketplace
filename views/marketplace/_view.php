@@ -113,7 +113,10 @@ use app\components\HelperBase;
             <td><?= $data->s_expires ?></td>
         </tr>
     <?php } ?>
-
+    <tr>
+        <td class="item-param-name"><?= $data->getAttributeLabel('s_date') ?></td>
+        <td><?= HelperBase::formatDate($data->s_date) ?></td>
+    </tr>
     <tr><td colspan="2" class="text-center"><?= nl2br(Html::encode($data->description)) ?></td></tr>
     </tbody>
 </table>

@@ -132,7 +132,7 @@ class UsedItem extends \app\components\ActiveRecord
             'description' => 'Description:',
             'price_min' => 'Min price:',
             'price_max' => 'Max price:',
-            'created_at' => 'Post date:',
+            'created_at' => 'Created:',
 
             // Parsed data
             's_user' => 'User:',
@@ -141,6 +141,7 @@ class UsedItem extends \app\components\ActiveRecord
             's_email' => 'Email:',
             's_adv' => 'Advertisement:',
             's_age' => 'Age:',
+            's_date' => 'Post date:',
             's_warranty' => 'Warranty:',
             's_package' => 'Package:',
             's_delivery' => 'Delivery:',

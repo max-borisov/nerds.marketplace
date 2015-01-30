@@ -67,8 +67,8 @@ use app\components\HelperMarketPlace;
             <div class="col-xs-4"><?= $data->manual ? 'Yes' : 'No' ?></div>
         </div>
         <div class="row">
-            <div class="col-xs-3"><?= $data->getAttributeLabel('created_at') ?></div>
-            <div class="col-xs-4"><?= date('d/m/Y H:i', $data->created_at) ?></div>
+            <div class="col-xs-3"><?= $data->getAttributeLabel('s_date') ?></div>
+            <div class="col-xs-4"><?= HelperBase::formatDate($data->s_date) ?></div>
         </div>
         <p class="item-description">
             <?= Html::encode(HelperMarketPlace::makeShortDescription(
