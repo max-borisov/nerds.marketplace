@@ -12,7 +12,8 @@ use Yii;
  */
 class ExternalSite extends \yii\db\ActiveRecord
 {
-    const HIFI4ALL = 1;
+    const HIFI4ALL  = 1;
+    const RECORDERE = 2;
 
     /**
      * @inheritdoc

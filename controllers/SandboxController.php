@@ -7,6 +7,7 @@ use app\components\HelperMarketPlace;
 use app\components\hifi4all\HiFi4AllItems;
 use app\components\hifi4all\HiFi4AllNews;
 use app\components\hifi4all\HiFi4AllReviews;
+use app\components\recordere\RecordereNews;
 use app\models\News;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
@@ -234,25 +235,24 @@ class SandboxController extends Controller
                 return true;
             }
         }
+    }
 
+    public function actionRecordere()
+    {
+        $actions = ['news'];
+        if (isset($_GET['action'])) {
+            if (!in_array($_GET['action'], $actions)) {
+                exit('Unknown action.');
+            }
+            $action = $_GET['action'];
 
-//        $id = isset($_GET['id']) ? $_GET['id'] : '284516';
-//        $data = HiFi4AllParser::parsePage($id);
-//        HelperBase::dump($data);
-//        HiFi4AllParser::saveItem($data);
-//        $data = HiFi4AllParser::getLinks(0);
-
-//        HiFi4AllParser::copyData();
-
-//        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllMarket.php';
-//        $parser = new HiFi4AllMarket();
-//        $parser->run();
-
-//        $page = HiFi4AllParser::parsePage(285048);
-//        HelperBase::dump($page);
-//        $res = HiFi4AllParser::saveItem($page);
-//        HelperBase::dump($res);
-
+            if ($action === 'news') {
+                require_once Yii::getAlias('@app') . '/components/RecordereParser/RecordereNews.php';
+                $parser = new RecordereNews();
+                $parser->run();
+                return false;
+            }
+        }
     }
 
     public function actionTest()
