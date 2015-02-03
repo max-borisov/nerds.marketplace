@@ -1,16 +1,16 @@
 <?php
-namespace app\components\recordere;
+namespace app\components\parser\recordere;
 
-use app\components\recordere\RecordereBase;
+use Yii;
+use app\components\parser\Base;
 use app\models\ExternalSite;
 use app\models\News;
-use Yii;
 use app\components\HelperBase;
 use yii\base\Exception;
 
-require_once __DIR__ . '/RecordereBase.php';
+require_once __DIR__ . '/../Base.php';
 
-class RecordereNews extends RecordereBase
+class RecNews extends Base
 {
     private $_baseUrl = 'http://www.recordere.dk/indhold/templates/design.aspx?articleid=';
     private $_catalogUrl = 'http://www.recordere.dk/nyheder/';
@@ -30,36 +30,53 @@ class RecordereNews extends RecordereBase
 
         // Title
         $data['title'] = $this->_getTitle($root);
-//        $data['title'] = $this->iconv($this->_getTitle($root));
 
         // Date
         $dateAndUser = $this->_getDateAndUser($root);
         $data['user'] = $this->iconv(trim($dateAndUser['user']));
-        $data['date'] = trim($dateAndUser['date']);
+        $data['date'] = $this->_formatDate(trim($dateAndUser['date']));
+//        $data['date'] = $dateAndUser['date'];
 
         // Post text
-//        $data['post'] = $this->iconv($this->_getPostText($root));
         $data['post'] = $this->_getPostText($root);
 
         return $data;
     }
 
-    public function getExistingRecords($siteId)
+    private function _formatDate($dateStr)
     {
-        $data = (new \yii\db\Query())
-            ->select('news_id')
-            ->from('_news')
-            ->where('site_id = :sid', ['sid' => $siteId])
-            ->all();
+        $months = [
+            'januar'    => 1,
+            'februar'   => 2,
+            'marts'     => 3,
+            'april'     => 4,
+            'maj'       => 5,
+            'juni'      => 6,
+            'juli'      => 7,
+            'august'    => 8,
+            'september' => 9,
+            'oktober'   => 10,
+            'november'  => 11,
+            'december'  => 12,
+        ];
 
-        if ($data) {
-            $tmp = [];
-            foreach ($data as $item) {
-                $tmp[] = $item['news_id'];
-            }
-            $data = $tmp;
+        if (strpos($dateStr, '-') !== false || strpos($dateStr, '+') !== false) {
+            return 0;
         }
-        return $data;
+        $split = explode(' ', $dateStr);
+        if (count($split) < 3) {
+//            throw new Exception('Invalid news date format. News id ' . $this->_newsId);
+            return 0;
+        }
+
+        $d = (int)trim(str_replace('.', '', $split[0]));
+        $m = (int)$months[strtolower(trim($split[1]))];
+        $y = (int)trim($split[2]);
+        if (empty($d) || empty($m) || empty($y)) {
+            throw new Exception('Could not parse news post date. News id ' . $this->_newsId);
+        }
+        $timestamp = mktime(0, 0, 0, $m, $d, $y);
+        return date('Y-m-d', $timestamp);
     }
 
     public function saveItem($data)
@@ -114,23 +131,24 @@ class RecordereNews extends RecordereBase
         set_time_limit(0);
 
         $catalogLinks = $this->getCatalogLinks();
-//        $prevCatalogLinks = $this->getPrevCatalogLinks();
-//        $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
-        $allLinks = $catalogLinks;
+        $prevCatalogLinks = $this->getPrevCatalogLinks();
+        $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
+//        $allLinks = $catalogLinks;
+        $existingNews = $this->getExistingNews(ExternalSite::RECORDERE);
 
-        $counter = 0;
+//        $counter = 0;
         foreach ($allLinks as $newsId) {
-//            if (in_array($newsId, $existingRecords)) continue;
+            if (in_array($newsId, $existingNews)) continue;
+
+            HelperBase::logger('News id ' . $newsId . "\r\n");
+
             $data = $this->parsePage($newsId);
-//            HelperBase::dump($data, true);
-//            echo $data['post'];
-//            echo '<hr>';
+//            HelperBase::dump($data['date']);
+//            HelperBase::dump($newsId);
+//            if ($counter++ > 500) break;
 
-//            if ($counter++ > 50) break;
-
-//            HelperBase::dump($data);
             $this->saveItem($data);
-            break;
+//            break;
             usleep(1000);
         }
         echo "DONE!\r\n";
@@ -177,9 +195,9 @@ class RecordereNews extends RecordereBase
         $pattern = '|<td>\s+<div\s+id="bodytext">(.*?)</div>\s+</td>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
-//            return trim(strip_tags($matches[1][0], '<p>, <a>, <ul>, <li>, <strong>, <span>, <em>, <img>, <b>, <br>'));
 //            return trim($matches[1][0], '<p>, <a>, <ul>, <li>, <strong>, <span>, <em>, <img>, <b>, <br>');
-            return trim($matches[1][0]);
+            $post = trim($matches[1][0]);
+            return preg_replace('|\s+|', ' ', $post);
         } else {
             throw new Exception('Could not get post text. News id ' . $this->_newsId);
         }

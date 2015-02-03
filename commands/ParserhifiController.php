@@ -9,31 +9,31 @@ namespace app\commands;
 
 use Yii;
 use yii\console\Controller;
-use app\components\hifi4all\HiFi4AllItems;
-use app\components\hifi4all\HiFi4AllNews;
-use app\components\hifi4all\HiFi4AllReviews;
+use app\components\parser\hifi\HiFiItems;
+use app\components\parser\hifi\HiFiNews;
+use app\components\parser\hifi\HiFiReviews;
 
-class Hifi4allController extends Controller
+class ParserhifiController extends Controller
 {
     public function actionItems()
     {
         $this->_checkEnv();
-        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
-        (new HiFi4AllItems())->run();
+        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All/HiFiItems.php';
+        (new HiFiItems())->run();
     }
 
     public function actionNews()
     {
         $this->_checkEnv();
-        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllNews.php';
-        (new HiFi4AllNews())->run();
+        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiNews.php';
+        (new HiFiNews())->run();
     }
 
     public function actionReviews()
     {
         $this->_checkEnv();
-        require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllReviews.php';
-        (new HiFi4AllReviews())->run();
+        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
+        (new HiFiReviews())->run();
     }
 
     private function _checkEnv()

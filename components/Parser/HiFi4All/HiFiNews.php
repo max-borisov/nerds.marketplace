@@ -1,16 +1,16 @@
 <?php
-namespace app\components\hifi4all;
+namespace app\components\parser\hifi;
 
-use app\components\hifi4all\HiFi4AllBase;
+use Yii;
+use yii\base\Exception;
+use app\components\parser\Base;
 use app\models\ExternalSite;
 use app\models\News;
-use Yii;
 use app\components\HelperBase;
-use yii\base\Exception;
 
-require_once __DIR__ . '/HiFi4AllBase.php';
+require_once __DIR__ . '/../Base.php';
 
-class HiFi4AllNews extends HiFi4AllBase
+class HiFiNews extends Base
 {
     private $_baseUrl = 'http://hifi4all.dk/content/templates/nyheder.asp?articleid=';
     private $_baseCatalogUrl = 'http://hifi4all.dk/content/nyheder_new.asp?side=';
@@ -45,24 +45,6 @@ class HiFi4AllNews extends HiFi4AllBase
         // Post text
         $data['post'] = $this->_getPostText($root);
 
-        return $data;
-    }
-
-    public function getExistingRecords($siteId)
-    {
-        $data = (new \yii\db\Query())
-            ->select('news_id')
-            ->from('_news')
-            ->where('site_id = :sid', ['sid' => $siteId])
-            ->all();
-
-        if ($data) {
-            $tmp = [];
-            foreach ($data as $item) {
-                $tmp[] = $item['news_id'];
-            }
-            $data = $tmp;
-        }
         return $data;
     }
 
@@ -106,7 +88,7 @@ class HiFi4AllNews extends HiFi4AllBase
     {
         set_time_limit(0);
 
-        $existingRecords = $this->getExistingRecords(ExternalSite::HIFI4ALL);
+        $existingRecords = $this->getExistingNews(ExternalSite::HIFI4ALL);
         for ($side = 1; $side <= 8; $side++) {
             $ids = $this->getCatalogLinks($side);
             foreach ($ids as $newsId) {

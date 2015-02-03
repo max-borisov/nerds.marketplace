@@ -1,17 +1,18 @@
 <?php
-namespace app\components\hifi4all;
+namespace app\components\parser\hifi;
 
-use app\components\hifi4all\HiFi4AllBase;
+use Yii;
+use yii\base\Exception;
+use app\components\parser\Base;
 use app\models\Category;
 use app\models\ExternalSite;
 use app\models\UsedItemType;
-use Yii;
-use yii\base\Exception;
+
 use app\models\UsedItem;
 
-require_once __DIR__ . '/HiFi4AllBase.php';
+require_once __DIR__ . '/../Base.php';
 
-class HiFi4AllItems extends HiFi4AllBase
+class HiFiItems extends Base
 {
     private $_baseUrl = 'http://www.hifi4all.dk/ksb/';
 
@@ -269,7 +270,7 @@ class HiFi4AllItems extends HiFi4AllBase
      * @param integer $siteId Site the data were fetched from
      * @return array
      */
-    public function getExistingRecords($siteId)
+    public function getExistingItems($siteId)
     {
         $data = (new \yii\db\Query())
             ->select('s_item_id')
@@ -294,7 +295,7 @@ class HiFi4AllItems extends HiFi4AllBase
     {
         set_time_limit(0);
 
-        $existingRecords = $this->getExistingRecords(ExternalSite::HIFI4ALL);
+        $existingRecords = $this->getExistingItems(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;
         for ($i=0; $i <= 20; $i++) {

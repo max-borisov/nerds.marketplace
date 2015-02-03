@@ -1,16 +1,16 @@
 <?php
-namespace app\components\hifi4all;
+namespace app\components\parser\hifi;
 
-use app\components\hifi4all\HiFi4AllBase;
+use yii\base\Exception;
+use app\components\parser\Base;
 use app\components\HelperBase;
 use app\models\Reviews;
 use app\models\ExternalSite;
 use app\models\ReviewsTypes;
-use yii\base\Exception;
 
-require_once __DIR__ . '/HiFi4AllBase.php';
+require_once __DIR__ . '/../Base.php';
 
-class HiFi4AllReviews extends HiFi4AllBase
+class HiFiReviews extends Base
 {
     private $_baseUrl       = 'http://hifi4all.dk/content/templates/anmeldelser.asp?articleid=';
     private $_catalogUrl    = 'http://hifi4all.dk/content/anmeldelser.asp';
@@ -104,28 +104,10 @@ class HiFi4AllReviews extends HiFi4AllBase
         }
     }
 
-    public function getExistingRecords($siteId)
-    {
-        $data = (new \yii\db\Query())
-            ->select('review_id')
-            ->from('_reviews')
-            ->where('site_id = :sid', ['sid' => $siteId])
-            ->all();
-
-        if ($data) {
-            $tmp = [];
-            foreach ($data as $item) {
-                $tmp[] = $item['review_id'];
-            }
-            $data = $tmp;
-        }
-        return $data;
-    }
-
     public function run()
     {
         $blocks = $this->getCatalogLinks();
-        $existingReviews = $this->getExistingRecords(ExternalSite::HIFI4ALL);
+        $existingReviews = $this->getExistingReviews(ExternalSite::HIFI4ALL);
         foreach ($blocks as $reviewType => $blockIds) {
             foreach ($blockIds as $id) {
                 if (in_array($id, $existingReviews)) continue;

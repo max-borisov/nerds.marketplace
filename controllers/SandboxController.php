@@ -4,10 +4,12 @@ namespace app\controllers;
 
 use app\components\FeedParser;
 use app\components\HelperMarketPlace;
-use app\components\hifi4all\HiFi4AllItems;
-use app\components\hifi4all\HiFi4AllNews;
-use app\components\hifi4all\HiFi4AllReviews;
-use app\components\recordere\RecordereNews;
+
+use app\components\parser\hifi\HiFiItems;
+use app\components\parser\hifi\HiFiNews;
+use app\components\parser\hifi\HiFiReviews;
+use app\components\parser\recordere\RecNews;
+
 use app\models\News;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
@@ -216,23 +218,18 @@ class SandboxController extends Controller
             $action = $_GET['action'];
 
             if ($action === 'items') {
-                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllItems.php';
-                $parser = new HiFi4AllItems();
-                $parser->run();
+                require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All/HiFiItems.php';
+                (new HiFiItems())->run();
             }
 
             if ($action === 'news') {
-                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllNews.php';
-                $parser = new HiFi4AllNews();
-                $parser->run();
-                return false;
+                require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiNews.php';
+                (new HiFiNews())->run();
             }
 
             if ($action === 'review') {
-                require_once Yii::getAlias('@app') . '/components/HiFi4AllParser/HiFi4AllReviews.php';
-                $parser = new HiFi4AllReviews();
-                $parser->run();
-                return true;
+                require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
+                (new HiFiReviews())->run();
             }
         }
     }
@@ -247,9 +244,8 @@ class SandboxController extends Controller
             $action = $_GET['action'];
 
             if ($action === 'news') {
-                require_once Yii::getAlias('@app') . '/components/RecordereParser/RecordereNews.php';
-                $parser = new RecordereNews();
-                $parser->run();
+                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
+                (new RecNews())->run();
                 return false;
             }
         }
@@ -257,14 +253,17 @@ class SandboxController extends Controller
 
     public function actionTest()
     {
-        $m = new News();
+        echo $d = '1. februar 2015';
+        $t = strtotime($d);
+        HelperBase::dump($t);
+        /*$m = new News();
         $m->af = '11212';
         $m->title = '11212_t';
         $m->notice = 'scdscds';
         $m->post = 'saasxs';
 
         HelperBase::dump($m->validate());
-        HelperBase::dump($m->save(false));
+        HelperBase::dump($m->save(false));*/
     }
 
     public function actionTime()
