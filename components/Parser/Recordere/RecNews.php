@@ -48,6 +48,7 @@ class RecNews extends Base
         $months = [
             'januar'    => 1,
             'februar'   => 2,
+            'february'  => 2,
 
             'marts'     => 3,
             'march'     => 3,
