@@ -71,7 +71,7 @@ class RecNews extends Base
         }
         $dateStr = str_replace('.', '', $dateStr);
         $split = explode(' ', $dateStr);
-        if (count($split) < 3) {
+        if (count($split) != 3) {
 //            throw new Exception('Invalid news date format. News id ' . $this->_newsId);
             return 0;
         }
