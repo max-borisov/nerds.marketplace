@@ -3,6 +3,7 @@ namespace app\components\parser;
 
 use Yii;
 use yii\base\Component;
+use app\components\HelperBase;
 
 abstract class Base extends Component
 {
@@ -90,5 +91,11 @@ abstract class Base extends Component
             ->from($table)
             ->where('site_id = :site_id', ['site_id' => $site_id])
             ->count();
+    }
+
+    public function parsePageTest($id)
+    {
+        $data = $this->parsePage($id);
+        HelperBase::dump($data);
     }
 }

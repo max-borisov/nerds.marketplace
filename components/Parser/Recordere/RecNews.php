@@ -66,7 +66,7 @@ class RecNews extends Base
             'december'  => 12,
         ];
 
-        if (strpos($dateStr, '-') !== false || strpos($dateStr, '+') !== false) {
+        if (strpos($dateStr, '-') !== false || strpos($dateStr, '+') !== false || strpos($dateStr, ',') !== false) {
             return 0;
         }
         $dateStr = str_replace('.', '', $dateStr);

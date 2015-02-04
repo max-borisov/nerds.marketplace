@@ -246,7 +246,7 @@ class SandboxController extends Controller
             if ($action === 'news') {
                 require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
                 (new RecNews())->run();
-                return false;
+//                (new RecNews())->parsePageTest(735);
             }
         }
     }
