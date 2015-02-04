@@ -48,14 +48,20 @@ class RecNews extends Base
         $months = [
             'januar'    => 1,
             'februar'   => 2,
+
             'marts'     => 3,
+            'march'     => 3,
+
             'april'     => 4,
             'maj'       => 5,
             'juni'      => 6,
             'juli'      => 7,
             'august'    => 8,
             'september' => 9,
+
             'oktober'   => 10,
+            'okt'       => 10,
+
             'november'  => 11,
             'december'  => 12,
         ];
@@ -71,11 +77,7 @@ class RecNews extends Base
         }
 
         $d = (int)trim($split[0]);
-        $m = trim($split[1]);
-        if ($m == 'okt') {
-            $m = 'oktober';
-        }
-        $m = (int)$months[strtolower($m)];
+        $m = (int)$months[strtolower(trim($split[1]))];
         $y = (int)trim($split[2]);
         if (empty($d) || empty($m) || empty($y)) {
             throw new Exception('Could not parse news post date. News id ' . $this->_newsId);
