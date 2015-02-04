@@ -63,14 +63,19 @@ class RecNews extends Base
         if (strpos($dateStr, '-') !== false || strpos($dateStr, '+') !== false) {
             return 0;
         }
+        $dateStr = str_replace('.', '', $dateStr);
         $split = explode(' ', $dateStr);
         if (count($split) < 3) {
 //            throw new Exception('Invalid news date format. News id ' . $this->_newsId);
             return 0;
         }
 
-        $d = (int)trim(str_replace('.', '', $split[0]));
-        $m = (int)$months[strtolower(trim($split[1]))];
+        $d = (int)trim($split[0]);
+        $m = trim($split[1]);
+        if ($m == 'okt') {
+            $m = 'oktober';
+        }
+        $m = (int)$months[strtolower($m)];
         $y = (int)trim($split[2]);
         if (empty($d) || empty($m) || empty($y)) {
             throw new Exception('Could not parse news post date. News id ' . $this->_newsId);
