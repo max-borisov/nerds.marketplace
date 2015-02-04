@@ -195,7 +195,7 @@ class HiFiItems extends Base
         $item->category_id  = Category::HIFI4ALL;
         $item->type_id      = UsedItemType::UNKNOWN;
 
-        $item->s_id         = ExternalSite::HIFI4ALL;
+        $item->site_id      = ExternalSite::HIFI4ALL;
         $item->title        = $data['title'];
         $item->s_item_id    = $data['id'];
         $item->s_user       = $data['user'];
@@ -245,7 +245,7 @@ class HiFiItems extends Base
         }
 
         if (!$item->save(false)) {
-            throw new Exception('Data could not be saved. Id ' . $data['s_id']);
+            throw new Exception('Data could not be saved. Id ' . $data['site_id']);
         }
         return $item->id;
     }
@@ -275,7 +275,7 @@ class HiFiItems extends Base
         $data = (new \yii\db\Query())
             ->select('s_item_id')
             ->from('_used_item')
-            ->where('s_id = :sid', ['sid' => $siteId])
+            ->where('site_id = :site_id', ['site_id' => $siteId])
             ->all();
 
         if ($data) {
@@ -295,6 +295,7 @@ class HiFiItems extends Base
     {
         set_time_limit(0);
 
+        $before = $this->getExistingRowsCount('_used_item', ExternalSite::HIFI4ALL);
         $existingRecords = $this->getExistingItems(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;
@@ -302,8 +303,9 @@ class HiFiItems extends Base
             $ids = $this->getCatalogLinks($offset);
             $this->_parsePageAndSave($ids, $existingRecords);
             $offset += $baseOffset;
-//            break;
+            break;
         }
-        $this->done('HiFiItems');
+        $after = $this->getExistingRowsCount('_used_item', ExternalSite::HIFI4ALL);
+        $this->done('HiFiItems', $before, $after);
     }
 }

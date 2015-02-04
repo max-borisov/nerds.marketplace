@@ -130,6 +130,7 @@ class RecNews extends Base
     {
         set_time_limit(0);
 
+        $before = $this->getExistingRowsCount('_reviews', ExternalSite::RECORDERE);
         $catalogLinks = $this->getCatalogLinks();
         $prevCatalogLinks = $this->getPrevCatalogLinks();
         $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
@@ -142,7 +143,8 @@ class RecNews extends Base
 //            break;
             usleep(1000);
         }
-        $this->done('RecNews');
+        $after = $this->getExistingRowsCount('_reviews', ExternalSite::RECORDERE);
+        $this->done('RecNews', $before, $after);
     }
 
     private function _getRootBlock($html)

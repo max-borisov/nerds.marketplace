@@ -253,9 +253,16 @@ class SandboxController extends Controller
 
     public function actionTest()
     {
-        echo $d = '1. februar 2015';
-        $t = strtotime($d);
-        HelperBase::dump($t);
+        echo $data = (new \yii\db\Query())
+            ->select('id')
+            ->from('_used_item')
+            ->where('s_id = :sid', ['sid' => 1])
+            ->count();
+
+
+//        echo $d = '1. februar 2015';
+//        $t = strtotime($d);
+//        HelperBase::dump($t);
         /*$m = new News();
         $m->af = '11212';
         $m->title = '11212_t';

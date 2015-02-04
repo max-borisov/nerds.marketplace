@@ -27,7 +27,7 @@ use yii\base\Exception;
  * @property string $preview
  * @property string $price_min
  * @property string $price_max
- * @property integer s_id
+ * @property integer site_id
  * @property string s_item_id
  * @property string s_user
  * @property string s_location
@@ -200,7 +200,7 @@ class UsedItem extends \app\components\ActiveRecord
         // Default(blank) preview
         $this->preview = HelperBase::getParam('thumb')['placeholder'];
 
-        if (!empty($this->s_preview) && $this->s_id == ExternalSite::HIFI4ALL) {
+        if (!empty($this->s_preview) && $this->site_id == ExternalSite::HIFI4ALL) {
             $this->preview = HelperBase::getParam('HiFi4AllPic') . '/' . $this->s_preview;
         }
 

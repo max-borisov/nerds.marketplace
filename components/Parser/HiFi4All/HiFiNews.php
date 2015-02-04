@@ -88,6 +88,7 @@ class HiFiNews extends Base
     {
         set_time_limit(0);
 
+        $before = $this->getExistingRowsCount('_news', ExternalSite::HIFI4ALL);
         $existingRecords = $this->getExistingNews(ExternalSite::HIFI4ALL);
         for ($side = 1; $side <= 8; $side++) {
             $ids = $this->getCatalogLinks($side);
@@ -99,7 +100,8 @@ class HiFiNews extends Base
                 usleep(1000);
             }
         }
-        $this->done('HiFiNews');
+        $after = $this->getExistingRowsCount('_news', ExternalSite::HIFI4ALL);
+        $this->done('HiFiNews', $before, $after);
     }
 
     private function _getRootBlock($html)

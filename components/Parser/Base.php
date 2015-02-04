@@ -76,9 +76,19 @@ abstract class Base extends Component
         return $data;
     }
 
-    public function done($parserType = '')
+    public function done($parserType = '', $before, $after)
     {
         $time = date('d/m/Y H:i:s');
-        echo $parserType . ". $time. DONE!\r\n";
+        $new = $after - $before;
+        echo $parserType . " DONE! at $time. Before: $before, after: $after, NEW: $new.\r\n";
+    }
+
+    public function getExistingRowsCount($table, $site_id)
+    {
+        return $data = (new \yii\db\Query())
+            ->select('id')
+            ->from($table)
+            ->where('site_id = :site_id', ['site_id' => $site_id])
+            ->count();
     }
 }
