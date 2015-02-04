@@ -130,4 +130,12 @@ class HelperBase extends Component
     {
         return date('M d, Y', strtotime($date));
     }
+
+    public static function isZeroDate($date)
+    {
+        if ($date == '0000-00-00') {
+            return true;
+        }
+        return false;
+    }
 }

@@ -22,7 +22,13 @@ $this->params['isNewsPage'] = true;
             foreach ($data as $newsItem) {
                 echo "<tr>";
                     echo "<td>", $counter++, "</td>";
-                    echo "<td>", HelperBase::formatDate($newsItem['post_date']), "</td>";
+                    echo "<td>";
+                    if (HelperBase::isZeroDate($newsItem['post_date'])) {
+                        echo 'Unknown';
+                    } else {
+                        echo HelperBase::formatDate($newsItem['post_date']);
+                    }
+                    echo "</td>";
                     echo "<td>", Html::a($newsItem['title'], Url::to('/news/view/' . $newsItem->id)), "</td>";
                 echo "</tr>";
             }
