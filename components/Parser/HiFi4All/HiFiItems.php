@@ -303,7 +303,7 @@ class HiFiItems extends Base
             $ids = $this->getCatalogLinks($offset);
             $this->_parsePageAndSave($ids, $existingRecords);
             $offset += $baseOffset;
-            break;
+//            break;
         }
         $after = $this->getExistingRowsCount('_used_item', ExternalSite::HIFI4ALL);
         $this->done('HiFiItems', $before, $after);
