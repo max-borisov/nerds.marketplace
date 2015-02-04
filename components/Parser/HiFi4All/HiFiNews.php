@@ -99,7 +99,7 @@ class HiFiNews extends Base
                 usleep(1000);
             }
         }
-        echo "DONE!\r\n";
+        $this->done('HiFiNews');
     }
 
     private function _getRootBlock($html)

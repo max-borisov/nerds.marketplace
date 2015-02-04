@@ -113,11 +113,11 @@ class HiFiReviews extends Base
                 if (in_array($id, $existingReviews)) continue;
                 $reviewData = $this->parsePage($id);
                 $this->saveItem($reviewData, $reviewType);
-                usleep(10000);
+                usleep(1000);
             }
 //            break;
         }
-        echo "DONE!\r\n";
+        $this->done('HiFiReviews');
     }
 
     private function _getTitle($html)

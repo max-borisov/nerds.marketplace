@@ -135,23 +135,14 @@ class RecNews extends Base
         $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
 //        $allLinks = $catalogLinks;
         $existingNews = $this->getExistingNews(ExternalSite::RECORDERE);
-
-//        $counter = 0;
         foreach ($allLinks as $newsId) {
             if (in_array($newsId, $existingNews)) continue;
-
-            HelperBase::logger('News id ' . $newsId . "\r\n");
-
             $data = $this->parsePage($newsId);
-//            HelperBase::dump($data['date']);
-//            HelperBase::dump($newsId);
-//            if ($counter++ > 500) break;
-
             $this->saveItem($data);
 //            break;
             usleep(1000);
         }
-        echo "DONE!\r\n";
+        $this->done('RecNews');
     }
 
     private function _getRootBlock($html)

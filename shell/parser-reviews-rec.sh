@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "[----------] BEGIN. REVIEWS parser script."
+echo "[----------] BEGIN. RECORDERE REVIEWS parser script."
 
 cd ../
-php yii hifi4all/reviews
+php yii parserrec/reviews >> runtime/parser.log
 
-echo "[----------] END. REVIEWS parser script."
+echo "[----------] END. RECORDERE REVIEWS parser script."

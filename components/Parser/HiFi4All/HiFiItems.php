@@ -261,7 +261,7 @@ class HiFiItems extends Base
             if (in_array($itemId, $existingRows)) continue;
             $data = $this->parsePage($itemId);
             $this->saveItem($data);
-            usleep(10000);
+            usleep(1000);
         }
     }
 
@@ -304,6 +304,6 @@ class HiFiItems extends Base
             $offset += $baseOffset;
 //            break;
         }
-        echo "Done!\r\n";
+        $this->done('HiFiItems');
     }
 }

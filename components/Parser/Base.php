@@ -75,4 +75,10 @@ abstract class Base extends Component
         }
         return $data;
     }
+
+    public function done($parserType = '')
+    {
+        $time = date('d/m/Y H:i:s');
+        echo $parserType . ". $time. DONE!\r\n";
+    }
 }

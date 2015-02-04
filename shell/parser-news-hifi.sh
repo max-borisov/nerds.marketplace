@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "[----------] BEGIN. NEWS parser script."
+echo "[----------] BEGIN. HIFI NEWS parser script."
 
 cd ../
-php yii hifi4all/news
+php yii hifi4all/news >> runtime/parser.log
 
-echo "[----------] END. NEWS parser script."
+echo "[----------] END. HIFI NEWS parser script."

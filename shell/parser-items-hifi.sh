@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "[----------] BEGIN. ITEMS parser script."
+echo "[----------] BEGIN. HIFI ITEMS parser script."
 
 cd ../
-php yii hifi4all/items
+php yii hifi4all/items >> runtime/parser.log
 
-echo "[----------] END. ITEMS parser script."
+echo "[----------] END. HIFI ITEMS parser script."
