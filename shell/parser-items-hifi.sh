@@ -3,6 +3,6 @@
 echo "[----------] BEGIN. HIFI ITEMS parser script."
 
 cd ../
-php yii hifi4all/items >> runtime/parser.log
+php yii parserhifi/items >> runtime/parser.log
 
 echo "[----------] END. HIFI ITEMS parser script."
