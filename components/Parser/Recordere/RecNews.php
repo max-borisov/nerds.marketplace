@@ -77,7 +77,11 @@ class RecNews extends Base
         }
 
         $d = (int)trim($split[0]);
-        $m = (int)$months[strtolower(trim($split[1]))];
+        $m = strtolower(trim($split[1]));
+        if (!isset($months[$m])) {
+            throw new Exception('Invalid month. Month - ' . $m . '. News id - ' . $this->_newsId);
+        }
+        $m = (int)$months[$m];
         $y = (int)trim($split[2]);
         if (empty($d) || empty($m) || empty($y)) {
             throw new Exception('Could not parse news post date. News id ' . $this->_newsId);
