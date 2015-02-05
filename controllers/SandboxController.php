@@ -10,6 +10,7 @@ use app\components\parser\hifi\HiFiNews;
 use app\components\parser\hifi\HiFiReviews;
 use app\components\parser\recordere\RecNews;
 
+use app\components\parser\recordere\RecReviews;
 use app\models\News;
 use app\models\PhpbbUser;
 use app\models\SignInForm;
@@ -236,7 +237,7 @@ class SandboxController extends Controller
 
     public function actionRecordere()
     {
-        $actions = ['news'];
+        $actions = ['news', 'reviews'];
         if (isset($_GET['action'])) {
             if (!in_array($_GET['action'], $actions)) {
                 exit('Unknown action.');
@@ -246,7 +247,14 @@ class SandboxController extends Controller
             if ($action === 'news') {
                 require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
                 (new RecNews())->run();
-//                (new RecNews())->parsePageTest(734);
+//                (new RecNews())->parsePageTest(593);
+//                (new RecNews())->parsePageTest(12206);
+            }
+
+            if ($action === 'reviews') {
+                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
+                (new RecReviews())->run();
+//                (new RecReviews())->parsePageTest(12206);
             }
         }
     }

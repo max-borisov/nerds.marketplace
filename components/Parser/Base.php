@@ -64,7 +64,7 @@ abstract class Base extends Component
         $data = (new \yii\db\Query())
             ->select('review_id')
             ->from('_reviews')
-            ->where('site_id = :sid', ['sid' => $siteId])
+            ->where('site_id = :site_id', ['site_id' => $siteId])
             ->all();
 
         if ($data) {
@@ -97,5 +97,54 @@ abstract class Base extends Component
     {
         $data = $this->parsePage($id);
         HelperBase::dump($data);
+    }
+
+    public function formatDate($dateStr, $type, $id)
+    {
+        $months = [
+            'januar'    => 1,
+            'january'   => 1,
+            'februar'   => 2,
+            'february'  => 2,
+
+            'marts'     => 3,
+            'march'     => 3,
+
+            'april'     => 4,
+            'maj'       => 5,
+            'juni'      => 6,
+            'juli'      => 7,
+            'august'    => 8,
+            'september' => 9,
+
+            'oktober'   => 10,
+            'october'   => 10,
+            'okt'       => 10,
+
+            'november'  => 11,
+            'december'  => 12,
+        ];
+
+        if (strpos($dateStr, '-') !== false || strpos($dateStr, '+') !== false || strpos($dateStr, ',') !== false) {
+            return 0;
+        }
+        $dateStr = str_replace('.', '', $dateStr);
+        $split = explode(' ', $dateStr);
+        if (count($split) != 3) {
+            return 0;
+        }
+
+        $d = (int)trim($split[0]);
+        $m = strtolower(trim($split[1]));
+        if (!isset($months[$m])) {
+            throw new Exception('Invalid month. Month - ' . $m . ". $type id - " . $id);
+        }
+        $m = (int)$months[$m];
+        $y = (int)trim($split[2]);
+        if (empty($d) || empty($m) || empty($y)) {
+            throw new Exception("Could not parse review post date. $type id " . $id);
+        }
+        $timestamp = mktime(0, 0, 0, $m, $d, $y);
+        return date('Y-m-d', $timestamp);
     }
 }

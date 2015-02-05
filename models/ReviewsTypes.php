@@ -23,6 +23,7 @@ class ReviewsTypes extends \app\components\ActiveRecord
     const SURROUND      = 7;
     const DVD           = 8;
     const IMAGE         = 9;
+    const UNKNOWN       = 10;
 
     /**
      * @inheritdoc
