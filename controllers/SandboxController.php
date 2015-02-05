@@ -211,7 +211,7 @@ class SandboxController extends Controller
 
     public function actionHifi4all()
     {
-        $actions = ['items', 'news', 'review'];
+        $actions = ['items', 'news', 'reviews'];
         if (isset($_GET['action'])) {
             if (!in_array($_GET['action'], $actions)) {
                 exit('Unknown action.');
