@@ -33,6 +33,7 @@ class RecNews extends Base
 
         // Date
         $dateAndUser = $this->_getDateAndUser($root);
+
         $data['user'] = $this->iconv(trim($dateAndUser['user']));
         $data['date'] = $this->_formatDate(trim($dateAndUser['date']));
 //        $data['date'] = $dateAndUser['date'];
@@ -74,7 +75,6 @@ class RecNews extends Base
         $dateStr = str_replace('.', '', $dateStr);
         $split = explode(' ', $dateStr);
         if (count($split) != 3) {
-//            throw new Exception('Invalid news date format. News id ' . $this->_newsId);
             return 0;
         }
 
@@ -188,8 +188,10 @@ class RecNews extends Base
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][1])) {
             $str = $matches[1][1];
+            $dash = strrpos($str, '-');
             $data = [];
-            list($data['date'], $data['user']) = explode('-', $str);
+            $data['date'] = substr($str, 0, $dash-1);
+            $data['user'] = substr($str, $dash+2);
             return $data;
         } else {
             throw new Exception('Could not get date and user attributes. News id ' . $this->_newsId);
