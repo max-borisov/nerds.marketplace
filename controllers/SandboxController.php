@@ -228,7 +228,7 @@ class SandboxController extends Controller
                 (new HiFiNews())->run();
             }
 
-            if ($action === 'review') {
+            if ($action === 'reviews') {
                 require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
                 (new HiFiReviews())->run();
             }
