@@ -43,3 +43,6 @@ body { padding-top: 30px; padding-bottom: 30px; }
 .item-view-info img { width: 300px; }
 
 .item-previews-block img { width: 230px; }
+
+.stat-table { font-size: 20px; }
+.stat-table th, .stat-table td { padding: 20px !important; text-align: center; }
