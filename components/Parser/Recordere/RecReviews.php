@@ -86,17 +86,10 @@ class RecReviews extends Base
         $before = $this->getExistingRowsCount('_reviews', ExternalSite::RECORDERE);
         $catalogLinks = $this->getCatalogLinks();
         $existingReviews = $this->getExistingReviews(ExternalSite::RECORDERE);
-
-        $num = 0;
         foreach ($catalogLinks as $reviewId) {
             if (in_array($reviewId, $existingReviews)) continue;
             $data = $this->parsePage($reviewId);
-
-//            HelperBase::dump($data);
             $this->saveItem($data);
-
-//            if ($num++ > 50) break;
-
 //            break;
             usleep(1000);
         }

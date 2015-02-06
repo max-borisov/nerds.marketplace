@@ -22,11 +22,9 @@ class ParserrecController extends Controller
 
     public function actionReviews()
     {
-        echo "Rec reviews\r\n";
-
-        /*$this->_checkEnv();
+        $this->_checkEnv();
         require_once Yii::getAlias('@app') . '/components/Parser/Recordere//RecReviews.php';
-        (new RecReviews())->run();*/
+        (new RecReviews())->run();
     }
 
     private function _checkEnv()
