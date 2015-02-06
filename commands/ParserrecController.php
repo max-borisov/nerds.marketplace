@@ -10,6 +10,7 @@ namespace app\commands;
 use Yii;
 use yii\console\Controller;
 use app\components\parser\recordere\RecNews;
+use app\components\parser\recordere\RecReviews;
 
 class ParserrecController extends Controller
 {
@@ -23,7 +24,7 @@ class ParserrecController extends Controller
     public function actionReviews()
     {
         $this->_checkEnv();
-        require_once Yii::getAlias('@app') . '/components/Parser/Recordere//RecReviews.php';
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
         (new RecReviews())->run();
     }
 
