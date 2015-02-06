@@ -17,4 +17,15 @@ class ActiveRecord extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
+    public function count($condition = '')
+    {
+        $q = (new \yii\db\Query())
+            ->select('id')
+            ->from($this->tableName());
+        if ($condition) {
+            $q->where($condition);
+        }
+        return $q->count();
+    }
 }
