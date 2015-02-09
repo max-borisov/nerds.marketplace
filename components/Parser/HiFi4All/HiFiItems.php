@@ -179,7 +179,7 @@ class HiFiItems extends Base
             throw new Exception('Could not retrieve data.');
         }
 
-        return $matches[1];
+        return array_unique($matches[1]);
     }
 
     /**
@@ -296,12 +296,12 @@ class HiFiItems extends Base
         set_time_limit(0);
 
         $before = $this->getExistingRowsCount('_used_item', ExternalSite::HIFI4ALL);
-        $existingRecords = $this->getExistingItems(ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;
         for ($i=0; $i <= 20; $i++) {
+            $existingItems = $this->getExistingItems(ExternalSite::HIFI4ALL);
             $ids = $this->getCatalogLinks($offset);
-            $this->_parsePageAndSave($ids, $existingRecords);
+            $this->_parsePageAndSave($ids, $existingItems);
             $offset += $baseOffset;
 //            break;
         }

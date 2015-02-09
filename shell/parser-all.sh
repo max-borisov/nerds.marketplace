@@ -1,9 +1,7 @@
 #!/bin/bash
 
-echo "\r\n\r\n"
 date
-echo "\r\n[---] START. All parsers."
-
+echo "[---] START. All parsers."
 sh parser-items-hifi.sh
 
 sh parser-news-hifi.sh

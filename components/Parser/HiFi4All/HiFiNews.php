@@ -78,7 +78,7 @@ class HiFiNews extends Base
         $pattern = '|<td\s+width="336">(?:.*?)(\d{4})(?:.*?)</td>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
-            return $matches[1];
+            return array_unique($matches[1]);
         } else {
             throw new Exception('Could not retrieve news ids from catalog page. Page id ' . $side);
         }
@@ -89,11 +89,11 @@ class HiFiNews extends Base
         set_time_limit(0);
 
         $before = $this->getExistingRowsCount('_news', ExternalSite::HIFI4ALL);
-        $existingRecords = $this->getExistingNews(ExternalSite::HIFI4ALL);
         for ($side = 1; $side <= 8; $side++) {
+            $existingNews = $this->getExistingNews(ExternalSite::HIFI4ALL);
             $ids = $this->getCatalogLinks($side);
             foreach ($ids as $newsId) {
-                if (in_array($newsId, $existingRecords)) continue;
+                if (in_array($newsId, $existingNews)) continue;
                 $data = $this->parsePage($newsId);
                 $this->saveItem($data);
 //                break;

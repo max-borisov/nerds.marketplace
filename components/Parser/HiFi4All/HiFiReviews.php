@@ -58,7 +58,7 @@ class HiFiReviews extends Base
         $pattern = '|a=(\d+)|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1], $matches[1][0])) {
-            return $matches[1];
+            return array_unique($matches[1]);
         } else {
             throw new Exception('Could not retrieve block ids from catalog page.');
         }
@@ -108,8 +108,8 @@ class HiFiReviews extends Base
     {
         $before = $this->getExistingRowsCount('_reviews', ExternalSite::HIFI4ALL);
         $blocks = $this->getCatalogLinks();
-        $existingReviews = $this->getExistingReviews(ExternalSite::HIFI4ALL);
         foreach ($blocks as $reviewType => $blockIds) {
+            $existingReviews = $this->getExistingReviews(ExternalSite::HIFI4ALL);
             foreach ($blockIds as $id) {
                 if (in_array($id, $existingReviews)) continue;
                 $reviewData = $this->parsePage($id);
