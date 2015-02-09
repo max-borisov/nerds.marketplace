@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "[---] START. All parsers."
+echo "\r\n\r\n"
+date
+echo "\r\n[---] START. All parsers."
 
 sh parser-items-hifi.sh
 
