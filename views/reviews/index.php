@@ -7,6 +7,7 @@ $this->params['isReviewsPage'] = true;
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
+        <p class="lead">There are <span class="badge"><?= $pages->totalCount ?></span> reviews in the catalog.</p>
         <?= $this->render('../shared/linkPager', ['pages' => $pages]) ?>
         <table class="table table-striped table-hover news-table">
             <thead>
@@ -19,7 +20,7 @@ $this->params['isReviewsPage'] = true;
             </thead>
             <tbody>
             <?php
-            $counter = 1;
+            $counter = $pages->getPage() * $pages->getPageSize() + 1;
             foreach ($data as $reviewItem) {
                 echo "<tr>";
                     echo "<td>", $counter++, "</td>";

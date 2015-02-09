@@ -3,6 +3,7 @@ namespace app\components\parser;
 
 use Yii;
 use yii\base\Component;
+use yii\base\Exception;
 use app\components\HelperBase;
 
 abstract class Base extends Component
@@ -122,6 +123,8 @@ abstract class Base extends Component
             'okt'       => 10,
 
             'november'  => 11,
+            'nov'       => 11,
+
             'december'  => 12,
         ];
 
@@ -129,6 +132,7 @@ abstract class Base extends Component
             return 0;
         }
         $dateStr = str_replace('.', '', $dateStr);
+        $dateStr = preg_replace('|\s+|', ' ', $dateStr);
         $split = explode(' ', $dateStr);
         if (count($split) != 3) {
             return 0;

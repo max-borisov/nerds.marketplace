@@ -245,16 +245,23 @@ class SandboxController extends Controller
             $action = $_GET['action'];
 
             if ($action === 'news') {
-                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
-                (new RecNews())->run();
-//                (new RecNews())->parsePageTest(593);
-//                (new RecNews())->parsePageTest(12206);
+                if (isset($_GET['id'])) {
+                    $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+                    (new RecNews())->parsePageTest($id);
+                } else {
+                    require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
+                    (new RecNews())->run();
+                }
             }
 
             if ($action === 'reviews') {
-                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
-                (new RecReviews())->run();
-//                (new RecReviews())->parsePageTest(12206);
+                if (isset($_GET['id'])) {
+                    $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+                    (new RecReviews())->parsePageTest($id);
+                } else {
+                    require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
+                    (new RecReviews())->run();
+                }
             }
         }
     }

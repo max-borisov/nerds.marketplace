@@ -32,10 +32,8 @@ class RecNews extends Base
         $data['title'] = $this->_getTitle($root);
 
         // Date
-        $dateAndUser = $this->_getDateAndUser($root);
-
-        $data['user'] = $this->iconv(trim($dateAndUser['user']));
-        $data['date'] = $this->formatDate(trim($dateAndUser['date']), 'News', $this->_newsId);
+        $date = $this->_getDate($root);
+        $data['date'] = $this->formatDate($date, 'News', $this->_newsId);
 
         // Post text
         $data['post'] = $this->_getPostText($root);
@@ -99,12 +97,12 @@ class RecNews extends Base
         $prevCatalogLinks = $this->getPrevCatalogLinks();
         $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
 //        $allLinks = $catalogLinks;
+        $allLinks = array_unique($allLinks);
         $existingNews = $this->getExistingNews(ExternalSite::RECORDERE);
         foreach ($allLinks as $newsId) {
             if (in_array($newsId, $existingNews)) continue;
             $data = $this->parsePage($newsId);
             $this->saveItem($data);
-//            break;
             usleep(1000);
         }
         $after = $this->getExistingRowsCount('_news', ExternalSite::RECORDERE);
@@ -133,23 +131,16 @@ class RecNews extends Base
         }
     }
 
-    private function _getDateAndUser($html)
+    private function _getDate($html)
     {
-        $pattern = '|<font\s+color="#555555">([^<]+)</font>|is';
-        if (isset($matches[1], $matches[1][1])) {
-            $str = $matches[1][1];
-            $dash = strrpos($str, '-');
-            $data = [];
-            $data['date'] = substr($str, 0, $dash-1);
-            $data['user'] = substr($str, $dash+2);
-            return $data;
+        $pattern = '|<font\s+color="#555555">([^>]+\d{4})[^<]+</font>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim($matches[1]);
         } else {
-            return [
-                'date' => '.',
-                'user' => '',
-            ];
-//            throw new Exception('Could not get date and user attributes. News id ' . $this->_newsId);
+            return 0;
         }
+//        throw new Exception('Could not get date attributes. News id ' . $this->_newsId);
     }
 
     private function _getPostText($html)
