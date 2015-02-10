@@ -4,8 +4,7 @@ use app\components\HelperBase;
 use app\components\HelperUser;
 use app\components\HelperMarketPlace;
 
-
-//HelperBase::dump($data, true);
+$itemLink = '/item/view/' . $data->id;
 
 /* @var $data UsedItem */
 ?>
@@ -13,11 +12,11 @@ use app\components\HelperMarketPlace;
     <div class="col-md-4">
         <?= Html::a(
             Html::tag('img', '', ['src' => $data->preview, 'alt' => $data->title . ' preview', 'class' => 'img-rounded']),
-            '/item/view/' . $data->id
+            $itemLink
         ) ?>
     </div>
     <div class="col-md-5">
-        <h3><?= ucfirst(Html::encode($data->title)) . ' - [' . $data->type->title . ']' ?></h3>
+        <h3><?= Html::a(ucfirst(Html::encode($data->title)), $itemLink) . ' - [' . $data->type->title . ']' ?></h3>
         <?php if (!HelperUser::isGuest()) { ?>
         <div class="row">
             <div class="col-xs-3">Post author:</div>
@@ -76,7 +75,7 @@ use app\components\HelperMarketPlace;
                 HelperBase::getParam('itemDescriptionMaxLength')))
             ?>
         </p>
-        <p class="more-link"><?= Html::a('More', '/item/view/' . $data->id) ?></p>
+        <p class="more-link"><?= Html::a('More', $itemLink) ?></p>
     </div>
     <div class="col-md-3">
         <p class="item-price text-center"><?= $data->price, ' ', HelperBase::getParam('currency') ?></p>
