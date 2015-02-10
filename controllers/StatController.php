@@ -13,7 +13,7 @@ use app\components\HelperBase;
 
 class StatController extends Controller
 {
-    public $layout = 'stat';
+    public $layout = 'marketplace';
 
     public function actions()
     {
@@ -26,13 +26,13 @@ class StatController extends Controller
 
     public function actionIndex()
     {
-        $items = (new UsedItem)->count();
-        $newsHiFi = (new News())->count('site_id = ' . ExternalSite::HIFI4ALL);
-        $newsRec = (new News())->count('site_id = ' . ExternalSite::RECORDERE);
-        $reviewsHiFi = (new Reviews())->count('site_id = ' . ExternalSite::HIFI4ALL);
-        $reviewsRec = (new Reviews())->count('site_id = ' . ExternalSite::RECORDERE);
-        $newsTotal = $newsHiFi + $newsRec;
-        $reviewsTotal = $reviewsHiFi + $reviewsRec;
+        $items          = (new UsedItem)->count();
+        $newsHiFi       = (new News())->count('site_id = ' . ExternalSite::HIFI4ALL);
+        $newsRec        = (new News())->count('site_id = ' . ExternalSite::RECORDERE);
+        $reviewsHiFi    = (new Reviews())->count('site_id = ' . ExternalSite::HIFI4ALL);
+        $reviewsRec     = (new Reviews())->count('site_id = ' . ExternalSite::RECORDERE);
+        $newsTotal      = $newsHiFi + $newsRec;
+        $reviewsTotal   = $reviewsHiFi + $reviewsRec;
         $data = [
             'items'         => $items,
             'newsHiFi'      => $newsHiFi,

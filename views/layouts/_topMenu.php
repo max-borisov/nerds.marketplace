@@ -16,9 +16,13 @@ use app\models\PhpbbUser;
         <?= Html::a('Reviews', Url::to('/reviews')) ?>
     </li>
     <?php if (!HelperUser::isGuest()) { ?>
-    <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
-        <?= Html::a('Categories', Url::to('/category')) ?>
-    </li>
+        <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
+            <?= Html::a('Categories', Url::to('/category')) ?>
+        </li>
+
+        <li class="<?= isset($this->params['isStatPage']) ? 'active' : '' ?>">
+            <?= Html::a('Statistics', Url::to('/stat')) ?>
+        </li>
     <?php } ?>
 </ul>
 

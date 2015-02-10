@@ -221,16 +221,19 @@ class SandboxController extends Controller
             if ($action === 'items') {
                 require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All/HiFiItems.php';
                 (new HiFiItems())->run();
+                return false;
             }
 
             if ($action === 'news') {
                 require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiNews.php';
                 (new HiFiNews())->run();
+                return false;
             }
 
             if ($action === 'reviews') {
                 require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
                 (new HiFiReviews())->run();
+                return false;
             }
         }
     }
@@ -251,6 +254,7 @@ class SandboxController extends Controller
                 } else {
                     require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
                     (new RecNews())->run();
+                    return false;
                 }
             }
 
@@ -261,6 +265,7 @@ class SandboxController extends Controller
                 } else {
                     require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
                     (new RecReviews())->run();
+                    return false;
                 }
             }
         }
