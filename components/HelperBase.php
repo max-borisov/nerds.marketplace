@@ -126,9 +126,10 @@ class HelperBase extends Component
         return $output;
     }
 
-    public static function formatDate($date)
+    public static function formatDate($date, $timestamp = false)
     {
-        return date('M d, Y', strtotime($date));
+        $date = $timestamp === true ? $date : strtotime($date);
+        return date('M d, Y', $date);
     }
 
     public static function isZeroDate($date)

@@ -327,6 +327,7 @@ class SandboxController extends Controller
     {
         $t = '2015-01-18';
         echo strtotime($t);
-        echo date('M d, Y');
+        $t = 1423567378;
+        echo date('M d, Y', $t);
     }
 }

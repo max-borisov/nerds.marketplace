@@ -115,7 +115,14 @@ use app\components\HelperBase;
     <?php } ?>
     <tr>
         <td class="item-param-name"><?= $data->getAttributeLabel('s_date') ?></td>
-        <td><?= HelperBase::formatDate($data->s_date) ?></td>
+        <td>
+        <?php
+            if (HelperBase::isZeroDate($data->s_date)) {
+                echo HelperBase::formatDate($data->created_at, true);
+            } else {
+                echo HelperBase::formatDate($data->s_date);
+            }
+        ?></td>
     </tr>
     <tr><td colspan="2" class="text-center"><?= nl2br(Html::encode($data->description)) ?></td></tr>
     </tbody>
