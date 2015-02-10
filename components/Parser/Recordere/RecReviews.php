@@ -15,8 +15,6 @@ class RecReviews extends Base
 {
     private $_baseUrl = 'http://www.recordere.dk/indhold/templates/design.aspx?articleid=';
     private $_catalogUrl = 'http://www.recordere.dk/anmeldelser/';
-//    private $_prevCatalogUrl = 'http://www.recordere.dk/nyheder/nyhedsliste.aspx';
-
     private $_reviewId = 0;
 
     public function parsePage($id)
@@ -33,10 +31,8 @@ class RecReviews extends Base
         $data['title'] = $this->_getTitle($root);
 
         // Date
-        $dateAndUser = $this->_getDateAndUser($root);
-
-        $data['user'] = $this->iconv(trim($dateAndUser['user']));
-        $data['date'] = $this->formatDate(trim($dateAndUser['date']), 'Review', $this->_reviewId);
+        $date = $this->_recGetDate($root);
+        $data['date'] = $this->formatDate($date, 'Reviews', $this->_reviewId);
 
         // Post text
         $data['post'] = $this->_getPostText($root);
@@ -116,22 +112,6 @@ class RecReviews extends Base
             return trim($matches[1]);
         } else {
             throw new Exception('Could not get title attribute. Reviews id ' . $this->_reviewId);
-        }
-    }
-
-    private function _getDateAndUser($html)
-    {
-        $pattern = '|<font\s+color="#555555">([^<]+)</font>|is';
-        preg_match_all($pattern, $html, $matches);
-        if (isset($matches[1], $matches[1][1])) {
-            $str = $matches[1][1];
-            $dash = strrpos($str, '-');
-            $data = [];
-            $data['date'] = substr($str, 0, $dash-1);
-            $data['user'] = substr($str, $dash+2);
-            return $data;
-        } else {
-            throw new Exception('Could not get date and user attributes. Reviews id ' . $this->_reviewId);
         }
     }
 

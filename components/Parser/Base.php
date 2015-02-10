@@ -151,4 +151,16 @@ abstract class Base extends Component
         $timestamp = mktime(0, 0, 0, $m, $d, $y);
         return date('Y-m-d', $timestamp);
     }
+
+    protected function _recGetDate($html)
+    {
+        $pattern = '|<font\s+color="#555555">([^>]+\d{4})[^<]+</font>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim($matches[1]);
+        } else {
+            return 0;
+        }
+//        throw new Exception('Could not get date attributes. News id ' . $this->_newsId);
+    }
 }

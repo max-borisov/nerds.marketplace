@@ -32,7 +32,7 @@ class RecNews extends Base
         $data['title'] = $this->_getTitle($root);
 
         // Date
-        $date = $this->_getDate($root);
+        $date = $this->_recGetDate($root);
         $data['date'] = $this->formatDate($date, 'News', $this->_newsId);
 
         // Post text
@@ -129,18 +129,6 @@ class RecNews extends Base
         } else {
             throw new Exception('Could not get title attribute. News id ' . $this->_newsId);
         }
-    }
-
-    private function _getDate($html)
-    {
-        $pattern = '|<font\s+color="#555555">([^>]+\d{4})[^<]+</font>|is';
-        preg_match($pattern, $html, $matches);
-        if (isset($matches[1])) {
-            return trim($matches[1]);
-        } else {
-            return 0;
-        }
-//        throw new Exception('Could not get date attributes. News id ' . $this->_newsId);
     }
 
     private function _getPostText($html)

@@ -226,13 +226,23 @@ class SandboxController extends Controller
 
             if ($action === 'news') {
                 require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiNews.php';
-                (new HiFiNews())->run();
+                if (isset($_GET['id'])) {
+                    $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+                    (new HiFiNews())->parsePageTest($id);
+                } else {
+                    (new HiFiNews())->run();
+                }
                 return false;
             }
 
             if ($action === 'reviews') {
                 require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
-                (new HiFiReviews())->run();
+                if (isset($_GET['id'])) {
+                    $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+                    (new HiFiReviews())->parsePageTest($id);
+                } else {
+                    (new HiFiReviews())->run();
+                }
                 return false;
             }
         }
@@ -248,25 +258,25 @@ class SandboxController extends Controller
             $action = $_GET['action'];
 
             if ($action === 'news') {
+                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
                 if (isset($_GET['id'])) {
                     $id = isset($_GET['id']) ? $_GET['id'] : 12234;
                     (new RecNews())->parsePageTest($id);
                 } else {
-                    require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
                     (new RecNews())->run();
-                    return false;
                 }
+                return false;
             }
 
             if ($action === 'reviews') {
+                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
                 if (isset($_GET['id'])) {
                     $id = isset($_GET['id']) ? $_GET['id'] : 12234;
                     (new RecReviews())->parsePageTest($id);
                 } else {
-                    require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
                     (new RecReviews())->run();
-                    return false;
                 }
+                return false;
             }
         }
     }
