@@ -2,12 +2,22 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\components\HelperBase;
+use app\models\ReviewsTypes;
 
 $this->params['isReviewsPage'] = true;
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <p class="lead">There are <span class="badge"><?= $pages->totalCount ?></span> reviews in the catalog.</p>
+        <?php
+        if ($category) {
+            $categoryTitle = ReviewsTypes::find()->where('id = :category', [':category' => $category])->one()->title;
+        ?>
+            <p class="lead">
+                Reviews category - <strong><?= $categoryTitle ?>.</strong>
+                <a href="/reviews" class="btn btn-primary">Reset filter.</a>
+            </p>
+        <?php } ?>
         <?= $this->render('../shared/linkPager', ['pages' => $pages]) ?>
         <table class="table table-striped table-hover news-table">
             <thead>
@@ -25,7 +35,7 @@ $this->params['isReviewsPage'] = true;
                 echo "<tr>";
                     echo "<td>", $counter++, "</td>";
                     echo "<td>", HelperBase::formatDate($reviewItem['post_date']), "</td>";
-                    echo "<td>", $reviewItem->type['title'], "</td>";
+                    echo "<td>", Html::a($reviewItem->type['title'], '?category=' . $reviewItem->type['id']), "</td>";
                     echo "<td>", Html::a($reviewItem['title'], Url::to('/reviews/view/' . $reviewItem->id)), "</td>";
                 echo "</tr>";
             }

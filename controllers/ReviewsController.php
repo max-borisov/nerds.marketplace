@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Reviews;
+use app\models\ReviewsTypes;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -41,14 +42,24 @@ class ReviewsController extends Controller
     public function actionIndex()
     {
         $query = Reviews::find()->select('id, title, post_date, review_type_id')->orderBy('post_date DESC')->with('type');
+        $category = null;
+        if ($category = Yii::$app->request->get('category')) {
+            if (ReviewsTypes::find()->where('id = :id', [':id' => $category])->exists()) {
+                $query->where('review_type_id = :category', [':category' => $category]);
+            } else {
+                $category = null;
+            }
+        }
+
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $data = $query->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
         return $this->render('index', [
-            'data' => $data,
-            'pages' => $pages,
+            'data'      => $data,
+            'pages'     => $pages,
+            'category'  => $category,
         ]);
     }
 
