@@ -15,7 +15,7 @@ $this->params['isReviewsPage'] = true;
         ?>
             <p class="lead">
                 Reviews category - <strong><?= $categoryTitle ?>.</strong>
-                <a href="/reviews" class="btn btn-primary">Reset filter.</a>
+                <a href="/reviews" class="btn btn-primary">Reset filter</a>
             </p>
         <?php } ?>
         <?= $this->render('../shared/linkPager', ['pages' => $pages]) ?>
