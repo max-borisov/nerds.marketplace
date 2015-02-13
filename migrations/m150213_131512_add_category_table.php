@@ -3,19 +3,15 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150123_094201_create_news_table extends Migration
+class m150213_131512_add_category_table extends Migration
 {
-    private $_table = '_news';
+    private $_table = 'category';
 
     public function up()
     {
         $this->createTable($this->_table, [
             'id'            => 'pk',
             'title'         => Schema::TYPE_STRING  . ' NOT NULL',
-            'af'            => Schema::TYPE_STRING  . ' NOT NULL',
-            'notice'        => Schema::TYPE_STRING  . ' NOT NULL',
-            'post'          => Schema::TYPE_TEXT    . ' NOT NULL',
-
             'created_at'    => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at'    => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);

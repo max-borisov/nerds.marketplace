@@ -3,12 +3,20 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150127_154514_fill_up_reviews_types_table extends Migration
+class m150213_154501_add_review_type_table extends Migration
 {
-    private $_table = '_reviews_types';
+    private $_table = 'review_type';
 
     public function safeUp()
     {
+        $this->createTable($this->_table, [
+            'id'            => 'pk',
+            'title'         => Schema::TYPE_STRING . ' NOT NULL',
+
+            'created_at'    => Schema::TYPE_INTEGER . ' NOT NULL',
+            'updated_at'    => Schema::TYPE_INTEGER . ' NOT NULL',
+        ]);
+
         $time = time();
 
         $this->insert($this->_table, [
@@ -65,6 +73,12 @@ class m150127_154514_fill_up_reviews_types_table extends Migration
             'created_at'    => $time,
             'updated_at'    => $time,
         ]);
+        $this->insert($this->_table, [
+            'id'            => 10,
+            'title'         => 'Unknown',
+            'created_at'    => $time,
+            'updated_at'    => $time,
+        ]);
     }
 
     public function safeDown()
@@ -78,5 +92,8 @@ class m150127_154514_fill_up_reviews_types_table extends Migration
         $this->delete($this->_table, 'id = 7');
         $this->delete($this->_table, 'id = 8');
         $this->delete($this->_table, 'id = 9');
+        $this->delete($this->_table, 'id = 10');
+
+        $this->dropTable($this->_table);
     }
 }
