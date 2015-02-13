@@ -20,9 +20,8 @@ $page->fillForm();
 $I->click('input[type="submit"]');
 
 $I->expectTo('see validations errors');
-$I->see('Warranty: cannot be blank.');
-$I->see('Invoice: cannot be blank.');
-$I->see('Price: cannot be blank.');
+$I->see('Title: cannot be blank.');
+$I->see('Description: cannot be blank.');
 $I->see('Category: cannot be blank.');
 
 $I->amGoingTo('to test fields validation');
@@ -39,7 +38,6 @@ $page->fillForm($params);
 $I->click('input[type="submit"]');
 
 $I->expectTo('see 2 validations errors');
-$I->see('Price: cannot be blank.');
 $I->see('Category: cannot be blank.');
 
 $I->amGoingTo('to fill all fields');
