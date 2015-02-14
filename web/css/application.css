@@ -28,10 +28,8 @@ body { padding-top: 30px; padding-bottom: 30px; }
 }*/
 .news-post img { margin: 20px 20px; }
 
-.form-signin { margin: 0 auto; padding: 15px; max-width: 400px; }
+.form-signin { padding: 15px; }
 .form-signin input { margin: 10px 0; }
-
-.form-signup { margin: 30px auto; max-width: 500px; }
 
 .signup-suggestion { margin-top: 20px; font-size: 1.2em; }
 
