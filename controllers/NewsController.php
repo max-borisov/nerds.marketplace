@@ -3,15 +3,13 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\Pagination;
 use app\models\News;
+use app\controllers\AppController;
 
-class NewsController extends Controller
+class NewsController extends AppController
 {
-    public $layout = 'marketplace';
-
     public function behaviors()
     {
         return [
@@ -24,15 +22,6 @@ class NewsController extends Controller
                         'roles' => ['?', '@'],
                     ],
                 ],
-            ],
-        ];
-    }
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }

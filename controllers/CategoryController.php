@@ -7,13 +7,10 @@ use yii\web\Controller;
 use yii\helpers;
 use app\models\Category;
 use yii\filters\AccessControl;
+use app\controllers\AppController;
 
-use app\components\HelperBase;
-
-class CategoryController extends Controller
+class CategoryController extends AppController
 {
-    public $layout = 'marketplace';
-
     public function behaviors()
     {
         return [
@@ -26,15 +23,6 @@ class CategoryController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
-            ],
-        ];
-    }
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }

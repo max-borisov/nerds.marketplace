@@ -4,18 +4,17 @@ namespace app\controllers;
 
 use app\components\HelperBase;
 use app\components\HelperUser;
-use app\models\PhpbbUser;
+use app\models\User;
 use app\models\SignUpForm;
 use app\models\SignInForm;
 use app\models\UpdatePasswordForm;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
+use app\controllers\AppController;
 
-class SessionController extends Controller
+class SessionController extends AppController
 {
-    public $layout = 'marketplace';
-
     public function behaviors()
     {
         return [
@@ -33,15 +32,6 @@ class SessionController extends Controller
                         'roles' => ['?'],
                     ],
                 ],
-            ],
-        ];
-    }
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }
@@ -70,7 +60,7 @@ class SessionController extends Controller
             ]);
             if ($response && HelperUser::parseSaveUserResponse($response)) {
                 if (YII_ENV !== 'test') {
-                    HelperUser::sendConfirmationEmail(PhpbbUser::findByEmail($model->email));
+                    HelperUser::sendConfirmationEmail(User::findByEmail($model->email));
                 }
                 Yii::$app->session->setFlash(
                     'signup_success',
@@ -113,7 +103,7 @@ class SessionController extends Controller
 
     public function actionUpdatepassword()
     {
-        $user = PhpbbUser::findOne(HelperUser::uid());
+        $user = User::findOne(HelperUser::uid());
         $model = new UpdatePasswordForm();
         $model->setUser($user);
         $request = Yii::$app->request;
@@ -137,7 +127,7 @@ class SessionController extends Controller
 
     public function actionConfirmemail($hash)
     {
-        if (PhpbbUser::confirmEmail($hash)) {
+        if (User::confirmEmail($hash)) {
             Yii::$app->session->setFlash('email_confirmation_success', 'Your email address has been confirmed and now you can log in to the system.');
         } else {
             Yii::$app->session->setFlash('email_confirmation_error', 'Email has not been confirmed.');

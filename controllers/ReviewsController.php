@@ -2,18 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Reviews;
-use app\models\ReviewsTypes;
+use app\models\Review;
+use app\models\ReviewType;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\data\Pagination;
-use app\components\HelperBase;
+use app\controllers\AppController;
 
-class ReviewsController extends Controller
+class ReviewsController extends AppController
 {
-    public $layout = 'marketplace';
-
     public function behaviors()
     {
         return [
@@ -30,21 +28,12 @@ class ReviewsController extends Controller
         ];
     }
 
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
-
     public function actionIndex()
     {
-        $query = Reviews::find()->select('id, title, post_date, review_type_id')->orderBy('post_date DESC')->with('type');
+        $query = Review::find()->select('id, title, post_date, review_type_id')->orderBy('post_date DESC')->with('type');
         $category = null;
         if ($category = Yii::$app->request->get('category')) {
-            if (ReviewsTypes::find()->where('id = :id', [':id' => $category])->exists()) {
+            if (ReviewType::find()->where('id = :id', [':id' => $category])->exists()) {
                 $query->where('review_type_id = :category', [':category' => $category]);
             } else {
                 $category = null;
@@ -66,7 +55,7 @@ class ReviewsController extends Controller
     // View item page
     public function actionView($id)
     {
-        $review = Reviews::find()->where('id = :id', [':id' => $id])->one();
+        $review = Review::find()->where('id = :id', [':id' => $id])->one();
         if (!$review) {
             $this->redirect('/review');
         }

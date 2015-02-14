@@ -12,7 +12,7 @@ use app\components\parser\recordere\RecNews;
 
 use app\components\parser\recordere\RecReviews;
 use app\models\News;
-use app\models\PhpbbUser;
+use app\models\User;
 use app\models\SignInForm;
 use app\models\UsedItem;
 use app\models\UsedItemPhoto;

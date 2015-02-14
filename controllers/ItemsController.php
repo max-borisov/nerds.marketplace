@@ -6,23 +6,18 @@ use Yii;
 use yii\data\Pagination;
 use yii\db\Exception;
 use yii\helpers;
-use yii\web\Controller;
 use yii\filters\AccessControl;
 use app\components\HelperMarketPlace;
 use app\components\HelperUser;
-use app\models\UsedItem;
-use app\models\UsedItemType;
-use app\models\UsedItemPhoto;
+use app\models\Item;
+use app\models\ItemType;
+use app\models\ItemPhoto;
 use app\models\Category;
-use app\models\PhpbbUser;
+use app\models\User;
+use app\controllers\AppController;
 
-//use yii\base\Exception;
-use app\components\HelperBase;
-
-class MarketplaceController extends Controller
+class ItemsController extends AppController
 {
-    public $layout = 'marketplace';
-
     public function behaviors()
     {
         return [
@@ -44,26 +39,17 @@ class MarketplaceController extends Controller
         ];
     }
 
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
-
     // Front page with catalog and search form
     public function actionIndex()
     {
-        $model = new UsedItem();
+        $model = new Item();
         // Search request
-        if (Yii::$app->request->get('UsedItem')) {
+        if (Yii::$app->request->get('Item')) {
             $model->setScenario('search');
             // Search items according to received GET parameters
             $query = $model->search(Yii::$app->request->get());
         } else {
-            $query = UsedItem::find()
+            $query = Item::find()
                 ->where('category_id > 0')
                 ->orderBy(HelperMarketPlace::getSortParamForItemsList());
         }
@@ -84,8 +70,8 @@ class MarketplaceController extends Controller
     // Create item page
     public function actionCreate()
     {
-        $model      = new UsedItem();
-        $modelPhoto = new UsedItemPhoto();
+        $model      = new Item();
+        $modelPhoto = new ItemPhoto();
         $model->setScenario('create');
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             $modelPhoto->validateUploadedFiles();
@@ -107,14 +93,14 @@ class MarketplaceController extends Controller
             'model'         => $model,
             'modelPhoto'    => $modelPhoto,
             'categories'    => (new Category())->prepareDropDown(),
-            'typeData'      => (new UsedItemType())->prepareList()
+            'typeData'      => (new ItemType())->prepareList()
         ]);
     }
 
     // View item page
     public function actionView($id)
     {
-        $item = UsedItem::find()->where('id = :id', [':id' => $id])->one();
+        $item = Item::find()->where('id = :id', [':id' => $id])->one();
         if (!$item) {
             $this->redirect('/');
         }
@@ -125,17 +111,17 @@ class MarketplaceController extends Controller
     public function actionItems()
     {
         // Only users who posted any items should have access
-        if (!(new PhpbbUser)->hasItems(HelperUser::uid())) {
+        if (!(new User())->hasItems(HelperUser::uid())) {
             $this->redirect('/');
         }
-        $items = PhpbbUser::findUser(HelperUser::uid())->items;
+        $items = User::findUser(HelperUser::uid())->items;
         return $this->render('items', ['data' => $items]);
     }
 
     // Delete an item
     public function actionDelete($id)
     {
-        $item = UsedItem::findOne($id);
+        $item = Item::findOne($id);
         // Item must be in database
         // User can only delete items which have been added by himself
         if (empty($item) || $item->user_id != HelperUser::uid()) {
@@ -161,7 +147,7 @@ class MarketplaceController extends Controller
     // Edit item
     public function actionEdit($id)
     {
-        $model = UsedItem::findOne($id);
+        $model = Item::findOne($id);
         $model->setScenario('edit');
 
         // Add validation error to main model
@@ -177,9 +163,9 @@ class MarketplaceController extends Controller
         }
         return $this->render('edit', [
             'model'         => $model,
-            'modelPhoto'    => new UsedItemPhoto(),
+            'modelPhoto'    => new ItemPhoto(),
             'categories'    => (new Category())->prepareDropDown(),
-            'typeData'      => (new UsedItemType())->prepareList()
+            'typeData'      => (new ItemType())->prepareList()
         ]);
     }
 
@@ -187,7 +173,7 @@ class MarketplaceController extends Controller
     public function actionUpload()
     {
         if (Yii::$app->request->isPost) {
-            $modelPhoto = new UsedItemPhoto();
+            $modelPhoto = new ItemPhoto();
             // Get item id from hidden form input
             $modelPhoto->item_id = Yii::$app->request->post('UsedItemPhoto')['item_id'];
             $modelPhoto->validateUploadedFiles();
@@ -209,7 +195,7 @@ class MarketplaceController extends Controller
 
     public function actionDeletepreview($id)
     {
-        if (!$preview = UsedItemPhoto::findOne($id)) {
+        if (!$preview = ItemPhoto::findOne($id)) {
             throw new Exception('Invalid preview id ' . $id);
         }
         $item = $preview->item;
