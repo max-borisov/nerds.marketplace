@@ -6,7 +6,7 @@ use Yii;
 use app\models\ReviewsTypes;
 
 /**
- * This is the model class for table "_reviews".
+ * This is the model class for table "review".
  *
  * @property integer $id
  * @property integer $site_id
@@ -20,14 +20,14 @@ use app\models\ReviewsTypes;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Reviews extends \app\components\ActiveRecord
+class Review extends \app\components\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '_reviews';
+        return 'review';
     }
 
     /**
@@ -55,7 +55,7 @@ class Reviews extends \app\components\ActiveRecord
 
     public function getType()
     {
-        return $this->hasOne(ReviewsTypes::className(), ['id' => 'review_type_id']);
+        return $this->hasOne(ReviewType::className(), ['id' => 'review_type_id']);
     }
 
     /**

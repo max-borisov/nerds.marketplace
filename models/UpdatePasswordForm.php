@@ -52,7 +52,7 @@ class UpdatePasswordForm extends Model
         ];
     }
 
-    public function setUser(PhpbbUser $user)
+    public function setUser(User $user)
     {
         $this->_user = $user;
     }

@@ -6,14 +6,14 @@ use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "_used_item_type".
+ * This is the model class for table "item_type".
  *
  * @property integer $id
  * @property string $title
  * @property integer $created_at
  * @property integer $updated_at
  */
-class UsedItemType extends \yii\db\ActiveRecord
+class ItemType extends \yii\db\ActiveRecord
 {
     const SELL      = 1;
     const BUY       = 2;
@@ -25,7 +25,7 @@ class UsedItemType extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '_used_item_type';
+        return 'item_type';
     }
 
     /**
@@ -61,7 +61,7 @@ class UsedItemType extends \yii\db\ActiveRecord
      */
     public function getItems()
     {
-        return $this->hasMany(UsedItem::className(), ['type_id' => 'id'])->orderBy('created_at ASC');
+        return $this->hasMany(Item::className(), ['type_id' => 'id'])->orderBy('created_at ASC');
     }
 
     /**

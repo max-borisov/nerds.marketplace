@@ -11,7 +11,7 @@ use app\components\HelperUser;
 use yii\base\Exception;
 
 /**
- * This is the model class for table "used_items".
+ * This is the model class for table "item".
  *
  * @property integer $id
  * @property integer $warranty
@@ -45,7 +45,7 @@ use yii\base\Exception;
  * @property string s_manual
  * @property string s_expires
  */
-class UsedItem extends \app\components\ActiveRecord
+class Item extends \app\components\ActiveRecord
 {
     public $price_min;
     public $price_max;
@@ -57,7 +57,7 @@ class UsedItem extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return '_used_item';
+        return 'item';
     }
 
     /**
@@ -99,17 +99,17 @@ class UsedItem extends \app\components\ActiveRecord
      */
     public function getPhotos()
     {
-        return $this->hasMany(UsedItemPhoto::className(), ['item_id' => 'id'])->orderBy('updated_at DESC');
+        return $this->hasMany(ItemPhoto::className(), ['item_id' => 'id'])->orderBy('updated_at DESC');
     }
 
     public function getUser()
     {
-        return $this->hasOne(PhpbbUser::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
     }
 
     public function getType()
     {
-        return $this->hasOne(UsedItemType::className(), ['id' => 'type_id']);
+        return $this->hasOne(ItemType::className(), ['id' => 'type_id']);
     }
 
     /**
@@ -165,7 +165,7 @@ class UsedItem extends \app\components\ActiveRecord
         $this->price_min = Yii::$app->request->get('UsedItem')['price_min'];
         $this->price_max = Yii::$app->request->get('UsedItem')['price_max'];
 
-        $query = UsedItem::find();
+        $query = Item::find();
         $query->andFilterWhere([
             'warranty'  => $this->warranty,
             'packaging' => $this->packaging,

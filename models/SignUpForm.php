@@ -46,10 +46,10 @@ class SignUpForm extends Model
     {
         // Check email and username to be unique
         if (!$this->hasErrors()) {
-            if (PhpbbUser::find()->where('username_clean = :name', [':name' => strtolower($this->username)])->exists()) {
-                $this->addError('username', 'This user name has already been taken.');
+            if (User::find()->where('name = :name', [':name' => strtolower($this->username)])->exists()) {
+                $this->addError('name', 'This user name has already been taken.');
 
-            } else if (PhpbbUser::find()->where('user_email = :email', [':email' => $this->email])->exists()) {
+            } else if (User::find()->where('email = :email', [':email' => $this->email])->exists()) {
                 $this->addError('email', 'This email address has already been registered to the system.');
             }
         }

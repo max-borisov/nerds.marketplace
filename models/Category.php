@@ -23,7 +23,7 @@ class Category extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return '_category';
+        return 'category';
     }
 
     /**
@@ -58,7 +58,7 @@ class Category extends \app\components\ActiveRecord
      */
     public function getAttachedItems()
     {
-        return $this->hasMany(UsedItem::className(), ['category_id' => 'id'])->orderBy('updated_at DESC');
+        return $this->hasMany(Item::className(), ['category_id' => 'id'])->orderBy('updated_at DESC');
     }
 
     /**

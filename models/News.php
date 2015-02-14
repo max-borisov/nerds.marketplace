@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "_news".
+ * This is the model class for table "news".
  *
  * @property integer $id
  * @property integer $site_id
@@ -25,7 +25,7 @@ class News extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return '_news';
+        return 'news';
     }
 
     /**

@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "_sites".
+ * This is the model class for table "site".
  *
  * @property integer $id
  * @property string $title
@@ -20,7 +20,7 @@ class ExternalSite extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '_sites';
+        return 'site';
     }
 
     /**

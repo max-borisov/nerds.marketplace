@@ -5,14 +5,14 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "_reviews_types".
+ * This is the model class for table "review_type".
  *
  * @property integer $id
  * @property string $title
  * @property integer $created_at
  * @property integer $updated_at
  */
-class ReviewsTypes extends \app\components\ActiveRecord
+class ReviewType extends \app\components\ActiveRecord
 {
     const AMPLIFIER     = 1;
     const SPEAKER       = 2;
@@ -30,7 +30,7 @@ class ReviewsTypes extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return '_reviews_types';
+        return 'review_type';
     }
 
     /**

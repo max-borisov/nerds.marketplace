@@ -9,7 +9,7 @@ use app\components\HelperBase;
 use app\components\HelperMarketPlace;
 
 /**
- * This is the model class for table "used_item_photo".
+ * This is the model class for table "item_photo".
  *
  * @property integer $id
  * @property integer $item_id
@@ -19,7 +19,7 @@ use app\components\HelperMarketPlace;
  * @property integer $thumb
  * @property integer $original
  */
-class UsedItemPhoto extends \app\components\ActiveRecord
+class ItemPhoto extends \app\components\ActiveRecord
 {
     /**
      * @var UploadedFile|Null file attribute
@@ -39,7 +39,7 @@ class UsedItemPhoto extends \app\components\ActiveRecord
      */
     public static function tableName()
     {
-        return '_used_item_photo';
+        return 'item_photo';
     }
 
     /**
