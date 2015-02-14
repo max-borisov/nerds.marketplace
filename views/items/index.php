@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use app\components\HelperPage;
 use app\components\HelperUser;
 
-$this->params['isUsedItemPage'] = true;
+$this->params['isItemPage'] = true;
 
 echo $this->render('../shared/header', ['header' => HelperPage::FRONT_PAGE_HEADER]);
 

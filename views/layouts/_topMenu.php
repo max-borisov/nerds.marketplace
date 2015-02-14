@@ -3,11 +3,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\components\HelperBase;
 use app\components\HelperUser;
-use app\models\PhpbbUser;
+use app\models\User;
 ?>
 <ul class="nav navbar-nav">
-    <li class="<?= isset($this->params['isUsedItemPage']) ? 'active' : '' ?>">
-        <?= Html::a('Used items', Url::to('/')) ?>
+    <li class="<?= isset($this->params['isItemPage']) ? 'active' : '' ?>">
+        <?= Html::a('Items', Url::to('/')) ?>
     </li>
     <li class="<?= isset($this->params['isNewsPage']) ? 'active' : '' ?>">
         <?= Html::a('News', Url::to('/news')) ?>
@@ -38,7 +38,7 @@ use app\models\PhpbbUser;
             <li><?= Html::a('Add new item', '/item/create') ?></li>
             <?php
             // Only users how have posted some items
-            if ((new PhpbbUser)->hasItems(HelperUser::uid())) {
+            if ((new User)->hasItems(HelperUser::uid())) {
                 echo '<li>', Html::a('Your items', '/items'), '</li>';
             }
             ?>

@@ -1,5 +1,5 @@
 <?php
-/* @var $model UsedItem */
+/* @var $model Item */
 
 use yii\helpers\Html;
 ?>
@@ -120,7 +120,7 @@ use yii\helpers\Html;
             <?php
             if (YII_ENV === 'test') {
                 // 0 should be set. Otherwise codeception could not attache file for test case
-                echo Html::fileInput('UsedItemPhoto[file][0]', null, ['id' => 'upload', 'multiple' => '']);
+                echo Html::fileInput('ItemPhoto[file][0]', null, ['id' => 'upload', 'multiple' => '']);
             } else {
                 echo Html::activeFileInput($modelPhoto, 'file[]', ['id' => 'upload', 'multiple' => '']);
             }

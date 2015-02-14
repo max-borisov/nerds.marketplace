@@ -6,7 +6,7 @@ use app\components\HelperMarketPlace;
 
 $itemLink = '/item/view/' . $data->id;
 
-/* @var $data UsedItem */
+/* @var $data Item */
 ?>
 <div class="row used-item-row">
     <div class="col-md-4">

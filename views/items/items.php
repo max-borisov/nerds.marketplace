@@ -1,5 +1,5 @@
 <?php
-/* @var $item app\models\UsedItem */
+/* @var $item app\models\Item */
 /* @var $this \yii\web\View */
 
 use app\components\HelperPage;

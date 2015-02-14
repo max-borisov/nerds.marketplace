@@ -1,10 +1,10 @@
 <?php
-/* @var $data app\models\UsedItem */
+/* @var $data app\models\Item */
 /* @var $this \yii\web\View */
 
 use yii\helpers\Html;
 
-$this->params['isUsedItemPage'] = true;
+$this->params['isItemPage'] = true;
 
 echo $this->render('../shared/backButton', ['link' => '/']);
 echo $this->render('../shared/header', ['header' => Html::encode($data->title)]);
