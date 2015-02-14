@@ -31,7 +31,7 @@ class HelperUser extends Component
         return null;
     }
 
-    public static function sendConfirmationEmail(\app\models\PhpbbUser $user)
+    public static function sendConfirmationEmail(\app\models\User $user)
     {
         $confirmLinkTxt = HelperBase::getParam('host') . '/confirm-email/' . $user->yii_confirmation_hash;
         $tplTxt = str_replace(
@@ -62,7 +62,7 @@ class HelperUser extends Component
         return Yii::$app->mailer->send($params);
     }
 
-    public static function sendPasswordUpdateNotification(\app\models\PhpbbUser $user)
+    public static function sendPasswordUpdateNotification(\app\models\User $user)
     {
         $tplTxt = str_replace(
             '{username}',
