@@ -4,7 +4,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'defaultRoute' => 'marketplace/index',
+    'defaultRoute' => 'items/index',
 
     'components' => [
         'urlManager' => require(__DIR__ . '/routes.php'),
@@ -12,9 +12,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            /*'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,*/
-            'identityClass' => 'app\models\PhpbbUser',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
             'loginUrl' => ['session/signin'],
             'returnUrl' => '/',

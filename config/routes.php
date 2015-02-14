@@ -14,14 +14,14 @@ return [
         'category/update/<id:\d+>'  => 'category/update',
         'category/delete/<id:\d+>'  => 'category/delete',
 
-        'item/create'           => 'marketplace/create',
-        'item/view/<id:\d+>'    => 'marketplace/view',
-        'item/delete/<id:\d+>'  => 'marketplace/delete',
-        'item/edit/<id:\d+>'    => 'marketplace/edit',
-        'item/upload'           => 'marketplace/upload',
-        'item/preview/delete/<id:\d+>' => 'marketplace/deletepreview',
+        'item/create'           => 'items/create',
+        'item/view/<id:\d+>'    => 'items/view',
+        'item/delete/<id:\d+>'  => 'items/delete',
+        'item/edit/<id:\d+>'    => 'items/edit',
+        'item/upload'           => 'items/upload',
+        'item/preview/delete/<id:\d+>' => 'items/deletepreview',
 
-        'items' => 'marketplace/items',
+        'items' => 'items/items',
 
         '/news/view/<id:\d+>' => 'news/view',
         '/reviews/view/<id:\d+>' => 'reviews/view',
