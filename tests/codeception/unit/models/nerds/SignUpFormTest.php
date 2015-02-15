@@ -6,7 +6,7 @@ use Yii;
 use app\models\SignUpForm;
 use Codeception\Specify;
 use yii\codeception\TestCase;
-use app\tests\codeception\unit\fixtures\PhpbbUserFixture;
+use app\tests\codeception\unit\fixtures\UserFixture;
 
 
 class SignUpFormTest extends TestCase
@@ -16,7 +16,7 @@ class SignUpFormTest extends TestCase
     public function fixtures()
     {
         return [
-            'user' => PhpbbUserFixture::className(),
+            'user' => UserFixture::className(),
         ];
     }
 
@@ -25,15 +25,15 @@ class SignUpFormTest extends TestCase
         $model = new SignUpForm();
 
         $this->specify('validate model with empty attributes', function () use ($model) {
-            expect('username validation errors'         , $model->validate(['username']))->false();
+            expect('name validation errors'         , $model->validate(['name']))->false();
             expect('email validation errors'            , $model->validate(['email']))->false();
             expect('password validation errors'         , $model->validate(['password']))->false();
             expect('password repeat validation errors'  , $model->validate(['password_repeat']))->false();
         });
 
-        $this->specify('username is too short', function() use ($model) {
-            $model->username = 'A';
-            expect('username validation error', $model->validate(['username']))->false();
+        $this->specify('name is too short', function() use ($model) {
+            $model->name = 'A';
+            expect('name validation error', $model->validate(['name']))->false();
         });
 
         $this->specify('email has incorrect format', function() use ($model) {
@@ -52,24 +52,24 @@ class SignUpFormTest extends TestCase
             expect('password confirm validation error', $model->validate(['password']))->false();
         });
 
-        $this->specify('set username that already in use', function() use ($model) {
-            $model->username = $this->user('max')->username;
+        $this->specify('set name that already in use', function() use ($model) {
+            $model->name = $this->user('max')->name;
             $model->email = 'a@bk.ru';
             $model->password = '111111';
             $model->password_repeat = '111111';
-            expect('username validation error', $model->validate())->false();
+            expect('name validation error', $model->validate())->false();
         });
 
         $this->specify('set email that already in use', function() use ($model) {
-            $model->username = 'Max test';
-            $model->email = $this->user('max')->user_email;
+            $model->name = 'Max test';
+            $model->email = $this->user('max')->email;
             $model->password = '111111';
             $model->password_repeat = '111111';
             expect('email validation error', $model->validate())->false();
         });
 
         $this->specify('set correct attributes', function() use ($model) {
-            $model->username = 'Max Test';
+            $model->name = 'Max Test';
             $model->email = 'abctest@bk.ru';
             $model->password = '111111';
             $model->password_repeat = '111111';

@@ -35,7 +35,7 @@ class UpdatePasswordForm extends Model
         if (empty($this->_user)) {
             throw new Exception('User object cannot be null');
         }
-        if (!Yii::$app->security->validatePassword($this->$attribute, $this->_user->yii_password)) {
+        if (!Yii::$app->security->validatePassword($this->$attribute, $this->_user->password)) {
             $this->addError($attribute, 'Password is not correct.');
         }
     }

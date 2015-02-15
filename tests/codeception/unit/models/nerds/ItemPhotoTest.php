@@ -3,39 +3,39 @@
 namespace tests\codeception\unit\models\nerds;
 
 use Yii;
-use app\models\UsedItemPhoto;
+use app\models\ItemPhoto;
 use yii\codeception\DbTestCase;
 use Codeception\Specify;
-use app\tests\codeception\unit\fixtures\UsedItemFixture;
-use app\tests\codeception\unit\fixtures\UsedItemPhotoFixture;
+use app\tests\codeception\unit\fixtures\ItemFixture;
+use app\tests\codeception\unit\fixtures\ItemPhotoFixture;
 
-class UsedItemPhotoTest extends DbTestCase
+class ItemPhotoTest extends DbTestCase
 {
     use Specify;
 
     public function fixtures()
     {
         return [
-            'item'  => UsedItemFixture::className(),
-            'photo' => UsedItemPhotoFixture::className(),
+            'item'  => ItemFixture::className(),
+            'photo' => ItemPhotoFixture::className(),
         ];
     }
 
     public function testSave()
     {
         $this->specify('image title is empty', function () {
-            $photoModel = new UsedItemPhoto();
+            $photoModel = new ItemPhoto();
             $photoModel->save(false);
         }, ['throws' => 'yii\base\Exception']);
 
         $this->specify('item id for image is empty', function () {
-            $photoModel = new UsedItemPhoto();
+            $photoModel = new ItemPhoto();
             $photoModel->name = 'test';
             $photoModel->save(false);
         }, ['throws' => 'yii\base\Exception']);
 
         $this->specify('set title and item id for image', function () {
-            $photoModel = new UsedItemPhoto();
+            $photoModel = new ItemPhoto();
             $photoModel->name = 'test';
             $photoModel->item_id = $this->item('has_photos')->id;
             expect('save success', $photoModel->save(false))->true();
@@ -44,7 +44,7 @@ class UsedItemPhotoTest extends DbTestCase
 
     public function testAfterFind()
     {
-        $photoModel = UsedItemPhoto::findOne($this->photo('photo_1')->id);
+        $photoModel = ItemPhoto::findOne($this->photo('photo_1')->id);
 
         $this->specify('photo model has `thumb` filed', function () use ($photoModel) {
             expect('`thumb` field contains image name', $photoModel->thumb)->contains($photoModel->name);
@@ -57,7 +57,7 @@ class UsedItemPhotoTest extends DbTestCase
 
     public function testDelete()
     {
-        $photoModel = new UsedItemPhoto();
+        $photoModel = new ItemPhoto();
         $photoModel->name = 'test';
         $photoModel->item_id = 123;
         $this->assertTrue($photoModel->save(false));

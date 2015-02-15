@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\UsedItem;
+use app\models\Item;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -53,7 +53,7 @@ class Category extends \app\components\ActiveRecord
     }
 
     /**
-     * Build relation with UsedItem model
+     * Build relation with Item model
      * @return ActiveQuery
      */
     public function getAttachedItems()
@@ -79,7 +79,7 @@ class Category extends \app\components\ActiveRecord
         parent::afterDelete();
 
         // Set category as zero for all related items
-        $sql = 'UPDATE _used_item SET category_id = 0, updated_at = :time WHERE category_id = :category_id';
+        $sql = 'UPDATE item SET category_id = 0, updated_at = :time WHERE category_id = :category_id';
         $command = Yii::$app->db->createCommand($sql);
         $command->bindValue(':category_id', $this->id);
         $command->bindValue(':time', time());

@@ -121,7 +121,7 @@ class User extends \app\components\ActiveRecord implements \yii\web\IdentityInte
     public function getItems()
     {
         return $this
-            ->hasMany(Item::className(), ['user_id' => 'user_id'])
+            ->hasMany(Item::className(), ['user_id' => 'id'])
             ->where('category_id > 0')
             ->orderBy('created_at DESC');
     }
@@ -143,7 +143,7 @@ class User extends \app\components\ActiveRecord implements \yii\web\IdentityInte
 
     public static function findUser($uid)
     {
-        return self::find()->where('user_id = :uid', [':uid' => $uid])->one();
+        return self::find()->where('id = :uid', [':uid' => $uid])->one();
     }
 
     public static function confirmEmail($hash)

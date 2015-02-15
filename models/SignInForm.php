@@ -2,11 +2,8 @@
 
 namespace app\models;
 
-use Faker\Provider\bn_BD\Utils;
 use Yii;
 use yii\base\Model;
-
-use app\components\HelperBase;
 
 /**
  * LoginForm is the model behind the login form.

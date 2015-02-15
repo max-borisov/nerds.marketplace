@@ -7,7 +7,7 @@ use app\components\HelperUser;
 use app\models\SignInForm;
 use Codeception\Specify;
 use yii\codeception\TestCase;
-use app\tests\codeception\unit\fixtures\PhpbbUserFixture;
+use app\tests\codeception\unit\fixtures\UserFixture;
 
 
 class SignInFormTest extends TestCase
@@ -17,7 +17,7 @@ class SignInFormTest extends TestCase
     public function fixtures()
     {
         return [
-            'user' => PhpbbUserFixture::className(),
+            'user' => UserFixture::className(),
         ];
     }
 
@@ -36,20 +36,20 @@ class SignInFormTest extends TestCase
         });
 
         $this->specify('set correct email and incorrect password', function() use ($model) {
-            $model->email = $this->user('max')->user_email;
+            $model->email = $this->user('max')->email;
             $model->password = 'asde';
             expect('validate password error', $model->validate())->false();
         });
 
         $this->specify('set correct email and password. User account is activated.', function() use ($model) {
-            $model->email = $this->user('max')->user_email;
+            $model->email = $this->user('max')->email;
             $model->password = '111111';
             expect('validation success', $model->validate())->true();
         });
 
         $this->specify('set correct email and password. User account is not activated.', function() {
             $model = new SignInForm();
-            $model->email = $this->user('not_confirmed_account')->user_email;
+            $model->email = $this->user('not_confirmed_account')->email;
             $model->password = '111111';
             expect('signin error', $model->validate())->false();
         });
@@ -63,7 +63,7 @@ class SignInFormTest extends TestCase
 
         $this->specify('login user by email and password', function() {
             $model = new SignInForm();
-            $model->email = $this->user('max')->user_email;
+            $model->email = $this->user('max')->email;
             $model->password = '111111';
             expect('login success', $model->login())->true();
         });
