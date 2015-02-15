@@ -31,7 +31,7 @@ use app\models\User;
     <?php if (HelperUser::isGuest()) { ?>
         <li><?= Html::a('Sign In', Url::to('/signin')) ?></li>
     <?php } else { ?>
-    <li class="nav-user-name">Hi, <?= Html::encode(HelperUser::uIdentityParam('username')) ?></li>
+    <li class="nav-user-name">Hi, <?= Html::encode(HelperUser::uIdentityParam('name')) ?></li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions <span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">

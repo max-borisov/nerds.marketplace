@@ -10,7 +10,7 @@ use yii\base\Model;
  */
 class SignUpForm extends Model
 {
-    public $username;
+    public $name;
     public $email;
     public $password;
     public $password_repeat;
@@ -21,8 +21,8 @@ class SignUpForm extends Model
     public function rules()
     {
         return [
-            [['username', 'email', 'password', 'password_repeat'], 'required'],
-            [['username'], 'string', 'min' => 2],
+            [['name', 'email', 'password', 'password_repeat'], 'required'],
+            [['name'], 'string', 'min' => 2],
             ['email', 'email'],
             [['password'], 'string', 'min' => 6, 'max' => 100],
             ['password', 'compare', 'compareAttribute' => 'password_repeat'],
@@ -35,7 +35,7 @@ class SignUpForm extends Model
     public function attributeLabels()
     {
         return [
-            'username'          => 'Name:',
+            'name'              => 'Name:',
             'email'             => 'Email:',
             'password'          => 'Password:',
             'password_repeat'   => 'Confirm password:',
@@ -44,9 +44,9 @@ class SignUpForm extends Model
 
     public function afterValidate()
     {
-        // Check email and username to be unique
+        // Check email and name to be unique
         if (!$this->hasErrors()) {
-            if (User::find()->where('name = :name', [':name' => strtolower($this->username)])->exists()) {
+            if (User::find()->where('name = :name', [':name' => strtolower($this->name)])->exists()) {
                 $this->addError('name', 'This user name has already been taken.');
 
             } else if (User::find()->where('email = :email', [':email' => $this->email])->exists()) {

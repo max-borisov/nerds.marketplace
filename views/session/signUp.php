@@ -30,9 +30,9 @@ if (Yii::$app->session->hasFlash('signup_error')) {
         'role' => 'form',
     ]); ?>
         <div class="form-group">
-            <?= Html::activeLabel($model, 'username', ['for' => 'username', 'class' => 'col-sm-4 control-label']); ?>
+            <?= Html::activeLabel($model, 'name', ['for' => 'name', 'class' => 'col-sm-4 control-label']); ?>
             <div class="col-sm-8">
-                <?= Html::activeTextInput($model, 'username', ['class' =>  'form-control', 'id' => 'name', 'placeholder' => 'Name']); ?>
+                <?= Html::activeTextInput($model, 'name', ['class' =>  'form-control', 'id' => 'name', 'placeholder' => 'Name']); ?>
             </div>
         </div>
         <div class="form-group">

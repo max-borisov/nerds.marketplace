@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Faker\Provider\bn_BD\Utils;
 use Yii;
 use yii\base\Model;
 
@@ -44,7 +45,7 @@ class SignInForm extends Model
     public function validateEmail($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if (empty($this->getUserByEmail()->yii_confirmation_timestamp)) {
+            if (empty($this->getUserByEmail()->confirmation_timestamp)) {
                 $this->addError(
                     $attribute,
                     'Please, activate your account first. Check your mailbox for confirmation email.'

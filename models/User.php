@@ -16,7 +16,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class User extends \yii\db\ActiveRecord
+class User extends \app\components\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
      * @inheritdoc
@@ -104,6 +104,17 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * Validates password
+     *
+     * @param  string  $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    /**
      * Get all items posted by active user
      * @return ActiveQuery
      */
@@ -145,7 +156,8 @@ class User extends \yii\db\ActiveRecord
         if ($user->confirmation_timestamp) {
             return true;
         } else {
-            $user->confirmation_timestamp = time();
+            $user->confirmation_hash        = '';
+            $user->confirmation_timestamp   = time();
             return (bool)$user->update(false);
         }
     }

@@ -1,4 +1,4 @@
-Hi, {username}.
+Hi, {name}.
 
 Please, confirm your email by activating your account.
 

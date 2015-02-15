@@ -45,6 +45,43 @@ class SessionController extends AppController
             && $model->load($request->post())
             && $model->validate()) {
 
+            $user = new User();
+            $user->name = $model->name;
+            $user->email = $model->email;
+            $user->password = Yii::$app->security->generatePasswordHash($model->password);
+            $user->confirmation_hash = HelperUser::getHash();
+
+            if ($user->save(false)) {
+                if (YII_ENV !== 'test') {
+                    if (!HelperUser::sendConfirmationEmail($user)) {
+                        HelperBase::logger('Registration email could not be sent.', null, ['name' => $user->name, 'email' => $user->email]);
+                    }
+                }
+                Yii::$app->session->setFlash(
+                    'signup_success',
+                    'Your account has been created. Please, check your mailbox for confirmation email.'
+                );
+                $this->redirect('/signin');
+            } else {
+                Yii::$app->session->setFlash(
+                    'signup_error',
+                    'Some errors appeared. Please, try to sign up later.'
+                );
+                HelperBase::logger('Add new user error', null, ['errors' => json_encode($user->errors)]);
+            }
+        }
+        return $this->render('signUp', ['model' => $model]);
+    }
+
+    /*public function actionSignup()
+    {
+        $model = new SignUpForm();
+        $request = Yii::$app->request;
+
+        if ($request->isPost
+            && $model->load($request->post())
+            && $model->validate()) {
+
             $params = [
                 'name'          => $model->username,
                 'email'         => $model->email,
@@ -76,7 +113,7 @@ class SessionController extends AppController
             }
         }
         return $this->render('signUp', ['model' => $model]);
-    }
+    }*/
 
     public function actionSignin()
     {

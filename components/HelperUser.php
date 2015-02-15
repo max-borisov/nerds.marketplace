@@ -33,17 +33,17 @@ class HelperUser extends Component
 
     public static function sendConfirmationEmail(\app\models\User $user)
     {
-        $confirmLinkTxt = HelperBase::getParam('host') . '/confirm-email/' . $user->yii_confirmation_hash;
+        $confirmLinkTxt = HelperBase::getParam('host') . '/confirm-email/' . $user->confirmation_hash;
         $tplTxt = str_replace(
-            ['{username}', '{url}'],
-            [$user->username, $confirmLinkTxt],
+            ['{name}', '{url}'],
+            [$user->name, $confirmLinkTxt],
             file_get_contents(Yii::getAlias('@app') . '/mail/confirmation/tpl.txt')
         );
 
         $confirmLinkHtml = Html::a($confirmLinkTxt, $confirmLinkTxt);
         $tplHtml = str_replace(
-            ['{username}', '{url}'],
-            [$user->username, $confirmLinkHtml],
+            ['{name}', '{url}'],
+            [$user->name, $confirmLinkHtml],
             file_get_contents(Yii::getAlias('@app') . '/mail/confirmation/tpl.html')
         );
 
@@ -53,8 +53,8 @@ class HelperUser extends Component
             'subject' => 'Nerds.dk SignUp confirmation',
             'to' => [
                 [
-                    'email' => $user->user_email,
-                    'name'  => $user->username,
+                    'email' => $user->email,
+                    'name'  => $user->name,
                     'type'  => 'to'
                 ]
             ],
