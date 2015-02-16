@@ -12,7 +12,7 @@ return [
     'anonymous' => [
         'id'                        => 2,
         'name'                      => 'Anonymous',
-        'email'                     => 'new_max@bk.ru',
+        'email'                     => 'new_max2@bk.ru',
         'password'                  => '$2y$13$HbsxBy7DZbJTAz/KVnNy6e1tRS/vh.MyvVB1qPu79HxDYY1b0LAS6',
         'confirmation_hash'         => 'ad5fcb6dea9718c0f03c59702023157c',
         'confirmation_timestamp'    => 1420729469,
@@ -20,7 +20,7 @@ return [
     'has_no_items' => [
         'id'                        => 3,
         'name'                      => 'Has_no_items',
-        'email'                     => 'new_max@bk.ru',
+        'email'                     => 'new_max23@bk.ru',
         'password'                  => '$2y$13$HbsxBy7DZbJTAz/KVnNy6e1tRS/vh.MyvVB1qPu79HxDYY1b0LAS6',
         'confirmation_hash'         => 'eafaedcf9e4b2d887bfbceea96c625ed',
         'confirmation_timestamp'    => 1420729460,

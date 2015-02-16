@@ -20,8 +20,8 @@ class LoginFormTest extends TestCase
     public function testLoginNoUser()
     {
         $model = new LoginForm([
-            'username' => 'not_existing_username',
-            'password' => 'not_existing_password',
+            'name'      => 'not_existing_username',
+            'password'  => 'not_existing_password',
         ]);
 
         $this->specify('user should not be able to login, when there is no identity', function () use ($model) {

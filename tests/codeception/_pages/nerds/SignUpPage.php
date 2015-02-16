@@ -21,7 +21,7 @@ class SignUpPage extends BasePage
     public function login($name, $email, $password, $passwordRepeat)
     {
         $this->actor->submitForm('.form-signup', ['SignUpForm' => [
-            'username'          => $name,
+            'name'              => $name,
             'email'             => $email,
             'password'          => $password,
             'password_repeat'   => $passwordRepeat,

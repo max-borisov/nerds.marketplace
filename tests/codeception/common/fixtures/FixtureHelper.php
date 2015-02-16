@@ -3,8 +3,8 @@
 namespace tests\codeception\common\fixtures;
 
 use tests\codeception\common\fixtures\CategoryFixture;
-use tests\codeception\common\fixtures\UsedItemFixture;
-use tests\codeception\common\fixtures\UsedItemPhotoFixture;
+use tests\codeception\common\fixtures\ItemFixture;
+use tests\codeception\common\fixtures\ItemPhotoFixture;
 use Codeception\Module;
 use yii\test\FixtureTrait;
 
@@ -58,12 +58,12 @@ class FixtureHelper extends Module
                 'dataFile' => '@tests/codeception/fixtures/data/models/category.php'
             ],
             'used_item' => [
-                'class' => UsedItemFixture::className(),
-                'dataFile' => '@tests/codeception/fixtures/data/models/used_item.php'
+                'class' => ItemFixture::className(),
+                'dataFile' => '@tests/codeception/fixtures/data/models/item.php'
             ],
             'used_item_photo' => [
-                'class' => UsedItemPhotoFixture::className(),
-                'dataFile' => '@tests/codeception/fixtures/data/models/used_item_photo.php'
+                'class' => ItemPhotoFixture::className(),
+                'dataFile' => '@tests/codeception/fixtures/data/models/item_photo.php'
             ],
         ];
     }
