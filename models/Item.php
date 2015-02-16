@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\Category;
-use app\models\UsedItemPhoto;
+use app\models\ItemPhoto;
 use app\components\HelperBase;
 use app\components\HelperMarketPlace;
 use app\components\HelperUser;
@@ -94,7 +94,7 @@ class Item extends \app\components\ActiveRecord
     }
 
     /**
-     * Build relation with UsedItemPhoto model
+     * Build relation with ItemPhoto model
      * @return ActiveQuery
      */
     public function getPhotos()
@@ -162,8 +162,8 @@ class Item extends \app\components\ActiveRecord
             return false;
         }
 
-        $this->price_min = Yii::$app->request->get('UsedItem')['price_min'];
-        $this->price_max = Yii::$app->request->get('UsedItem')['price_max'];
+        $this->price_min = Yii::$app->request->get('Item')['price_min'];
+        $this->price_max = Yii::$app->request->get('Item')['price_max'];
 
         $query = Item::find();
         $query->andFilterWhere([

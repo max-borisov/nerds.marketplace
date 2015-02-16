@@ -27,7 +27,7 @@ class HelperMarketPlace extends Component
      */
     public static function saveItemPhoto($model)
     {
-        if (!($model instanceof \app\models\UsedItemPhoto)) {
+        if (!($model instanceof \app\models\ItemPhoto)) {
             throw new Exception('Incorrect instance passed');
         }
         $thumbParams    = HelperBase::getParam('thumb');

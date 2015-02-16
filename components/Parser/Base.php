@@ -46,7 +46,7 @@ abstract class Base extends Component
     {
         $data = (new \yii\db\Query())
             ->select('news_id')
-            ->from('_news')
+            ->from('news')
             ->where('site_id = :sid', ['sid' => $siteId])
             ->all();
 
@@ -64,7 +64,7 @@ abstract class Base extends Component
     {
         $data = (new \yii\db\Query())
             ->select('review_id')
-            ->from('_reviews')
+            ->from('review')
             ->where('site_id = :site_id', ['site_id' => $siteId])
             ->all();
 

@@ -33,8 +33,8 @@ if (Yii::$app->session->hasFlash('item_create_success')) {
 if ($data) {
     echo '<p class="lead">There is <span class="badge">' . $allItemsCount . '</span> items found</p>';
     echo $this->render('../shared/linkPager', ['pages' => $pages]);
-    foreach ($data as $usedItem) {
-        echo $this->render('_item', ['data' => $usedItem]);
+    foreach ($data as $item) {
+        echo $this->render('_item', ['data' => $item]);
     }
     echo $this->render('../shared/linkPager', ['pages' => $pages]);
 

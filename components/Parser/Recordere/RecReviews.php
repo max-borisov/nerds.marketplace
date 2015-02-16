@@ -2,8 +2,8 @@
 namespace app\components\parser\recordere;
 
 use Yii;
-use app\models\Reviews;
-use app\models\ReviewsTypes;
+use app\models\Review;
+use app\models\ReviewType;
 use app\components\parser\Base;
 use app\models\ExternalSite;
 use app\components\HelperBase;
@@ -42,10 +42,10 @@ class RecReviews extends Base
 
     public function saveItem($data)
     {
-        $item = new Reviews();
+        $item = new Review();
         $item->site_id          = ExternalSite::RECORDERE;
         $item->review_id        = $data['id'];
-        $item->review_type_id   = ReviewsTypes::UNKNOWN;
+        $item->review_type_id   = ReviewType::UNKNOWN;
         $item->title            = $data['title'];
         $item->af               = '';
         $item->notice           = '';
@@ -79,7 +79,7 @@ class RecReviews extends Base
     public function run()
     {
         set_time_limit(0);
-        $before = $this->getExistingRowsCount('_reviews', ExternalSite::RECORDERE);
+        $before = $this->getExistingRowsCount('review', ExternalSite::RECORDERE);
         $catalogLinks = $this->getCatalogLinks();
         $existingReviews = $this->getExistingReviews(ExternalSite::RECORDERE);
         foreach ($catalogLinks as $reviewId) {
@@ -89,7 +89,7 @@ class RecReviews extends Base
 //            break;
             usleep(1000);
         }
-        $after = $this->getExistingRowsCount('_reviews', ExternalSite::RECORDERE);
+        $after = $this->getExistingRowsCount('review', ExternalSite::RECORDERE);
         $this->done('RecReviews', $before, $after);
     }
 

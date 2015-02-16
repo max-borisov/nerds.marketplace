@@ -14,9 +14,9 @@ use app\components\parser\recordere\RecReviews;
 use app\models\News;
 use app\models\User;
 use app\models\SignInForm;
-use app\models\UsedItem;
-use app\models\UsedItemPhoto;
-use app\models\UsedItemType;
+use app\models\Item;
+use app\models\ItemPhoto;
+use app\models\ItemType;
 use Yii;
 use yii\base\Exception;
 use yii\web\Controller;
@@ -311,7 +311,7 @@ class SandboxController extends Controller
     {
         echo $data = (new \yii\db\Query())
             ->select('id')
-            ->from('_used_item')
+            ->from('item')
             ->where('s_id = :sid', ['sid' => 1])
             ->count();
 

@@ -4,9 +4,9 @@ namespace app\components\parser\hifi;
 use yii\base\Exception;
 use app\components\parser\Base;
 use app\components\HelperBase;
-use app\models\Reviews;
+use app\models\Review;
 use app\models\ExternalSite;
-use app\models\ReviewsTypes;
+use app\models\ReviewType;
 
 require_once __DIR__ . '/../Base.php';
 
@@ -67,15 +67,15 @@ class HiFiReviews extends Base
     private function _prepareBlocks($blocks)
     {
         $data = [];
-        $data[ReviewsTypes::AMPLIFIER]      = $this->_getBlockIds($blocks[0]); // Amplifier Forstærker
-        $data[ReviewsTypes::SPEAKER]        = $this->_getBlockIds($blocks[1]); // Speaker Højtaler
-        $data[ReviewsTypes::DIGITAL]        = $this->_getBlockIds($blocks[2]); // Digital Digital
-        $data[ReviewsTypes::CABLE]          = $this->_getBlockIds($blocks[3]); // Cable Kabel
-        $data[ReviewsTypes::ANALOG]         = $this->_getBlockIds($blocks[4]); // Analog Analog
-        $data[ReviewsTypes::ACCESSORIES]    = $this->_getBlockIds($blocks[5]); // Accessories Tilbehør
-        $data[ReviewsTypes::SURROUND]       = $this->_getBlockIds($blocks[6]); // Surround Surround
-        $data[ReviewsTypes::DVD]            = $this->_getBlockIds($blocks[7]); // DVD
-        $data[ReviewsTypes::IMAGE]          = $this->_getBlockIds($blocks[8]); // Image Billede
+        $data[ReviewType::AMPLIFIER]      = $this->_getBlockIds($blocks[0]); // Amplifier Forstærker
+        $data[ReviewType::SPEAKER]        = $this->_getBlockIds($blocks[1]); // Speaker Højtaler
+        $data[ReviewType::DIGITAL]        = $this->_getBlockIds($blocks[2]); // Digital Digital
+        $data[ReviewType::CABLE]          = $this->_getBlockIds($blocks[3]); // Cable Kabel
+        $data[ReviewType::ANALOG]         = $this->_getBlockIds($blocks[4]); // Analog Analog
+        $data[ReviewType::ACCESSORIES]    = $this->_getBlockIds($blocks[5]); // Accessories Tilbehør
+        $data[ReviewType::SURROUND]       = $this->_getBlockIds($blocks[6]); // Surround Surround
+        $data[ReviewType::DVD]            = $this->_getBlockIds($blocks[7]); // DVD
+        $data[ReviewType::IMAGE]          = $this->_getBlockIds($blocks[8]); // Image Billede
         return $data;
     }
 
@@ -87,7 +87,7 @@ class HiFiReviews extends Base
 
     public function saveItem($data, $reviewType)
     {
-        $item = new Reviews();
+        $item = new Review();
         $item->site_id          = ExternalSite::HIFI4ALL;
         $item->review_id        = $data['id'];
         $item->review_type_id   = $reviewType;
@@ -106,7 +106,7 @@ class HiFiReviews extends Base
 
     public function run()
     {
-        $before = $this->getExistingRowsCount('_reviews', ExternalSite::HIFI4ALL);
+        $before = $this->getExistingRowsCount('review', ExternalSite::HIFI4ALL);
         $blocks = $this->getCatalogLinks();
         foreach ($blocks as $reviewType => $blockIds) {
             $existingReviews = $this->getExistingReviews(ExternalSite::HIFI4ALL);
@@ -118,7 +118,7 @@ class HiFiReviews extends Base
             }
 //            break;
         }
-        $after = $this->getExistingRowsCount('_reviews', ExternalSite::HIFI4ALL);
+        $after = $this->getExistingRowsCount('review', ExternalSite::HIFI4ALL);
         $this->done('HiFiReviews', $before, $after);
     }
 

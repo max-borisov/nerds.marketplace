@@ -6,9 +6,8 @@ use yii\base\Exception;
 use app\components\parser\Base;
 use app\models\Category;
 use app\models\ExternalSite;
-use app\models\UsedItemType;
-
-use app\models\UsedItem;
+use app\models\ItemType;
+use app\models\Item;
 
 require_once __DIR__ . '/../Base.php';
 
@@ -190,10 +189,10 @@ class HiFiItems extends Base
      */
     public function saveItem($data)
     {
-        $item = new UsedItem();
+        $item = new Item();
         $item->user_id      = 112233;
         $item->category_id  = Category::HIFI4ALL;
-        $item->type_id      = UsedItemType::UNKNOWN;
+        $item->type_id      = ItemType::UNKNOWN;
 
         $item->site_id      = ExternalSite::HIFI4ALL;
         $item->title        = $data['title'];
@@ -237,11 +236,11 @@ class HiFiItems extends Base
         }
 
         if (strpos($item->s_adv, 'LGES') !== false) {
-            $item->type_id = UsedItemType::SELL;
+            $item->type_id = ItemType::SELL;
         } elseif (strpos($item->s_adv, 'BES') !== false) {
-            $item->type_id = UsedItemType::BUY;
+            $item->type_id = ItemType::BUY;
         } elseif (strpos($item->s_adv, 'BYTTES') !== false) {
-            $item->type_id = UsedItemType::EXCHANGE;
+            $item->type_id = ItemType::EXCHANGE;
         }
 
         if (!$item->save(false)) {
@@ -274,7 +273,7 @@ class HiFiItems extends Base
     {
         $data = (new \yii\db\Query())
             ->select('s_item_id')
-            ->from('_used_item')
+            ->from('item')
             ->where('site_id = :site_id', ['site_id' => $siteId])
             ->all();
 
@@ -295,7 +294,7 @@ class HiFiItems extends Base
     {
         set_time_limit(0);
 
-        $before = $this->getExistingRowsCount('_used_item', ExternalSite::HIFI4ALL);
+        $before = $this->getExistingRowsCount('item', ExternalSite::HIFI4ALL);
         $baseOffset = 53;
         $offset = 0;
         for ($i=0; $i <= 20; $i++) {
@@ -305,7 +304,7 @@ class HiFiItems extends Base
             $offset += $baseOffset;
 //            break;
         }
-        $after = $this->getExistingRowsCount('_used_item', ExternalSite::HIFI4ALL);
+        $after = $this->getExistingRowsCount('item', ExternalSite::HIFI4ALL);
         $this->done('HiFiItems', $before, $after);
     }
 }

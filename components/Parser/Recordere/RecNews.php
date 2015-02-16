@@ -92,7 +92,7 @@ class RecNews extends Base
     {
         set_time_limit(0);
 
-        $before = $this->getExistingRowsCount('_news', ExternalSite::RECORDERE);
+        $before = $this->getExistingRowsCount('news', ExternalSite::RECORDERE);
         $catalogLinks = $this->getCatalogLinks();
         $prevCatalogLinks = $this->getPrevCatalogLinks();
         $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
@@ -105,7 +105,7 @@ class RecNews extends Base
             $this->saveItem($data);
             usleep(1000);
         }
-        $after = $this->getExistingRowsCount('_news', ExternalSite::RECORDERE);
+        $after = $this->getExistingRowsCount('news', ExternalSite::RECORDERE);
         $this->done('RecNews', $before, $after);
     }
 

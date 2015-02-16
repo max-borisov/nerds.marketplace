@@ -1,5 +1,5 @@
 <?php
-/* @var $model UsedItem */
+/* @var $model Item */
 
 use app\components\HelperPage;
 ?>

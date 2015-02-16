@@ -56,7 +56,7 @@ class ItemType extends \yii\db\ActiveRecord
     }
 
     /**
-     * Build relation with UsedItem model
+     * Build relation with Item model
      * @return ActiveQuery
      */
     public function getItems()
