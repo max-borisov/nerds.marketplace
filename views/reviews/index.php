@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\components\HelperBase;
-use app\models\ReviewsTypes;
+use app\models\ReviewType;
 
 $this->params['isReviewsPage'] = true;
 ?>
@@ -11,7 +11,7 @@ $this->params['isReviewsPage'] = true;
         <p class="lead">There are <span class="badge"><?= $pages->totalCount ?></span> reviews in the catalog.</p>
         <?php
         if ($category) {
-            $categoryTitle = ReviewsTypes::find()->where('id = :category', [':category' => $category])->one()->title;
+            $categoryTitle = ReviewType::find()->where('id = :category', [':category' => $category])->one()->title;
         ?>
             <p class="lead">
                 Reviews category - <strong><?= $categoryTitle ?>.</strong>

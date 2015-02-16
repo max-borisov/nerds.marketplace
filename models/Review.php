@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\ReviewsTypes;
+use app\models\ReviewType;
 
 /**
  * This is the model class for table "review".
