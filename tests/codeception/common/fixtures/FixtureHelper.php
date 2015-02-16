@@ -57,13 +57,21 @@ class FixtureHelper extends Module
                 'class' => CategoryFixture::className(),
                 'dataFile' => '@tests/codeception/fixtures/data/models/category.php'
             ],
-            'used_item' => [
+            'item' => [
                 'class' => ItemFixture::className(),
                 'dataFile' => '@tests/codeception/fixtures/data/models/item.php'
             ],
-            'used_item_photo' => [
+            'item_photo' => [
                 'class' => ItemPhotoFixture::className(),
                 'dataFile' => '@tests/codeception/fixtures/data/models/item_photo.php'
+            ],
+            'news' => [
+                'class' => NewsFixture::className(),
+                'dataFile' => '@tests/codeception/fixtures/data/models/news.php'
+            ],
+            'review' => [
+                'class' => ReviewFixture::className(),
+                'dataFile' => '@tests/codeception/fixtures/data/models/review.php'
             ],
         ];
     }
