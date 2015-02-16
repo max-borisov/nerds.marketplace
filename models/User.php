@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "user".
@@ -18,6 +19,8 @@ use Yii;
  */
 class User extends \app\components\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $username = '';
+
     /**
      * @inheritdoc
      */

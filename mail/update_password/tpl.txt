@@ -1,4 +1,4 @@
-Hi, {username}.
+Hi, {name}.
 
 You have updated your password recently.
 

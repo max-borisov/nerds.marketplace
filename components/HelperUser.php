@@ -65,13 +65,13 @@ class HelperUser extends Component
     public static function sendPasswordUpdateNotification(\app\models\User $user)
     {
         $tplTxt = str_replace(
-            '{username}',
-            $user->username,
+            '{name}',
+            $user->name,
             file_get_contents(Yii::getAlias('@app') . '/mail/update_password/tpl.txt')
         );
         $tplHtml = str_replace(
-            '{username}',
-            $user->username,
+            '{name}',
+            $user->name,
             file_get_contents(Yii::getAlias('@app') . '/mail/update_password/tpl.html')
         );
         $params = [
@@ -80,8 +80,8 @@ class HelperUser extends Component
             'subject' => 'Nerds.dk Password update notification',
             'to' => [
                 [
-                    'email' => $user->user_email,
-                    'name'  => $user->username,
+                    'email' => $user->email,
+                    'name'  => $user->name,
                     'type'  => 'to'
                 ]
             ],

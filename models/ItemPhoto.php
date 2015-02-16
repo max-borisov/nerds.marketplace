@@ -69,7 +69,7 @@ class ItemPhoto extends \app\components\ActiveRecord
 
     public function getItem()
     {
-        return $this->hasOne(UsedItem::className(), ['id' => 'item_id']);
+        return $this->hasOne(Item::className(), ['id' => 'item_id']);
     }
 
     public function beforeSave($insert)
