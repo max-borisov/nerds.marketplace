@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\HelperBase;
 use Yii;
 use yii\data\Pagination;
 use yii\db\Exception;
@@ -175,7 +176,7 @@ class ItemsController extends AppController
         if (Yii::$app->request->isPost) {
             $modelPhoto = new ItemPhoto();
             // Get item id from hidden form input
-            $modelPhoto->item_id = Yii::$app->request->post('UsedItemPhoto')['item_id'];
+            $modelPhoto->item_id = Yii::$app->request->post('ItemPhoto')['item_id'];
             $modelPhoto->validateUploadedFiles();
             if ($modelPhoto->hasErrors('file')) {
                 Yii::$app->session->setFlash('edit_item_upload_photo_validation_error', $modelPhoto->getErrors('file')[0]);

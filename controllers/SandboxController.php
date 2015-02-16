@@ -38,6 +38,12 @@ class SandboxController extends Controller
 
 //        HelperBase::dump(HelperBase::getParam('thumb'));
 
+//        HelperBase::logger('homeUrl', null, ['url' => 'test']);
+//        HelperBase::end();
+
+//        HelperBase::dump(Yii::$app->host);
+//        HelperBase::dump(Yii::$app->homeUrl);
+
 
 //        $user = new SignInForm();
 //        $user->email = 'user12345@bk.ru';

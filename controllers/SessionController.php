@@ -148,7 +148,7 @@ class SessionController extends AppController
         if ($request->isPost
             && $model->load($request->post())
             && $model->validate()) {
-            $user->yii_password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+            $user->password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
             if ($user->save(false)) {
                 if (YII_ENV !== 'test') {
                     HelperUser::sendPasswordUpdateNotification($user);
