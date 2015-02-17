@@ -43,7 +43,7 @@ use app\models\User;
             }
             ?>
             <li><?= Html::a('Update password', '/update-password') ?></li>
-            <li><?= Html::a('Forum profile', HelperBase::getForumProfileLink(HelperUser::uid())) ?></li>
+<!--            <li>--><?////= Html::a('Forum profile', HelperBase::getForumProfileLink(HelperUser::uid())) ?><!--</li>-->
             <li class="divider"></li>
             <li><?= Html::a('Logout', '/logout') ?></li>
         </ul>
