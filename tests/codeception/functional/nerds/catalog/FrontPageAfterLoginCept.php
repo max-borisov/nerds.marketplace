@@ -16,7 +16,7 @@ $I->dontSeeLink('Sign In', '/signin');
 $I->expectTo('see additional top menu links');
 $I->seeLink('Add new item', '/item/create');
 $I->seeLink('Your items', '/items');
-$I->seeLink('Forum profile');
+//$I->seeLink('Forum profile');
 
 $I->click('Your items', '.nav');
 $I->see(HelperPage::USER_ITEMS_PAGE_HEADER, 'h1');

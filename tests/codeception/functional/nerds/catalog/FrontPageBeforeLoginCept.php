@@ -9,8 +9,8 @@ $I->wantTo('ensure that front page works');
 $I->amOnPage(Yii::$app->homeUrl);
 $I->see(HelperPage::FRONT_PAGE_HEADER, 'h1');
 
-$I->wantTo('ensure that additional top menu links are hidden');
-$I->dontSeeLink('Your items', '/items');
+//$I->wantTo('ensure that additional top menu links are hidden');
+//$I->dontSeeLink('Your items', '/items');
 
 $I->wantTo('ensure that there is SignIn link on the page');
 $I->seeLink('Sign In', '/signin');
