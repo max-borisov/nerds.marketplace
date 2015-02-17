@@ -3,8 +3,8 @@
 CHARSET=utf8
 DBNAME=nerds
 HOST=localhost
-USER=root
-PASSWD=root
+USER=$NERDS_DB_USER
+PASSWD=$NERDS_DB_PASSWORD
 
 #if [ "$1" = "dev" ]
 #then
