@@ -6,6 +6,12 @@ HOST=localhost
 USER=$NERDS_DB_USER
 PASSWD=$NERDS_DB_PASSWORD
 
+if [ "$NERDS_DB_USER" = "" ] || [ "$NERDS_DB_PASSWORD" = "" ]
+then
+    echo 'Please, check ENV variables for DB user and password.'
+    exit
+fi
+
 #if [ "$1" = "dev" ]
 #then
 #    FILENAME=/Volumes/Macintosh HD_2/projects/marketplace.nerds/basic/backup/
