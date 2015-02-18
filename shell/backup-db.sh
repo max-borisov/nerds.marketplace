@@ -27,7 +27,7 @@ FILENAME=../backup/
 
 echo "[----------][`date +%F--%H-%M`] Run the backup script..."
 #NAME=$FILENAME-`date +%F_%H-%M-%S`
-NAME=$FILENAME"backup"_`date +%F_%H:%M:%S`
+NAME=$FILENAME"dump"_`date +%F_%H:%M:%S`
 #MySQL dump
 mysqldump --user=$USER --host=$HOST --password=$PASSWD --default-character-set=$CHARSET --routines $DBNAME > $NAME.sql
 # tar -czvf cargo.tar.gz cargo_backup-2013-10-16_10-36-51.sql
