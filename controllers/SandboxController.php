@@ -8,6 +8,7 @@ use app\components\HelperMarketPlace;
 use app\components\parser\hifi\HiFiItems;
 use app\components\parser\hifi\HiFiNews;
 use app\components\parser\hifi\HiFiReviews;
+use app\components\parser\recordere\DbaItems;
 use app\components\parser\recordere\RecNews;
 
 use app\components\parser\recordere\RecReviews;
@@ -254,6 +255,26 @@ class SandboxController extends Controller
         }
     }
 
+    public function actionParserall()
+    {
+        set_time_limit(0);
+
+        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All/HiFiItems.php';
+        (new HiFiItems())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiNews.php';
+        (new HiFiNews())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
+        (new HiFiReviews())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
+        (new RecNews())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
+        (new RecReviews())->run();
+    }
+
     public function actionRecordere()
     {
         $actions = ['news', 'reviews'];
@@ -287,24 +308,16 @@ class SandboxController extends Controller
         }
     }
 
-    public function actionParserall()
+    public function actionDba()
     {
-        set_time_limit(0);
-
-        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All/HiFiItems.php';
-        (new HiFiItems())->run();
-
-        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiNews.php';
-        (new HiFiNews())->run();
-
-        require_once Yii::getAlias('@app') . '/components/Parser/HiFi4All//HiFiReviews.php';
-        (new HiFiReviews())->run();
-
-        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecNews.php';
-        (new RecNews())->run();
-
-        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
-        (new RecReviews())->run();
+        require_once Yii::getAlias('@app') . '/components/Parser/Dba/DbaItems.php';
+        if (isset($_GET['id'])) {
+            $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+            (new DbaItems())->parsePageTest($id);
+        } else {
+            (new DbaItems())->run();
+        }
+        return true;
     }
 
     public function actionTest()
