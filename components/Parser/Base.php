@@ -14,17 +14,18 @@ abstract class Base extends Component
     /**
      * Fix and prepare html for parsing
      * @param $page Page url
+     * @param string $encoding Encoding
      * @param bool $saveToFile Save result html code or not
      * @return \tidy
      */
-    public function tidy($page, $saveToFile = false)
+    public function tidy($page, $encoding = 'latin1', $saveToFile = false)
     {
         $tidy = new \tidy;
         $config = array(
             'indent'         => true,
             'output-xhtml'   => true,
             'wrap'           => 200);
-        $tidy->parseString(file_get_contents($page), $config, 'latin1');
+        $tidy->parseString(file_get_contents($page), $config, $encoding);
         $tidy->cleanRepair();
 
         if ($saveToFile) {
