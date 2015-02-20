@@ -5,6 +5,8 @@ use Yii;
 use app\components\parser\Base;
 use app\models\ExternalSite;
 use app\models\Item;
+use app\models\ItemType;
+use app\models\Category;
 use app\components\HelperBase;
 use yii\base\Exception;
 
@@ -12,18 +14,16 @@ require_once __DIR__ . '/../Base.php';
 
 class DbaItems extends Base
 {
-    private $_baseUrl = 'http://www.dba.dk/bla-bla-bla/id-{id}';
-    private $_catalogUrl = 'http://www.recordere.dk/nyheder/';
-    private $_prevCatalogUrl = 'http://www.recordere.dk/nyheder/nyhedsliste.aspx';
-
-    private $_itemId = 0;
+    private $_baseUrl       = 'http://www.dba.dk/bla-bla-bla/id-{id}';
+    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/';
+    private $_itemId        = 0;
+    private $_year          = 2015;
 
     public function parsePage($id)
     {
         $this->_itemId = $id;
         $page = str_replace('{id}', $id, $this->_baseUrl);
         $html = $this->tidy($page, 'utf8');
-//        return false;
 
         $topContainer   = $this->_getTopContainer($html);
         $category       = $this->_getCategory($topContainer);
@@ -45,11 +45,23 @@ class DbaItems extends Base
         $username = $this->_getUserName($contactInfoBlock);
         $location = $this->_getLocation($contactInfoBlock);
 
+        // If today
+        if (strpos($date, 'dag') !== false) {
+            $date = date('Y-m-d');
+        } else if (strpos($date, 'går') !== false) {
+            // yesterday
+            $date = date('Y-m-d', strtotime( '-1 days' ));
+        } else {
+            $date = $this->_formatDate($date);
+        }
+
         $data = [
-            'category'      => $category,
-            'subCategory'   => $subCategory,
+            'id'            => $id,
+            'categoryMain'  => $category,
+            'categorySub'   => $subCategory,
+            'categoryId'    => $this->_getCategoryId($subCategory),
             'title'         => $title,
-            'price'         => $price,
+            'price'         => $this->_formatPrice($price),
             'date'          => $date,
             'preview'       => $preview,
             'post'          => $post,
@@ -62,11 +74,72 @@ class DbaItems extends Base
             'username'      => $username,
             'location'      => $location,
         ];
-
-        HelperBase::dump($data);
+        return $data;
     }
 
-    public function _getTopContainer($html)
+    private function _formatPrice($price)
+    {
+        return trim(str_replace(['kr', '.', ' '], '', $price));
+    }
+
+    private function _getCategoryId($title)
+    {
+        if (strpos($title, 'Højttalere') !== false) {
+            return Category::SPEAKERS_HIFI;
+        }
+        if (strpos($title, 'Stereoanlæg') !== false) {
+            return Category::STEREO_SYSTEM;
+        }
+        if (strpos($title, 'Hovedtelefoner') !== false) {
+            return Category::HEADPHONES;
+        }
+        if (strpos($title, 'Radioer') !== false) {
+            return Category::RADIO;
+        }
+        if (strpos($title, 'Pladespillere') !== false) {
+            return Category::TURNTABLE;
+        }
+        if (strpos($title, 'Cd') !== false) {
+            return Category::CD_PLAYER;
+        }
+        if (strpos($title, 'Mp3') !== false) {
+            return Category::MP3_MP4_PLAYERS;
+        }
+        if (strpos($title, 'Båndoptagere') !== false) {
+            return Category::TAPE_RECORDER;
+        }
+        if (strpos($title, 'Tilbehør til MP3') !== false) {
+            return Category::MP3_ACCESSORIES;
+        }
+        if (strpos($title, 'Minidisc') !== false) {
+            return Category::MINI_DISC_PLAYER;
+        }
+        return 0;
+    }
+
+    private function _formatDate($dateStr)
+    {
+        $months = $this->getMonthsList();
+        preg_match('|^\d+|', $dateStr, $matches);
+        if (isset($matches[0])) {
+            $day = $matches[0];
+        } else {
+            throw new Exception('Could not get post day. Page id ' . $this->_itemId);
+        }
+        preg_match('|[a-z]+|i', $dateStr, $matches);
+        if (isset($matches[0])) {
+            $month = $matches[0];
+        } else {
+            throw new Exception('Could not get post month. Page id ' . $this->_itemId);
+        }
+        if (!isset($months[$month])) {
+            throw new Exception('Could not get month number. Page id ' . $this->_itemId);
+        }
+        $month = $months[$month];
+        return date('Y-m-d', mktime(0, 0 , 0, $month, $day, $this->_year));
+    }
+
+    private function _getTopContainer($html)
     {
         $pattern = '|<div\s+class="container">(.*?)</div>|is';
         preg_match_all($pattern, $html, $matches);
@@ -77,7 +150,7 @@ class DbaItems extends Base
         }
     }
 
-    public function _getFooter($html)
+    private function _getFooter($html)
     {
         $pattern = '|<div\s+class="vip-matrix-data">(.*?)</div>|is';
         preg_match($pattern, $html, $matches);
@@ -88,7 +161,7 @@ class DbaItems extends Base
         }
     }
 
-    public function _getCategory($html)
+    private function _getCategory($html)
     {
         $pattern = '|<span\s+itemprop="title">([^<]+)</span>|is';
         preg_match_all($pattern, $html, $matches);
@@ -100,7 +173,7 @@ class DbaItems extends Base
         }
     }
 
-    public function _getSubCategory($html)
+    private function _getSubCategory($html)
     {
         $pattern = '|<h1\s+itemprop="title">(.*?)</h1>|is';
         preg_match_all($pattern, $html, $matches);
@@ -112,22 +185,55 @@ class DbaItems extends Base
         }
     }
 
+    /**
+     * Save parsed item data to the database
+     * @param $data
+     * @return int
+     * @throws \yii\base\Exception
+     */
     public function saveItem($data)
     {
-        $item = new News();
-        $item->site_id      = ExternalSite::RECORDERE;
-        $item->news_id      = $data['id'];
-        $item->title        = $data['title'];
-        $item->af           = '';
-        $item->notice       = '';
-        $item->post         = $data['post'];
-        $item->post_date    = $data['date'];
+        $item = new Item();
+        $item->user_id      = 112233;
+        $item->category_id  = $data['categoryId'];
+        $item->type_id      = ItemType::SELL;
 
-        if ($item->save(false)) {
-            return $item->id;
-        } else {
-            throw new Exception('News data could not be saved. News id ' . $data['id']);
+        $item->site_id      = ExternalSite::DBA;
+        $item->title        = $data['title'];
+        $item->s_item_id    = $data['id'];
+        $item->s_user       = $data['username'];
+        $item->s_location   = $data['location'];
+
+        $item->warranty     = Item::WARRANTY_NA;
+        $item->invoice      = Item::INVOICE_NA;
+        $item->packaging    = Item::PACKAGING_NA;
+        $item->manual       = Item::MANUAL_NA;
+
+//        $item->s_phone      = $data['phone'];
+//        $item->s_email      = $data['email'];
+//        $item->s_type       = $data['type'];
+//        $item->s_adv        = $data['adv'];
+        $item->s_date       = $data['date'];
+        $item->price        = $data['price'];
+//        $item->description  = $data['description'];
+        $item->s_preview    = $data['preview'];
+//        $item->s_age        = $data['info']['age'];
+//        $item->s_warranty   = $data['info']['warranty'];
+//        $item->s_package    = $data['info']['package'];
+//        $item->s_delivery   = $data['info']['delivery'];
+//        $item->s_akn        = $data['info']['ack'];
+//        $item->s_manual     = $data['info']['manual'];
+//        $item->s_expires    = $data['info']['expires'];
+        $item->s_brand      = $data['brand'];
+        $item->s_model      = $data['model'];
+        $item->s_producer   = $data['producer'];
+        $item->s_watt       = $data['watt'];
+        $item->s_product    = $data['product'];
+
+        if (!$item->save(false)) {
+            throw new Exception('Data could not be saved for DBA. Item id ' . $data['id']);
         }
+        return $item->id;
     }
 
     /**
@@ -138,12 +244,12 @@ class DbaItems extends Base
     public function getCatalogLinks()
     {
         $html = $this->tidy($this->_catalogUrl);
-        $pattern = '|/?a=(\d+)|is';
+        $pattern = '|<a\s+class="link-to-listing"\s+href="http://www\.dba\.dk/[\w\-]+/id-(\d+)/">[^<]+</a>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1])) {
             return array_unique($matches[1]);
         } else {
-            throw new Exception('Could not retrieve news ids from main catalog page.');
+            throw new Exception('Could not retrieve items ids from catalog page.');
         }
     }
 
@@ -224,6 +330,19 @@ class DbaItems extends Base
     {
         set_time_limit(0);
 
+        $catalogLinks = $this->getCatalogLinks();
+//        HelperBase::dump($catalogLinks);
+
+        foreach ($catalogLinks as $pageLink) {
+            $data = $this->parsePage($pageLink);
+            HelperBase::dump($data);
+            echo "<hr>";
+        }
+
+//        $data = $this->parsePage(1012484965);
+//        HelperBase::dump($data, true);
+//        $this->saveItem($data);
+
         /*$before = $this->getExistingRowsCount('news', ExternalSite::RECORDERE);
         $catalogLinks = $this->getCatalogLinks();
         $prevCatalogLinks = $this->getPrevCatalogLinks();
@@ -265,12 +384,21 @@ class DbaItems extends Base
 
     private function _getPreview($html)
     {
-        $pattern = '|src="(http://dbastatic.dk/pictures/[^"]+)"|is';
+//        echo $html;
+//        HelperBase::end();
+//        <img data-bind="attr: { src: displayPicture }" src="http://dbastatic.dk/pictures/pictures/93/77/9995-5435-414f-950f-53b386886df1.jpg?preset=vipgalleryprimary" alt="Cerwin Vega">
+//        $pattern = '|src="(http://dbastatic\.dk/pictures/[^"]+)"|is';
+//        $pattern = '|src="(http://dbastatic\.dk/[\w\-\.\?])+"|is';
+        $pattern = '|(http://dbastatic.dk/pictures/[^"]+)|is';
+//        $pattern = '|<img(.*?)src="http://dbastatic.dk/pictures/[^"]+"\s+alt="\w+">|is';
         preg_match($pattern, $html, $matches);
-        if (isset($matches[1])) {
-            return $matches[1];
+//        HelperBase::dump($matches, true);
+
+        if (isset($matches[0])) {
+            return $matches[0];
         } else {
-            throw new Exception('Could not get item preview. Page id ' . $this->_itemId);
+            return '';
+//            throw new Exception('Could not get item preview. Page id ' . $this->_itemId);
         }
     }
 

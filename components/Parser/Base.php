@@ -101,9 +101,10 @@ abstract class Base extends Component
         HelperBase::dump($data);
     }
 
-    public function formatDate($dateStr, $type, $id)
+    public function getMonthsList()
     {
-        $months = [
+        return
+        [
             'januar'    => 1,
             'january'   => 1,
             'februar'   => 2,
@@ -128,6 +129,11 @@ abstract class Base extends Component
 
             'december'  => 12,
         ];
+    }
+
+    public function formatDate($dateStr, $type, $id)
+    {
+        $months = $this->getMonthsList();
 
         if (strpos($dateStr, '-') !== false || strpos($dateStr, '+') !== false || strpos($dateStr, ',') !== false) {
             return 0;
