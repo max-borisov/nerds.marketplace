@@ -27,26 +27,36 @@ use yii\base\Exception;
  * @property string $preview
  * @property string $price_min
  * @property string $price_max
- * @property integer site_id
- * @property string s_item_id
- * @property string s_user
- * @property string s_location
- * @property string s_phone
- * @property string s_email
- * @property string s_type
- * @property string s_adv
- * @property string s_date
- * @property string s_preview
- * @property string s_age
- * @property string s_warranty
- * @property string s_package
- * @property string s_delivery
- * @property string s_akn
- * @property string s_manual
- * @property string s_expires
+ * @property integer $site_id
+ * @property string $s_item_id
+ * @property string $s_user
+ * @property string $s_location
+ * @property string $s_phone
+ * @property string $s_email
+ * @property string $s_type
+ * @property string $s_adv
+ * @property string $s_date
+ * @property string $s_preview
+ * @property string $s_age
+ * @property string $s_warranty
+ * @property string $s_package
+ * @property string $s_delivery
+ * @property string $s_akn
+ * @property string $s_manual
+ * @property string $s_expires
+ * @property string $s_brand
+ * @property string $s_model
+ * @property string $s_producer
+ * @property string $s_watt
+ * @property string $s_product
  */
 class Item extends \app\components\ActiveRecord
 {
+    const WARRANTY_NA   = 2;
+    const INVOICE_NA    = 2;
+    const PACKAGING_NA  = 2;
+    const MANUAL_NA     = 2;
+
     public $price_min;
     public $price_max;
     public $preview;
@@ -148,6 +158,12 @@ class Item extends \app\components\ActiveRecord
             's_manual' => 'Manual:',
             's_akn' => 'Receipt:',
             's_expires' => 'Expires:',
+
+            's_brand' => 'Brand:',
+            's_model' => 'Model:',
+            's_producer' => 'Producer:',
+            's_watt' => 'Watt:',
+            's_product' => 'Product:',
         ];
     }
 
@@ -202,6 +218,9 @@ class Item extends \app\components\ActiveRecord
 
         if (!empty($this->s_preview) && $this->site_id == ExternalSite::HIFI4ALL) {
             $this->preview = HelperBase::getParam('HiFi4AllPic') . '/' . $this->s_preview;
+        }
+        if (!empty($this->s_preview) && $this->site_id == ExternalSite::DBA) {
+            $this->preview = $this->s_preview;
         }
 
         if (($photos = $this->photos) && is_array($photos)) {

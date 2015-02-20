@@ -14,6 +14,7 @@ class ExternalSite extends \yii\db\ActiveRecord
 {
     const HIFI4ALL  = 1;
     const RECORDERE = 2;
+    const DBA       = 3;
 
     /**
      * @inheritdoc

@@ -16,7 +16,19 @@ use yii\helpers\ArrayHelper;
  */
 class Category extends \app\components\ActiveRecord
 {
-    const HIFI4ALL = 5;
+    const AMPLIFIERS    = 3;
+    const HIFI4ALL      = 5;
+
+    const SPEAKERS_HIFI     = 6; // Højttalere, hi-fi
+    const STEREO_SYSTEM     = 7; // Stereoanlæg
+    const HEADPHONES        = 8; // Hovedtelefoner
+    const RADIO             = 9; // Radioer
+    const TURNTABLE         = 10; // Pladespillere
+    const CD_PLAYER         = 11; // Cd-afspillere
+    const MP3_MP4_PLAYERS   = 12; // Mp3/Mp4-afspillere
+    const TAPE_RECORDER     = 13; // Båndoptagere
+    const MP3_ACCESSORIES   = 14; // Tilbehør til MP3-afspilllere
+    const MINI_DISC_PLAYER  = 15; // Minidisc-afspillere
 
     /**
      * @inheritdoc
