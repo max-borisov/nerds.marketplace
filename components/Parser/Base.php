@@ -79,6 +79,24 @@ abstract class Base extends Component
         return $data;
     }
 
+    public function getExistingItems($siteId)
+    {
+        $data = (new \yii\db\Query())
+            ->select('s_item_id')
+            ->from('item')
+            ->where('site_id = :site_id', ['site_id' => $siteId])
+            ->all();
+
+        if ($data) {
+            $tmp = [];
+            foreach ($data as $item) {
+                $tmp[] = $item['s_item_id'];
+            }
+            $data = $tmp;
+        }
+        return $data;
+    }
+
     public function done($parserType = '', $before, $after)
     {
         $time = date('d/m/Y H:i:s');

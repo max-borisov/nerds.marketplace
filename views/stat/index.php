@@ -16,7 +16,7 @@ $this->params['isStatPage'] = true;
             <tbody>
                 <tr>
                     <td>HiFi4all.dk</td>
-                    <td><?= $data['items'] ?></td>
+                    <td><?= $data['itemsHiFi'] ?></td>
                     <td><?= $data['newsHiFi'] ?></td>
                     <td><?= $data['reviewsHiFi'] ?></td>
                 </tr>
@@ -25,6 +25,12 @@ $this->params['isStatPage'] = true;
                     <td>0</td>
                     <td><?= $data['newsRec'] ?></td>
                     <td><?= $data['reviewsRec'] ?></td>
+                </tr>
+                <tr>
+                    <td>dba.dk</td>
+                    <td><?= $data['itemsDba'] ?></td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
                 <tr class="warning">
                     <td>Total:</td>

@@ -14,8 +14,8 @@ require_once __DIR__ . '/../Base.php';
 
 class DbaItems extends Base
 {
-    private $_baseUrl       = 'http://www.dba.dk/bla-bla-bla/id-{id}';
-    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/';
+    private $_baseUrl       = 'http://www.dba.dk/bla-bla-bla/id-{id}/';
+    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer';
     private $_itemId        = 0;
     private $_year          = 2015;
 
@@ -28,6 +28,7 @@ class DbaItems extends Base
         $topContainer   = $this->_getTopContainer($html);
         $category       = $this->_getCategory($topContainer);
         $subCategory    = $this->_getSubCategory($topContainer);
+        if ($subCategory === false) return false;
         $title          = $this->_getTitle($html);
         $price          = $this->_getPrice($html);
         $date           = $this->_getPubDate($html);
@@ -181,7 +182,9 @@ class DbaItems extends Base
             $matches = trim(strip_tags($matches[1][0]));
             return preg_replace('|\s+|', ' ', $matches);
         } else {
-            throw new Exception('Could not get sub category. Page id ' . $this->_itemId);
+            HelperBase::logger('DBA parser. Item sub category.', null, ['Page id' => $this->_itemId]);
+            return false;
+//            throw new Exception('Could not get sub category. Page id ' . $this->_itemId);
         }
     }
 
@@ -241,9 +244,13 @@ class DbaItems extends Base
      * @return mixed
      * @throws \yii\base\Exception
      */
-    public function getCatalogLinks()
+    public function getCatalogLinks($side = 0)
     {
-        $html = $this->tidy($this->_catalogUrl);
+        $url = $this->_catalogUrl;
+        if ($side > 1) {
+            $url .= '/side-' . $side . '/';
+        }
+        $html = $this->tidy($url);
         $pattern = '|<a\s+class="link-to-listing"\s+href="http://www\.dba\.dk/[\w\-]+/id-(\d+)/">[^<]+</a>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1])) {
@@ -330,14 +337,33 @@ class DbaItems extends Base
     {
         set_time_limit(0);
 
-        $catalogLinks = $this->getCatalogLinks();
+        $before = $this->getExistingRowsCount('item', ExternalSite::DBA);
+        for ($i=1; $i <= 192; $i++) {
+            $catalogLinks = $this->getCatalogLinks($i);
+            $existingItems = $this->getExistingItems(ExternalSite::DBA);
+            foreach ($catalogLinks as $itemId) {
+                if (in_array($itemId, $existingItems)) continue;
+                $data = $this->parsePage($itemId);
+                if ($data === false) continue;
+                $this->saveItem($data);
+                usleep(1000);
+            }
+//            HelperBase::dump($catalogLinks);
+//            echo '<hr>';
+
+//            if ($i == 10) break;
+        }
+        $after = $this->getExistingRowsCount('item', ExternalSite::DBA);
+        $this->done('DbaItems', $before, $after);
+
+//        $catalogLinks = $this->getCatalogLinks();
 //        HelperBase::dump($catalogLinks);
 
-        foreach ($catalogLinks as $pageLink) {
+        /*foreach ($catalogLinks as $pageLink) {
             $data = $this->parsePage($pageLink);
             HelperBase::dump($data);
             echo "<hr>";
-        }
+        }*/
 
 //        $data = $this->parsePage(1012484965);
 //        HelperBase::dump($data, true);
