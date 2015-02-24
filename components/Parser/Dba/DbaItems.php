@@ -1,10 +1,12 @@
 <?php
-namespace app\components\parser\recordere;
+namespace app\components\parser\dba;
 
 use Yii;
 use app\components\parser\Base;
 use app\models\ExternalSite;
 use app\models\Item;
+use app\models\ItemDba;
+use app\models\ItemCatalog;
 use app\models\ItemType;
 use app\models\Category;
 use app\components\HelperBase;
@@ -15,9 +17,26 @@ require_once __DIR__ . '/../Base.php';
 class DbaItems extends Base
 {
     private $_baseUrl       = 'http://www.dba.dk/bla-bla-bla/id-{id}/';
-    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer';
+//    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/';
+//    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/';
+    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/stereoanlaeg/';
     private $_itemId        = 0;
     private $_year          = 2015;
+
+    public function urlsSet()
+    {
+        $data = [
+            Category::SPEAKERS_HIFI => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/',
+                'types' => [
+                    ItemType::SELL      => 96,
+                    ItemType::BUY       => 3,
+                    ItemType::EXCHANGE  => 1,
+                ]
+            ],
+        ];
+
+    }
 
     public function parsePage($id)
     {
@@ -250,8 +269,9 @@ class DbaItems extends Base
         if ($side > 1) {
             $url .= '/side-' . $side . '/';
         }
-        $html = $this->tidy($url);
-        $pattern = '|<a\s+class="link-to-listing"\s+href="http://www\.dba\.dk/[\w\-]+/id-(\d+)/">[^<]+</a>|is';
+//        $html = $this->tidy($url);
+        $html = file_get_contents($url);
+        $pattern = '|<a\s+class="link-to-listing"\s+href="http://www\.dba\.dk/[^/]+/id-(\d+)/"\s*>[^<]+</a>|is';
         preg_match_all($pattern, $html, $matches);
         if (isset($matches[1])) {
             return array_unique($matches[1]);
@@ -337,53 +357,72 @@ class DbaItems extends Base
     {
         set_time_limit(0);
 
+//        $side = 7;
+//        $catalogLinks = $this->getCatalogLinks($side);
+//        HelperBase::dump($catalogLinks);
+//        HelperBase::end();
+
+        $urlSet = $this->urlsSet();
+        for
+
+        return true;
+
         $before = $this->getExistingRowsCount('item', ExternalSite::DBA);
-        for ($i=1; $i <= 192; $i++) {
+
+        $counter = 0;
+//        for ($i=1; $i <= 192; $i++) {
+//        for ($i=1; $i <= 96; $i++) {
+        for ($i=1; $i <= 135; $i++) {
             $catalogLinks = $this->getCatalogLinks($i);
+//            HelperBase::dump($catalogLinks, true);
+
+            $counter += count($catalogLinks);
+
+            $track = new ItemCatalog();
+            $track->side = $i;
+            $track->num = count($catalogLinks);
+            $track->save();
+
+            continue;
+
             $existingItems = $this->getExistingItems(ExternalSite::DBA);
             foreach ($catalogLinks as $itemId) {
-                if (in_array($itemId, $existingItems)) continue;
+                $tracker = new ItemDba();
+                $tracker->side = $i;
+                $tracker->item_id = $itemId;
+                $tracker->is_saved = 0;
+
+                if ($itemId == '122') {
+                    $tracker->save();
+                    continue;
+                }
+
+                if (in_array($itemId, $existingItems)) {
+                    $tracker->save();
+                    continue;
+                }
                 $data = $this->parsePage($itemId);
-                if ($data === false) continue;
+                if ($data === false) {
+                    $tracker->save();
+                    continue;
+                }
                 $this->saveItem($data);
-                usleep(1000);
+
+                $tracker->is_saved = 1;
+                $tracker->save();
+
+                usleep(500);
             }
 //            HelperBase::dump($catalogLinks);
 //            echo '<hr>';
 
 //            if ($i == 10) break;
         }
+
+        HelperBase::dump($counter);
+
         $after = $this->getExistingRowsCount('item', ExternalSite::DBA);
         $this->done('DbaItems', $before, $after);
-
-//        $catalogLinks = $this->getCatalogLinks();
-//        HelperBase::dump($catalogLinks);
-
-        /*foreach ($catalogLinks as $pageLink) {
-            $data = $this->parsePage($pageLink);
-            HelperBase::dump($data);
-            echo "<hr>";
-        }*/
-
-//        $data = $this->parsePage(1012484965);
-//        HelperBase::dump($data, true);
-//        $this->saveItem($data);
-
-        /*$before = $this->getExistingRowsCount('news', ExternalSite::RECORDERE);
-        $catalogLinks = $this->getCatalogLinks();
-        $prevCatalogLinks = $this->getPrevCatalogLinks();
-        $allLinks = array_merge($catalogLinks, $prevCatalogLinks);
-//        $allLinks = $catalogLinks;
-        $allLinks = array_unique($allLinks);
-        $existingNews = $this->getExistingNews(ExternalSite::RECORDERE);
-        foreach ($allLinks as $newsId) {
-            if (in_array($newsId, $existingNews)) continue;
-            $data = $this->parsePage($newsId);
-            $this->saveItem($data);
-            usleep(1000);
-        }
-        $after = $this->getExistingRowsCount('news', ExternalSite::RECORDERE);
-        $this->done('RecNews', $before, $after);*/
     }
 
     private function _getTitle($html)

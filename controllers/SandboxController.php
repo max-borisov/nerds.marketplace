@@ -8,10 +8,12 @@ use app\components\HelperMarketPlace;
 use app\components\parser\hifi\HiFiItems;
 use app\components\parser\hifi\HiFiNews;
 use app\components\parser\hifi\HiFiReviews;
-use app\components\parser\recordere\DbaItems;
+use app\components\parser\dba\DbaItems;
 use app\components\parser\recordere\RecNews;
 
 use app\components\parser\recordere\RecReviews;
+use app\models\ItemCatalog;
+use app\models\ItemDba;
 use app\models\News;
 use app\models\User;
 use app\models\SignInForm;
@@ -27,6 +29,7 @@ use app\models\Category;
 use app\components\HelperBase;
 use app\components\HelperSignUp;
 use app\components\HelperUser;
+use app\components\parser\dba;
 
 use yii\imagine\Image;
 use yii\bootstrap\BootstrapAsset;
@@ -322,24 +325,22 @@ class SandboxController extends Controller
 
     public function actionTest()
     {
-        echo $data = (new \yii\db\Query())
-            ->select('id')
-            ->from('item')
-            ->where('s_id = :sid', ['sid' => 1])
-            ->count();
+        require_once Yii::getAlias('@app') . '/components/Parser/Dba/DbaItems.php';
+
+        $url = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer//side-7/';
+        echo HelperBase::dump($url);
+//        echo $html = (new DbaItems())->tidy($url, 'utf8');
+        $html = file_get_contents($url);
+//        HelperBase::dump($html);
+//        HelperBase::end();
 
 
-//        echo $d = '1. februar 2015';
-//        $t = strtotime($d);
-//        HelperBase::dump($t);
-        /*$m = new News();
-        $m->af = '11212';
-        $m->title = '11212_t';
-        $m->notice = 'scdscds';
-        $m->post = 'saasxs';
-
-        HelperBase::dump($m->validate());
-        HelperBase::dump($m->save(false));*/
+//        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/[^/]+/id-\d+/)">[^<]+</a>|is';
+        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/[^/]+/id-\d+/)"\s*>[^<]+</a>|is';
+//        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/(.*?)/)">(.*?)</a>|is';
+//        $html = '<a class="link-to-listing" href="http://www.dba.dk/anden-radio-phillips-roerra/id-1013857887/">Se hele annoncen</a>';
+        preg_match_all($pattern, $html, $matches);
+        HelperBase::dump($matches);
     }
 
     public function actionTime()
