@@ -19,13 +19,12 @@ class DbaItems extends Base
     private $_baseUrl       = 'http://www.dba.dk/bla-bla-bla/id-{id}/';
 //    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/';
 //    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/';
-    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/stereoanlaeg/';
     private $_itemId        = 0;
     private $_year          = 2015;
 
     public function urlsSet()
     {
-        $data = [
+        return $data = [
             Category::SPEAKERS_HIFI => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/',
                 'types' => [
@@ -35,7 +34,6 @@ class DbaItems extends Base
                 ]
             ],
         ];
-
     }
 
     public function parsePage($id)
@@ -44,10 +42,10 @@ class DbaItems extends Base
         $page = str_replace('{id}', $id, $this->_baseUrl);
         $html = $this->tidy($page, 'utf8');
 
-        $topContainer   = $this->_getTopContainer($html);
-        $category       = $this->_getCategory($topContainer);
-        $subCategory    = $this->_getSubCategory($topContainer);
-        if ($subCategory === false) return false;
+//        $topContainer   = $this->_getTopContainer($html);
+//        $category       = $this->_getCategory($topContainer);
+//        $subCategory    = $this->_getSubCategory($topContainer);
+//        if ($subCategory === false) return false;
         $title          = $this->_getTitle($html);
         $price          = $this->_getPrice($html);
         $date           = $this->_getPubDate($html);
@@ -77,9 +75,9 @@ class DbaItems extends Base
 
         $data = [
             'id'            => $id,
-            'categoryMain'  => $category,
-            'categorySub'   => $subCategory,
-            'categoryId'    => $this->_getCategoryId($subCategory),
+//            'categoryMain'  => $category,
+//            'categorySub'   => $subCategory,
+//            'categoryId'    => $this->_getCategoryId($subCategory),
             'title'         => $title,
             'price'         => $this->_formatPrice($price),
             'date'          => $date,
@@ -177,7 +175,9 @@ class DbaItems extends Base
         if (isset($matches[1])) {
             return trim($matches[1]);
         } else {
-            throw new Exception('Could not get footer. Page id ' . $this->_itemId);
+            HelperBase::logger('DBA parser error', null, ['msg' => 'Could not get footer. Page id ' . $this->_itemId]);
+            return '';
+//            throw new Exception('Could not get footer. Page id ' . $this->_itemId);
         }
     }
 
@@ -216,9 +216,9 @@ class DbaItems extends Base
     public function saveItem($data)
     {
         $item = new Item();
-        $item->user_id      = 112233;
-        $item->category_id  = $data['categoryId'];
-        $item->type_id      = ItemType::SELL;
+        $item->user_id      = 0;
+        $item->category_id  = $data['category_id'];
+        $item->type_id      = $data['type_id'];
 
         $item->site_id      = ExternalSite::DBA;
         $item->title        = $data['title'];
@@ -226,10 +226,10 @@ class DbaItems extends Base
         $item->s_user       = $data['username'];
         $item->s_location   = $data['location'];
 
-        $item->warranty     = Item::WARRANTY_NA;
-        $item->invoice      = Item::INVOICE_NA;
-        $item->packaging    = Item::PACKAGING_NA;
-        $item->manual       = Item::MANUAL_NA;
+        $item->warranty     = Item::NA_FLAG;
+        $item->invoice      = Item::NA_FLAG;
+        $item->packaging    = Item::NA_FLAG;
+        $item->manual       = Item::NA_FLAG;
 
 //        $item->s_phone      = $data['phone'];
 //        $item->s_email      = $data['email'];
@@ -259,16 +259,13 @@ class DbaItems extends Base
     }
 
     /**
-     * Parse catalog to get links to news pages
+     * Parse catalog to get items links
+     * @param string $url
      * @return mixed
      * @throws \yii\base\Exception
      */
-    public function getCatalogLinks($side = 0)
+    public function getLinksFromCatalog($url = '')
     {
-        $url = $this->_catalogUrl;
-        if ($side > 1) {
-            $url .= '/side-' . $side . '/';
-        }
 //        $html = $this->tidy($url);
         $html = file_get_contents($url);
         $pattern = '|<a\s+class="link-to-listing"\s+href="http://www\.dba\.dk/[^/]+/id-(\d+)/"\s*>[^<]+</a>|is';
@@ -280,18 +277,6 @@ class DbaItems extends Base
         }
     }
 
-    public function getPrevCatalogLinks()
-    {
-        $html = $this->tidy($this->_prevCatalogUrl);
-        $pattern = '|/?a=(\d+)|is';
-        preg_match_all($pattern, $html, $matches);
-        if (isset($matches[1])) {
-            return array_unique($matches[1]);
-        } else {
-            throw new Exception('Could not retrieve news ids from previous catalog page.');
-        }
-    }
-
     private function _getPrice($html)
     {
         $pattern = '|<span\s+class="price-tag">([^<]+)</span>|is';
@@ -299,7 +284,9 @@ class DbaItems extends Base
         if (isset($matches[1])) {
             return trim($matches[1]);
         } else {
-            throw new Exception('Could not get price attribute. Page id ' . $this->_itemId);
+            HelperBase::logger('DBA parser error', null, ['msg' => 'Could not get item price', 'item id' => $this->_itemId]);
+            return 0;
+//            throw new Exception('Could not get price attribute. Page id ' . $this->_itemId);
         }
     }
 
@@ -353,74 +340,62 @@ class DbaItems extends Base
         }
     }
 
+    private function _process($baseUrl, $categoryId, $advType, $pages)
+    {
+        switch ($advType) {
+            case ItemType::SELL: {
+                $getParam = '';
+                break;
+            }
+            case ItemType::BUY: {
+                $getParam = '?antype=koebes';
+                break;
+            }
+            case ItemType::EXCHANGE: {
+                $getParam = '?antype=byttes';
+                break;
+            }
+        }
+        $urlToParse = '';
+        for ($i=1; $i <= $pages; $i++) {
+            if ($i > 1) {
+                $side = 'side-' . $i . '/';
+            } else {
+                $side = '';
+            }
+            $urlToParse = $baseUrl . $side . $getParam;
+            $catalogLinks = $this->getLinksFromCatalog($urlToParse);
+            $existingItems = $this->getExistingItems(ExternalSite::DBA);
+            foreach ($catalogLinks as $itemId) {
+                if ($itemId == 1013535339) continue;
+
+                if (in_array($itemId, $existingItems)) {
+                    continue;
+                }
+                $data = $this->parsePage($itemId);
+                $data['category_id'] = $categoryId;
+                $data['type_id'] = $advType;
+                $this->saveItem($data);
+                usleep(500);
+            }
+        }
+    }
+
     public function run()
     {
         set_time_limit(0);
 
-//        $side = 7;
-//        $catalogLinks = $this->getCatalogLinks($side);
-//        HelperBase::dump($catalogLinks);
-//        HelperBase::end();
-
-        $urlSet = $this->urlsSet();
-        for
-
-        return true;
-
         $before = $this->getExistingRowsCount('item', ExternalSite::DBA);
-
-        $counter = 0;
-//        for ($i=1; $i <= 192; $i++) {
-//        for ($i=1; $i <= 96; $i++) {
-        for ($i=1; $i <= 135; $i++) {
-            $catalogLinks = $this->getCatalogLinks($i);
-//            HelperBase::dump($catalogLinks, true);
-
-            $counter += count($catalogLinks);
-
-            $track = new ItemCatalog();
-            $track->side = $i;
-            $track->num = count($catalogLinks);
-            $track->save();
-
-            continue;
-
-            $existingItems = $this->getExistingItems(ExternalSite::DBA);
-            foreach ($catalogLinks as $itemId) {
-                $tracker = new ItemDba();
-                $tracker->side = $i;
-                $tracker->item_id = $itemId;
-                $tracker->is_saved = 0;
-
-                if ($itemId == '122') {
-                    $tracker->save();
-                    continue;
-                }
-
-                if (in_array($itemId, $existingItems)) {
-                    $tracker->save();
-                    continue;
-                }
-                $data = $this->parsePage($itemId);
-                if ($data === false) {
-                    $tracker->save();
-                    continue;
-                }
-                $this->saveItem($data);
-
-                $tracker->is_saved = 1;
-                $tracker->save();
-
-                usleep(500);
-            }
-//            HelperBase::dump($catalogLinks);
-//            echo '<hr>';
-
-//            if ($i == 10) break;
+        $urlSet = $this->urlsSet();
+        foreach ($urlSet as $categoryId => $data) {
+            $baseUrl = $data['url'];
+            $advTypes = $data['types'];
+            $this->_process($baseUrl, $categoryId, ItemType::SELL, $advTypes[ItemType::SELL]);
+            sleep(1);
+            $this->_process($baseUrl, $categoryId, ItemType::BUY, $advTypes[ItemType::BUY]);
+            sleep(1);
+            $this->_process($baseUrl, $categoryId, ItemType::EXCHANGE, $advTypes[ItemType::EXCHANGE]);
         }
-
-        HelperBase::dump($counter);
-
         $after = $this->getExistingRowsCount('item', ExternalSite::DBA);
         $this->done('DbaItems', $before, $after);
     }
@@ -449,16 +424,9 @@ class DbaItems extends Base
 
     private function _getPreview($html)
     {
-//        echo $html;
-//        HelperBase::end();
-//        <img data-bind="attr: { src: displayPicture }" src="http://dbastatic.dk/pictures/pictures/93/77/9995-5435-414f-950f-53b386886df1.jpg?preset=vipgalleryprimary" alt="Cerwin Vega">
-//        $pattern = '|src="(http://dbastatic\.dk/pictures/[^"]+)"|is';
-//        $pattern = '|src="(http://dbastatic\.dk/[\w\-\.\?])+"|is';
         $pattern = '|(http://dbastatic.dk/pictures/[^"]+)|is';
 //        $pattern = '|<img(.*?)src="http://dbastatic.dk/pictures/[^"]+"\s+alt="\w+">|is';
         preg_match($pattern, $html, $matches);
-//        HelperBase::dump($matches, true);
-
         if (isset($matches[0])) {
             return $matches[0];
         } else {

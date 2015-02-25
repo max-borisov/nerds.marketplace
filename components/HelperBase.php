@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\helpers\VarDumper;
+use app\models\Item;
 
 class HelperBase extends Component
 {
@@ -138,5 +139,22 @@ class HelperBase extends Component
             return true;
         }
         return false;
+    }
+
+    public static function getYesNoNaLabel($flag)
+    {
+        $label = '';
+        switch($flag) {
+            case Item::YES_FLAG: {
+                $label = 'Yes';
+            }
+            case Item::NO_FLAG: {
+                $label = 'No';
+            }
+            case Item::NA_FLAG: {
+                $label = 'N/A';
+            }
+        }
+        return $label;
     }
 }
