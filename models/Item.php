@@ -182,90 +182,31 @@ class Item extends \app\components\ActiveRecord
         $price_min = (int)$this->price_min;
         $price_max = (int)$this->price_max;
 
-//        HelperBase::dump($this->price_min);
-//        HelperBase::dump($this->price_max);
-
-//        HelperBase::dump($this->type_id, true);
-
-       /* $sql = '
-        SELECT * FROM item
-        WHERE
-        type_id = :ad_id
-        AND
-            (warranty = :warranty OR warranty = :na_flag)
-        AND
-            (packaging = :packaging OR packaging = :na_flag)
-        AND
-            (manual = :manual OR manual = :na_flag)
-        AND
-            (price BETWEEN :price_min AND :price_max)
-        AND
-            (title LIKE "%:search_text%" OR description LIKE "%:search_text%")
-        AND
-            category_id > 0
-        ORDER BY :order
-        LIMIT 10
-        ';*/
-        $sql = '
-        SELECT * FROM item
-        WHERE
-            IF (:ad_id > 0, type_id = :ad_id, 1)
-        AND
-            category_id > 0
-        AND
-            (warranty = :warranty OR warranty = :na_flag)
-        AND
-            (packaging = :packaging OR packaging = :na_flag)
-        AND
-            (manual = :manual OR manual = :na_flag)
-        AND
-            IF(:price_min > 0, price >= :price_min, 1)
-        AND
-            IF(:price_max > 0, price <= :price_max, 1)
-        AND
-            IF(:search_text != "", title LIKE "%:search_text%" OR description LIKE "%:search_text%", 1)
-        ORDER BY :order
-        LIMIT 10
-        ';
-        $query = Item::findBySql($sql, [
-            ':ad_id' => (int)$this->type_id,
-            ':warranty' => $this->warranty,
-            ':packaging' => $this->packaging,
-            ':manual' => $this->manual,
-            ':price_min' => $price_min,
-            ':price_max' => $price_max,
-            ':search_text' => $this->search_text,
-            ':na_flag'  => Item::NA_FLAG,
-            ':order'  => HelperMarketPlace::getSortParamForItemsList()
-        ]);
-
-//        HelperBase::dump($query->sql);
-//        HelperBase::dump($query->all());
-
-        /*$query = Item::find();
-        $query->andFilterWhere([
-            'warranty'  => $this->warranty,
-            'packaging' => $this->packaging,
-            'manual'    => $this->manual,
-            'type_id'   => $this->type_id,
-        ]);
-        HelperBase::dump($query, true);
-
-
-        $query->andFilterWhere(['>=', 'price', $this->price_min]);
-        $query->andFilterWhere(['<=', 'price', $this->price_max]);
-        $query->andFilterWhere(['like', 'title', $this->search_text]);
-        $query->orFilterWhere(['like', 'description', $this->search_text]);*/
-
-        /*$query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description]);*/
-
-        // Only items related to active categories
-//        $query->andWhere('category_id > 0');
-//        $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
-
-
-
+        $query = Item::find();
+        $query->where('category_id > 0');
+        $ad_id = (int)$this->type_id;
+        if ($ad_id > 0) {
+            $query->andWhere('type_id = :ad_id', [':ad_id' => $ad_id]);
+        }
+        if (isset($this->warranty)) {
+            $query->andWhere('warranty = :warranty OR warranty = :na_flag', [':warranty' => (int)$this->warranty, ':na_flag' => Item::NA_FLAG]);
+        }
+        if (isset($this->packaging)) {
+            $query->andWhere('packaging = :packaging OR packaging = :na_flag', [':packaging' => (int)$this->packaging, ':na_flag' => Item::NA_FLAG]);
+        }
+        if (isset($this->manual)) {
+            $query->andWhere('manual = :manual OR manual = :na_flag', [':manual' => (int)$this->manual, ':na_flag' => Item::NA_FLAG]);
+        }
+        if ($price_min > 0) {
+            $query->andWhere('price >= :price_min', [':price_min' => $price_min]);
+        }
+        if ($price_max > 0) {
+            $query->andWhere('price <= :price_max', [':price_max' => $price_max]);
+        }
+        if ($this->search_text) {
+            $query->andWhere(['or', ['like', 'title', $this->search_text], ['like', 'description', $this->search_text]]);
+        }
+        $query->orderBy(HelperMarketPlace::getSortParamForItemsList());
         return $query;
     }
 

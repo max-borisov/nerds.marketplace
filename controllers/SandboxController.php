@@ -325,22 +325,29 @@ class SandboxController extends Controller
 
     public function actionTest()
     {
-        require_once Yii::getAlias('@app') . '/components/Parser/Dba/DbaItems.php';
 
-        $url = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer//side-7/';
-        echo HelperBase::dump($url);
+        $query = Item::find();
+        $query->where('title LIKE "%:search_text%" OR description LIKE "%:search_text%"', [':search_text' => 'Defekt']);
+//        $query->where('id > 10 AND id < 15');
+        HelperBase::dump($query->sql);
+        HelperBase::dump($query->all());
+
+//        require_once Yii::getAlias('@app') . '/components/Parser/Dba/DbaItems.php';
+
+//        $url = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer//side-7/';
+//        echo HelperBase::dump($url);
 //        echo $html = (new DbaItems())->tidy($url, 'utf8');
-        $html = file_get_contents($url);
+//        $html = file_get_contents($url);
 //        HelperBase::dump($html);
 //        HelperBase::end();
 
 
 //        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/[^/]+/id-\d+/)">[^<]+</a>|is';
-        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/[^/]+/id-\d+/)"\s*>[^<]+</a>|is';
+//        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/[^/]+/id-\d+/)"\s*>[^<]+</a>|is';
 //        $pattern = '|<a\s+class="link-to-listing"\s+href="(http://www\.dba\.dk/(.*?)/)">(.*?)</a>|is';
 //        $html = '<a class="link-to-listing" href="http://www.dba.dk/anden-radio-phillips-roerra/id-1013857887/">Se hele annoncen</a>';
-        preg_match_all($pattern, $html, $matches);
-        HelperBase::dump($matches);
+//        preg_match_all($pattern, $html, $matches);
+//        HelperBase::dump($matches);
     }
 
     public function actionTime()

@@ -51,19 +51,19 @@ $itemLink = '/item/view/' . $data->id;
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('warranty') ?></div>
-            <div class="col-xs-4"><?= $data->warranty ? 'Yes' : 'No' ?></div>
+            <div class="col-xs-4"><?= HelperBase::getYesNoNaLabel($data->warranty) ?></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('invoice') ?></div>
-            <div class="col-xs-4"><?= $data->invoice ? 'Yes' : 'No' ?></div>
+            <div class="col-xs-4"><?= HelperBase::getYesNoNaLabel($data->invoice) ?></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('packaging') ?></div>
-            <div class="col-xs-4"><?= $data->packaging ? 'Yes' : 'No' ?></div>
+            <div class="col-xs-4"><?= HelperBase::getYesNoNaLabel($data->packaging) ?></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('manual') ?></div>
-            <div class="col-xs-4"><?= $data->manual ? 'Yes' : 'No' ?></div>
+            <div class="col-xs-4"><?= HelperBase::getYesNoNaLabel($data->manual) ?></div>
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('s_date') ?></div>
