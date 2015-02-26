@@ -376,7 +376,7 @@ class DbaItems extends Base
                 $data['category_id'] = $categoryId;
                 $data['type_id'] = $advType;
                 $this->saveItem($data);
-                usleep(500);
+                usleep(100);
             }
         }
     }
@@ -391,9 +391,9 @@ class DbaItems extends Base
             $baseUrl = $data['url'];
             $advTypes = $data['types'];
             $this->_process($baseUrl, $categoryId, ItemType::SELL, $advTypes[ItemType::SELL]);
-            sleep(1);
+            usleep(1000);
             $this->_process($baseUrl, $categoryId, ItemType::BUY, $advTypes[ItemType::BUY]);
-            sleep(1);
+            usleep(1000);
             $this->_process($baseUrl, $categoryId, ItemType::EXCHANGE, $advTypes[ItemType::EXCHANGE]);
         }
         $after = $this->getExistingRowsCount('item', ExternalSite::DBA);
