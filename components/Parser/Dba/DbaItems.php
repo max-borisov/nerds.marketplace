@@ -25,14 +25,94 @@ class DbaItems extends Base
     public function urlsSet()
     {
         return $data = [
-            Category::SPEAKERS_HIFI => [
+            /*Category::SPEAKERS_HIFI => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/',
                 'types' => [
                     ItemType::SELL      => 96,
                     ItemType::BUY       => 3,
                     ItemType::EXCHANGE  => 1,
                 ]
+            ],*/
+            Category::STEREO_SYSTEM => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/stereoanlaeg/',
+                'types' => [
+                    ItemType::SELL      => 134,
+                    ItemType::BUY       => 2,
+                    ItemType::EXCHANGE  => 1,
+                ]
             ],
+            /*Category::HEADPHONES => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hovedtelefoner/',
+                'types' => [
+                    ItemType::SELL      => 84,
+                    ItemType::BUY       => 1,
+                    ItemType::EXCHANGE  => 1,
+                ]
+            ],*/
+            /*Category::RADIO => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/radioer/',
+                'types' => [
+                    ItemType::SELL      => 82,
+                    ItemType::BUY       => 1,
+                    ItemType::EXCHANGE  => 0,
+                ]
+            ],*/
+            /*Category::AMPLIFIERS => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/forstaerkere-hi-fi/',
+                'types' => [
+                    ItemType::SELL      => 70,
+                    ItemType::BUY       => 3,
+                    ItemType::EXCHANGE  => 1,
+                ]
+            ],*/
+            /*Category::TURNTABLE => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/pladespillere/',
+                'types' => [
+                    ItemType::SELL      => 37,
+                    ItemType::BUY       => 2,
+                    ItemType::EXCHANGE  => 1,
+                ]
+            ],*/
+            /*Category::CD_PLAYER => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/cd-afspillere/',
+                'types' => [
+                    ItemType::SELL      => 32,
+                    ItemType::BUY       => 1,
+                    ItemType::EXCHANGE  => 0,
+                ]
+            ],*/
+            /*Category::MP3_MP4_PLAYERS => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/mp3-mp4-afspillere/',
+                'types' => [
+                    ItemType::SELL      => 28,
+                    ItemType::BUY       => 1,
+                    ItemType::EXCHANGE  => 0,
+                ]
+            ],*/
+            /*Category::TAPE_RECORDER => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/baandoptagere/',
+                'types' => [
+                    ItemType::SELL      => 25,
+                    ItemType::BUY       => 1,
+                    ItemType::EXCHANGE  => 0,
+                ]
+            ],*/
+            /*Category::MP3_ACCESSORIES => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/tilbehoer-til-mp3-afspilllere/',
+                'types' => [
+                    ItemType::SELL      => 8,
+                    ItemType::BUY       => 0,
+                    ItemType::EXCHANGE  => 0,
+                ]
+            ],*/
+            /*Category::MINI_DISC_PLAYER => [
+                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/minidisc-afspillere/',
+                'types' => [
+                    ItemType::SELL      => 6,
+                    ItemType::BUY       => 1,
+                    ItemType::EXCHANGE  => 0,
+                ]
+            ],*/
         ];
     }
 
@@ -391,10 +471,15 @@ class DbaItems extends Base
             $baseUrl = $data['url'];
             $advTypes = $data['types'];
             $this->_process($baseUrl, $categoryId, ItemType::SELL, $advTypes[ItemType::SELL]);
-            usleep(1000);
-            $this->_process($baseUrl, $categoryId, ItemType::BUY, $advTypes[ItemType::BUY]);
-            usleep(1000);
-            $this->_process($baseUrl, $categoryId, ItemType::EXCHANGE, $advTypes[ItemType::EXCHANGE]);
+            usleep(100);
+            if ($pages = $advTypes[ItemType::BUY]) {
+                $this->_process($baseUrl, $categoryId, ItemType::BUY, $pages);
+                usleep(100);
+            }
+            if ($pages = $advTypes[ItemType::EXCHANGE]) {
+                $this->_process($baseUrl, $categoryId, ItemType::EXCHANGE, $advTypes[ItemType::EXCHANGE]);
+                usleep(100);
+            }
         }
         $after = $this->getExistingRowsCount('item', ExternalSite::DBA);
         $this->done('DbaItems', $before, $after);
