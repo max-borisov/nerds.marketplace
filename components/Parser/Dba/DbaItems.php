@@ -11,6 +11,7 @@ use app\models\ItemType;
 use app\models\Category;
 use app\components\HelperBase;
 use yii\base\Exception;
+use yii\db\IntegrityException;
 
 require_once __DIR__ . '/../Base.php';
 
@@ -25,14 +26,14 @@ class DbaItems extends Base
     public function urlsSet()
     {
         return $data = [
-            /*Category::SPEAKERS_HIFI => [
+            Category::SPEAKERS_HIFI => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/',
                 'types' => [
                     ItemType::SELL      => 96,
                     ItemType::BUY       => 3,
                     ItemType::EXCHANGE  => 1,
                 ]
-            ],*/
+            ],
             Category::STEREO_SYSTEM => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/stereoanlaeg/',
                 'types' => [
@@ -41,78 +42,78 @@ class DbaItems extends Base
                     ItemType::EXCHANGE  => 1,
                 ]
             ],
-            /*Category::HEADPHONES => [
+            Category::HEADPHONES => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hovedtelefoner/',
                 'types' => [
                     ItemType::SELL      => 84,
                     ItemType::BUY       => 1,
                     ItemType::EXCHANGE  => 1,
                 ]
-            ],*/
-            /*Category::RADIO => [
+            ],
+            Category::RADIO => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/radioer/',
                 'types' => [
                     ItemType::SELL      => 82,
                     ItemType::BUY       => 1,
                     ItemType::EXCHANGE  => 0,
                 ]
-            ],*/
-            /*Category::AMPLIFIERS => [
+            ],
+            Category::AMPLIFIERS => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/forstaerkere-hi-fi/',
                 'types' => [
                     ItemType::SELL      => 70,
                     ItemType::BUY       => 3,
                     ItemType::EXCHANGE  => 1,
                 ]
-            ],*/
-            /*Category::TURNTABLE => [
+            ],
+            Category::TURNTABLE => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/pladespillere/',
                 'types' => [
                     ItemType::SELL      => 37,
                     ItemType::BUY       => 2,
                     ItemType::EXCHANGE  => 1,
                 ]
-            ],*/
-            /*Category::CD_PLAYER => [
+            ],
+            Category::CD_PLAYER => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/cd-afspillere/',
                 'types' => [
                     ItemType::SELL      => 32,
                     ItemType::BUY       => 1,
                     ItemType::EXCHANGE  => 0,
                 ]
-            ],*/
-            /*Category::MP3_MP4_PLAYERS => [
+            ],
+            Category::MP3_MP4_PLAYERS => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/mp3-mp4-afspillere/',
                 'types' => [
                     ItemType::SELL      => 28,
                     ItemType::BUY       => 1,
                     ItemType::EXCHANGE  => 0,
                 ]
-            ],*/
-            /*Category::TAPE_RECORDER => [
+            ],
+            Category::TAPE_RECORDER => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/baandoptagere/',
                 'types' => [
                     ItemType::SELL      => 25,
                     ItemType::BUY       => 1,
                     ItemType::EXCHANGE  => 0,
                 ]
-            ],*/
-            /*Category::MP3_ACCESSORIES => [
+            ],
+            Category::MP3_ACCESSORIES => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/tilbehoer-til-mp3-afspilllere/',
                 'types' => [
                     ItemType::SELL      => 8,
                     ItemType::BUY       => 0,
                     ItemType::EXCHANGE  => 0,
                 ]
-            ],*/
-            /*Category::MINI_DISC_PLAYER => [
+            ],
+            Category::MINI_DISC_PLAYER => [
                 'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/minidisc-afspillere/',
                 'types' => [
                     ItemType::SELL      => 6,
                     ItemType::BUY       => 1,
                     ItemType::EXCHANGE  => 0,
                 ]
-            ],*/
+            ],
         ];
     }
 
@@ -121,6 +122,12 @@ class DbaItems extends Base
         $this->_itemId = $id;
         $page = str_replace('{id}', $id, $this->_baseUrl);
         $html = $this->tidy($page, 'utf8');
+
+        // If page is not valid
+        if ($this->_isPageBroken($html)) {
+            HelperBase::logger('DBA parser. Requested page is broken.', null, ['page id' => $id]);
+            return false;
+        }
 
 //        $topContainer   = $this->_getTopContainer($html);
 //        $category       = $this->_getCategory($topContainer);
@@ -178,6 +185,16 @@ class DbaItems extends Base
     private function _formatPrice($price)
     {
         return trim(str_replace(['kr', '.', ' '], '', $price));
+    }
+
+    private function _isPageBroken($html)
+    {
+        $pattern = '|<a\s+class="link-to-listing"\s+href="http://www\.dba\.dk/[^/]+/id-(\d+)/"\s*>[^<]+</a>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return true;
+        }
+        return false;
     }
 
     private function _getCategoryId($title)
@@ -332,9 +349,17 @@ class DbaItems extends Base
         $item->s_watt       = $data['watt'];
         $item->s_product    = $data['product'];
 
-        if (!$item->save(false)) {
-            throw new Exception('Data could not be saved for DBA. Item id ' . $data['id']);
+        try {
+            if (!$item->save(false)) {
+                throw new Exception('Data could not be saved for DBA. Item id ' . $data['id']);
+            }
+        } catch (IntegrityException $e) {
+            $item->isNewRecord = false;
+            if (!$item->save(false)) {
+                throw new Exception('Data could not be saved for DBA. Item id ' . $data['id']);
+            }
         }
+
         return $item->id;
     }
 
@@ -448,11 +473,16 @@ class DbaItems extends Base
             $existingItems = $this->getExistingItems(ExternalSite::DBA);
             foreach ($catalogLinks as $itemId) {
                 if ($itemId == 1013535339) continue;
+                if ($itemId == 1009328530) continue;
+                if ($itemId == 1013594095) continue;
+                if ($itemId == 1011704263) continue;
 
                 if (in_array($itemId, $existingItems)) {
                     continue;
                 }
                 $data = $this->parsePage($itemId);
+                // Requested page is broken
+                if ($data === false) continue;
                 $data['category_id'] = $categoryId;
                 $data['type_id'] = $advType;
                 $this->saveItem($data);
@@ -467,6 +497,14 @@ class DbaItems extends Base
 
         $before = $this->getExistingRowsCount('item', ExternalSite::DBA);
         $urlSet = $this->urlsSet();
+
+        if (isset($_GET['category_id']) && !empty($urlSet[$_GET['category_id']])) {
+            $category_id = $_GET['category_id'];
+            $data = $urlSet[$category_id];
+            $urlSet = [];
+            $urlSet[$category_id] = $data;
+        }
+
         foreach ($urlSet as $categoryId => $data) {
             $baseUrl = $data['url'];
             $advTypes = $data['types'];
