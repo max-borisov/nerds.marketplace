@@ -22,7 +22,7 @@ use yii\base\Exception;
  * @property integer $category_id
  * @property string $title
  * @property integer $user_id
- * @property integer $type_id
+ * @property integer $ad_type_id
  * @property string $description
  * @property string $preview
  * @property string $price_min
@@ -75,9 +75,9 @@ class Item extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-//            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'type_id', 'description'], 'required', 'on' => ['create', 'edit']],
-            [['title', 'category_id', 'type_id', 'description'], 'required', 'on' => ['create', 'edit']],
-            [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'type_id'], 'integer', 'on' => ['create', 'edit']],
+//            [['warranty', 'invoice', 'packaging', 'manual', 'price', 'category_id', 'title', 'ad_type_id', 'description'], 'required', 'on' => ['create', 'edit']],
+            [['title', 'category_id', 'ad_type_id', 'description'], 'required', 'on' => ['create', 'edit']],
+            [['warranty', 'invoice', 'packaging', 'manual', 'category_id', 'ad_type_id'], 'integer', 'on' => ['create', 'edit']],
             [['price'], 'number', 'on' => ['create', 'edit']],
             [['price'], 'default', 'value' => 0, 'on' => ['create', 'edit']],
             [['title'], 'string', 'max' => 255, 'on' => ['create', 'edit']],
@@ -87,7 +87,7 @@ class Item extends \app\components\ActiveRecord
                     return trim(strip_tags($value));
             }, 'on' => ['create', 'edit']],
 
-            [['warranty', 'packaging', 'manual', 'type_id'], 'integer', 'on' => ['search']],
+            [['warranty', 'packaging', 'manual', 'ad_type_id'], 'integer', 'on' => ['search']],
             [['search_text'], 'string', 'max' => 255, 'on' => ['search']],
             [['price_min, price_max'], 'number', 'on' => ['search']],
         ];
@@ -118,7 +118,7 @@ class Item extends \app\components\ActiveRecord
 
     public function getType()
     {
-        return $this->hasOne(ItemType::className(), ['id' => 'type_id']);
+        return $this->hasOne(AdType::className(), ['id' => 'ad_type_id']);
     }
 
     /**
@@ -137,7 +137,7 @@ class Item extends \app\components\ActiveRecord
             'title' => 'Title:',
             'search_text' => 'Search text:',
             'user_id' => 'User id',
-            'type_id' => 'Ad type:',
+            'ad_type_id' => 'Ad type:',
             'description' => 'Description:',
             'price_min' => 'Min price:',
             'price_max' => 'Max price:',
@@ -184,9 +184,9 @@ class Item extends \app\components\ActiveRecord
 
         $query = Item::find();
         $query->where('category_id > 0');
-        $ad_id = (int)$this->type_id;
+        $ad_id = (int)$this->ad_type_id;
         if ($ad_id > 0) {
-            $query->andWhere('type_id = :ad_id', [':ad_id' => $ad_id]);
+            $query->andWhere('ad_type_id = :ad_id', [':ad_id' => $ad_id]);
         }
         if (isset($this->warranty)) {
             $query->andWhere('warranty = :warranty OR warranty = :na_flag', [':warranty' => (int)$this->warranty, ':na_flag' => Item::NA_FLAG]);

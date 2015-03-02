@@ -31,7 +31,7 @@ use app\components\HelperBase;
         <td><?= $data->category->title ?></td>
     </tr>
     <tr>
-        <td class="item-param-name"><?= $data->getAttributeLabel('type_id') ?></td>
+        <td class="item-param-name"><?= $data->getAttributeLabel('ad_type_id') ?></td>
         <td><?= Html::encode($data->type->title) ?></td>
     </tr>
 

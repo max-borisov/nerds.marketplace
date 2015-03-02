@@ -78,14 +78,14 @@ use yii\helpers\Html;
 
     <!-- Type -->
     <div class="form-group">
-        <?= Html::activeLabel($model, 'type_id', ['for' => 'type_id-yes', 'class' => 'col-sm-2 control-label']); ?>
+        <?= Html::activeLabel($model, 'ad_type_id', ['for' => 'ad_type_id-yes', 'class' => 'col-sm-2 control-label']); ?>
 
         <div class="col-sm-3">
             <?php
-            foreach ($typeData as $typeId => $typeTitle) {
+            foreach ($adData as $typeId => $typeTitle) {
                 echo Html::activeRadio(
                     $model,
-                    'type_id',
+                    'ad_type_id',
                     ['label' => $typeTitle, 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => $typeId]
                 );
             }

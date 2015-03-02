@@ -19,7 +19,7 @@ use app\models\User;
 use app\models\SignInForm;
 use app\models\Item;
 use app\models\ItemPhoto;
-use app\models\ItemType;
+use app\models\AdType;
 use Yii;
 use yii\base\Exception;
 use yii\web\Controller;

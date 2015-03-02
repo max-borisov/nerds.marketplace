@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use app\models\ItemType;
+use app\models\AdType;
 
 /* @var $model app\models\Item */
 ?>
@@ -75,14 +75,14 @@ use app\models\ItemType;
 
             <!-- Want To -->
             <div class="form-group">
-                <?= Html::activeLabel($model, 'type_id', ['for' => 'manual-yes', 'class' => 'col-sm-4 control-label']); ?>
+                <?= Html::activeLabel($model, 'ad_type_id', ['for' => 'manual-yes', 'class' => 'col-sm-4 control-label']); ?>
 
                 <div class="col-sm-7">
-                    <?= Html::activeRadio($model, 'type_id', ['label' => 'Sell', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => ItemType::SELL]); ?>
+                    <?= Html::activeRadio($model, 'ad_type_id', ['label' => 'Sell', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => AdType::SELL]); ?>
 
-                    <?= Html::activeRadio($model, 'type_id', ['label' => 'Buy', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => ItemType::BUY]); ?>
+                    <?= Html::activeRadio($model, 'ad_type_id', ['label' => 'Buy', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => AdType::BUY]); ?>
 
-                    <?= Html::activeRadio($model, 'type_id', ['label' => 'Exchange', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => ItemType::EXCHANGE]); ?>
+                    <?= Html::activeRadio($model, 'ad_type_id', ['label' => 'Exchange', 'uncheck' => null, 'labelOptions' => ['class' =>  "radio-inline"], 'value' => AdType::EXCHANGE]); ?>
                 </div>
             </div>
 

@@ -6,7 +6,7 @@ use yii\base\Exception;
 use app\components\parser\Base;
 use app\models\Category;
 use app\models\ExternalSite;
-use app\models\ItemType;
+use app\models\AdType;
 use app\models\Item;
 
 require_once __DIR__ . '/../Base.php';
@@ -192,7 +192,7 @@ class HiFiItems extends Base
         $item = new Item();
         $item->user_id      = 112233;
         $item->category_id  = Category::HIFI4ALL;
-        $item->type_id      = ItemType::UNKNOWN;
+        $item->ad_type_id   = AdType::UNKNOWN;
 
         $item->site_id      = ExternalSite::HIFI4ALL;
         $item->title        = $data['title'];
@@ -236,11 +236,11 @@ class HiFiItems extends Base
         }
 
         if (strpos($item->s_adv, 'LGES') !== false) {
-            $item->type_id = ItemType::SELL;
+            $item->ad_type_id = AdType::SELL;
         } elseif (strpos($item->s_adv, 'BES') !== false) {
-            $item->type_id = ItemType::BUY;
+            $item->ad_type_id = AdType::BUY;
         } elseif (strpos($item->s_adv, 'BYTTES') !== false) {
-            $item->type_id = ItemType::EXCHANGE;
+            $item->ad_type_id = AdType::EXCHANGE;
         }
 
         if (!$item->save(false)) {

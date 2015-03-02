@@ -16,5 +16,5 @@ if ($model->hasErrors()) {
     'model'         => $model,
     'modelPhoto'    => $modelPhoto,
     'categories'    => $categories,
-    'typeData'      => $typeData
+    'adData'        => $adData
 ]) ?>

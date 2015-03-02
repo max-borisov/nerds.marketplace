@@ -44,7 +44,7 @@ if ($model->hasErrors()) {
 <?= $this->render('_create', [
     'model'         => $model,
     'categories'    => $categories,
-    'typeData'      => $typeData
+    'adData'        => $adData
 ]) ?>
 
 <?= $this->render('_upload', ['model' => $modelPhoto, 'item' => $model] ) ?>

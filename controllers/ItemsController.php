@@ -11,11 +11,12 @@ use yii\filters\AccessControl;
 use app\components\HelperMarketPlace;
 use app\components\HelperUser;
 use app\models\Item;
-use app\models\ItemType;
+use app\models\AdType;
 use app\models\ItemPhoto;
 use app\models\Category;
 use app\models\User;
 use app\controllers\AppController;
+use app\models\ExternalSite;
 
 class ItemsController extends AppController
 {
@@ -80,6 +81,8 @@ class ItemsController extends AppController
                 $model->addError('file', $modelPhoto->getErrors('file')[0]);
             }
             $model->user_id = HelperUser::uid();
+            $model->site_id = ExternalSite::NERDS;
+            $model->s_item_id = mt_rand(100, 10000);
             if ($model->validate(null, false) && $model->save(false)) {
                 if ($modelPhoto->hasUploadedFiles()) {
                     $modelPhoto->item_id = $model->id;
@@ -94,7 +97,7 @@ class ItemsController extends AppController
             'model'         => $model,
             'modelPhoto'    => $modelPhoto,
             'categories'    => (new Category())->prepareDropDown(),
-            'typeData'      => (new ItemType())->prepareList()
+            'adData'        => (new AdType())->prepareList()
         ]);
     }
 
@@ -166,7 +169,7 @@ class ItemsController extends AppController
             'model'         => $model,
             'modelPhoto'    => new ItemPhoto(),
             'categories'    => (new Category())->prepareDropDown(),
-            'typeData'      => (new ItemType())->prepareList()
+            'adData'        => (new AdType())->prepareList()
         ]);
     }
 
