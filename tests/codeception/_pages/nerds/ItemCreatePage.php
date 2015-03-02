@@ -38,8 +38,8 @@ class ItemCreatePage extends BasePage
         if (isset($params['title'])) {
             $this->actor->fillField('input[name="Item[title]"]', $params['title']);
         }
-        if (isset($params['type_id'])) {
-            $this->actor->fillField('input[name="Item[type_id]"]', $params['type_id']);
+        if (isset($params['ad_type_id'])) {
+            $this->actor->fillField('input[name="Item[ad_type_id]"]', $params['ad_type_id']);
         }
         if (isset($params['description'])) {
             $this->actor->fillField('textarea[name="Item[description]"]', $params['description']);

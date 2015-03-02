@@ -38,7 +38,7 @@ class ItemTest extends DbTestCase
             $model->price       = 100;
             $model->category_id = 1;
             $model->title       = 'test';
-            $model->type_id     = 1;
+            $model->ad_type_id  = 1;
             $model->description = 'text';
             expect('validation success', $model->validate())->true();
         });
@@ -51,7 +51,7 @@ class ItemTest extends DbTestCase
             $model->price       = 100;
             $model->category_id = 1;
             $model->title       = 'test';
-            $model->type_id     = 1;
+            $model->ad_type_id  = 1;
             $model->description = 'text<p></p>';
             $model->validate();
             expect('no tags in description', $model->description)->notContains('<');
@@ -71,7 +71,7 @@ class ItemTest extends DbTestCase
             $model->price       = 100;
             $model->category_id = 1;
             $model->title       = 'auto created';
-            $model->type_id     = 1;
+            $model->ad_type_id     = 1;
             $model->description = 'text<p></p>';
             expect('save successful', $model->save(true))->true();
         });

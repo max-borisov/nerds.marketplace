@@ -3,6 +3,7 @@
 use tests\codeception\_pages\nerds\ItemCreatePage;
 use tests\common\TestCommon;
 use app\components\HelperPage;
+use \app\models\ExternalSite;
 
 $scenario->group('all');
 $I = new FunctionalTester($scenario);
@@ -22,7 +23,9 @@ $params = [
     'packaging'     => 1,
     'manual'        => 1,
     'title'         => 'New item ' . date('d/m H:i'),
-    'type_id'       => 1,
+    'site_id'       => ExternalSite::NERDS,
+    's_item_id'     => rand(20, 1000),
+    'ad_type_id'    => 1,
     'description'   => 'short description',
     'price'         => 100,
     'category_id'   => 1,

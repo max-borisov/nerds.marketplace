@@ -65,7 +65,7 @@ $params = [
     'packaging'     => 1,
     'manual'        => 1,
     'title'         => 'New item ' . date('d/m H:i'),
-    'type_id'       => 1,
+    'ad_type_id'    => 1,
     'description'   => 'short description',
 ];
 $page->sendForm($params);
