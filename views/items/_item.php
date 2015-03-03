@@ -67,7 +67,11 @@ $itemLink = '/item/view/' . $data->id;
         </div>
         <div class="row">
             <div class="col-xs-3"><?= $data->getAttributeLabel('s_date') ?></div>
-            <div class="col-xs-4"><?= HelperBase::formatDate($data->s_date) ?></div>
+            <div class="col-xs-4">
+                <?php
+                echo HelperBase::isZeroDate($data->s_date) ? HelperBase::formatDate($data->created_at, true) : HelperBase::formatDate($data->s_date);
+                ?>
+            </div>
         </div>
         <p class="item-description">
             <?= Html::encode(HelperMarketPlace::makeShortDescription(

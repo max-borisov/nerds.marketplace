@@ -50,8 +50,8 @@ if (Yii::$app->session->hasFlash('category_delete_error')) {
             <th>Num.</th>
             <th>Category title</th>
             <th>Attached items</th>
-            <th>Created</th>
-            <th>Updated</th>
+<!--            <th>Created</th>-->
+<!--            <th>Updated</th>-->
             <th>Actions</th>
         </tr>
     </thead>
@@ -63,8 +63,8 @@ if (Yii::$app->session->hasFlash('category_delete_error')) {
                 echo '<td>' , ++$counter , '</td>';
                 echo '<td>' , Html::encode($item->title) , '</td>';
                 echo '<td>' , count($item->attachedItems) , '</td>';
-                echo '<td>' , date('d/m/Y H:i:s', $item->created_at) , '</td>';
-                echo '<td>' , date('d/m/Y H:i:s', $item->updated_at) , '</td>';
+//                echo '<td>' , date('d/m/Y H:i:s', $item->created_at) , '</td>';
+//                echo '<td>' , date('d/m/Y H:i:s', $item->updated_at) , '</td>';
                 echo '<td>'
                     , Html::a('Update', Url::to(['category/update', 'id' => $item->id]), ['id' => $counter == 1 ? 'first-link' : ''])
                     , '&nbsp;&nbsp;|&nbsp;&nbsp;'
