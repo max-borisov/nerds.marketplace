@@ -82,7 +82,15 @@ $itemLink = '/item/view/' . $data->id;
         <p class="more-link"><?= Html::a('More', $itemLink) ?></p>
     </div>
     <div class="col-md-3">
-        <p class="item-price text-center"><?= $data->price, ' ', HelperBase::getParam('currency') ?></p>
+        <p class="item-price text-center">
+            <?php
+                if ($data->price) {
+                    echo $data->price, ' ', HelperBase::getParam('currency');
+                } else {
+                    echo 'N/A';
+                }
+            ?>
+        </p>
         <?php
         // Show action links
         if (isset($showActionLinks) && $showActionLinks == true) {
