@@ -39,7 +39,7 @@ class DbaItems extends Base
     public function parsePage($id)
     {
         $this->_itemId = $id;
-        $page = sotetr_replace('{id}', $id, $this->_baseUrl);
+        $page = str_replace('{id}', $id, $this->_baseUrl);
         $html = $this->tidy($page, 'utf8');
 
         // If page is not valid
