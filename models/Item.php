@@ -49,6 +49,10 @@ use yii\base\Exception;
  * @property string $s_producer
  * @property string $s_watt
  * @property string $s_product
+ * @property string $media_title
+ * @property string $media_genre
+ * @property string $media_type
+ * @property string $media_producer
  */
 class Item extends \app\components\ActiveRecord
 {
@@ -158,11 +162,16 @@ class Item extends \app\components\ActiveRecord
             's_akn' => 'Receipt:',
             's_expires' => 'Expires:',
 
-            's_brand' => 'Brand:',
-            's_model' => 'Model:',
-            's_producer' => 'Producer:',
-            's_watt' => 'Watt:',
-            's_product' => 'Product:',
+            's_brand'       => 'Brand:',
+            's_model'       => 'Model:',
+            's_producer'    => 'Producer:',
+            's_watt'        => 'Watt:',
+            's_product'     => 'Product:',
+
+            'media_title'       => 'Media title:',
+            'media_genre'       => 'Genre:',
+            'media_type'        => 'Type:',
+            'media_producer'    => 'Producer:',
         ];
     }
 
