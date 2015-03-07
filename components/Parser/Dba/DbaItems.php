@@ -5,10 +5,7 @@ use Yii;
 use app\components\parser\Base;
 use app\models\ExternalSite;
 use app\models\Item;
-use app\models\ItemDba;
-use app\models\ItemCatalog;
 use app\models\AdType;
-use app\models\Category;
 use app\components\HelperBase;
 use yii\base\Exception;
 use yii\db\IntegrityException;
@@ -18,14 +15,12 @@ require_once __DIR__ . '/../Base.php';
 class DbaItems extends Base
 {
     private $_baseUrl       = 'http://www.dba.dk/bla-bla-bla/id-{id}/';
-//    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/';
-//    private $_catalogUrl    = 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/';
     private $_itemId        = 0;
     private $_year          = 2015;
 
     public function urlsSet()
     {
-        $data = [
+        return [
             require_once 'categories/movie.php',
             require_once 'categories/music_cd_lp.php',
             require_once 'categories/hifi_accessories.php',
@@ -52,10 +47,6 @@ class DbaItems extends Base
             return false;
         }
 
-//        $topContainer   = $this->_getTopContainer($html);
-//        $category       = $this->_getCategory($topContainer);
-//        $subCategory    = $this->_getSubCategory($topContainer);
-//        if ($subCategory === false) return false;
         $title          = $this->_getTitle($html);
         $price          = $this->_getPrice($html);
         $date           = $this->_getPubDate($html);
@@ -108,9 +99,6 @@ class DbaItems extends Base
 
         $data = [
             'id'                => $id,
-//            'categoryMain'  => $category,
-//            'categorySub'   => $subCategory,
-//            'categoryId'    => $this->_getCategoryId($subCategory),
             'title'             => $title,
             'price'             => $this->_formatPrice($price),
             'date'              => $date,
@@ -158,41 +146,6 @@ class DbaItems extends Base
         return false;
     }
 
-    private function _getCategoryId($title)
-    {
-        if (strpos($title, 'Højttalere') !== false) {
-            return Category::SPEAKERS_HIFI;
-        }
-        if (strpos($title, 'Stereoanlæg') !== false) {
-            return Category::STEREO_SYSTEM;
-        }
-        if (strpos($title, 'Hovedtelefoner') !== false) {
-            return Category::HEADPHONES;
-        }
-        if (strpos($title, 'Radioer') !== false) {
-            return Category::RADIO;
-        }
-        if (strpos($title, 'Pladespillere') !== false) {
-            return Category::TURNTABLE;
-        }
-        if (strpos($title, 'Cd') !== false) {
-            return Category::CD_PLAYER;
-        }
-        if (strpos($title, 'Mp3') !== false) {
-            return Category::MP3_MP4_PLAYERS;
-        }
-        if (strpos($title, 'Båndoptagere') !== false) {
-            return Category::TAPE_RECORDER;
-        }
-        if (strpos($title, 'Tilbehør til MP3') !== false) {
-            return Category::MP3_ACCESSORIES;
-        }
-        if (strpos($title, 'Minidisc') !== false) {
-            return Category::MINI_DISC_PLAYER;
-        }
-        return 0;
-    }
-
     private function _formatDate($dateStr)
     {
         $months = $this->getMonthsList();
@@ -215,17 +168,6 @@ class DbaItems extends Base
         return date('Y-m-d', mktime(0, 0 , 0, $month, $day, $this->_year));
     }
 
-    private function _getTopContainer($html)
-    {
-        $pattern = '|<div\s+class="container">(.*?)</div>|is';
-        preg_match_all($pattern, $html, $matches);
-        if (isset($matches[1], $matches[1][1])) {
-            return trim($matches[1][1]);
-        } else {
-            throw new Exception('Could not get top container. Page id ' . $this->_itemId);
-        }
-    }
-
     private function _getFooter($html)
     {
         $pattern = '|<div\s+class="vip-matrix-data">(.*?)</div>|is';
@@ -236,32 +178,6 @@ class DbaItems extends Base
             HelperBase::logger('DBA parser error', null, ['msg' => 'Could not get footer. Page id ' . $this->_itemId]);
             return '';
 //            throw new Exception('Could not get footer. Page id ' . $this->_itemId);
-        }
-    }
-
-    private function _getCategory($html)
-    {
-        $pattern = '|<span\s+itemprop="title">([^<]+)</span>|is';
-        preg_match_all($pattern, $html, $matches);
-        if (isset($matches[1], $matches[1][2])) {
-            $category = preg_replace('|\s+|', ' ', $matches[1][2]);
-            return trim($category);
-        } else {
-            throw new Exception('Could not get item category. Page id ' . $this->_itemId);
-        }
-    }
-
-    private function _getSubCategory($html)
-    {
-        $pattern = '|<h1\s+itemprop="title">(.*?)</h1>|is';
-        preg_match_all($pattern, $html, $matches);
-        if (isset($matches[1], $matches[1][0])) {
-            $matches = trim(strip_tags($matches[1][0]));
-            return preg_replace('|\s+|', ' ', $matches);
-        } else {
-            HelperBase::logger('DBA parser. Item sub category.', null, ['Page id' => $this->_itemId]);
-            return false;
-//            throw new Exception('Could not get sub category. Page id ' . $this->_itemId);
         }
     }
 
@@ -288,22 +204,9 @@ class DbaItems extends Base
         $item->invoice      = Item::NA_FLAG;
         $item->packaging    = Item::NA_FLAG;
         $item->manual       = Item::NA_FLAG;
-
-//        $item->s_phone      = $data['phone'];
-//        $item->s_email      = $data['email'];
-//        $item->s_type       = $data['type'];
-//        $item->s_adv        = $data['adv'];
         $item->s_date       = $data['date'];
         $item->price        = $data['price'];
-//        $item->description  = $data['description'];
         $item->s_preview    = $data['preview'];
-//        $item->s_age        = $data['info']['age'];
-//        $item->s_warranty   = $data['info']['warranty'];
-//        $item->s_package    = $data['info']['package'];
-//        $item->s_delivery   = $data['info']['delivery'];
-//        $item->s_akn        = $data['info']['ack'];
-//        $item->s_manual     = $data['info']['manual'];
-//        $item->s_expires    = $data['info']['expires'];
         $item->s_brand      = $data['brand'];
         $item->s_model      = $data['model'];
         $item->s_producer   = $data['producer'];
@@ -438,10 +341,10 @@ class DbaItems extends Base
             $catalogLinks = $this->getLinksFromCatalog($urlToParse);
             $existingItems = $this->getExistingItems(ExternalSite::DBA);
             foreach ($catalogLinks as $itemId) {
-                if ($itemId == 1013535339) continue;
-                if ($itemId == 1009328530) continue;
-                if ($itemId == 1013594095) continue;
-                if ($itemId == 1011704263) continue;
+//                if ($itemId == 1013535339) continue;
+//                if ($itemId == 1009328530) continue;
+//                if ($itemId == 1013594095) continue;
+//                if ($itemId == 1011704263) continue;
 
                 if (in_array($itemId, $existingItems)) {
                     continue;
