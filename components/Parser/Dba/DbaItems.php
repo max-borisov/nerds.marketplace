@@ -1,6 +1,7 @@
 <?php
 namespace app\components\parser\dba;
 
+use app\models\TopCategory;
 use Yii;
 use app\components\parser\Base;
 use app\models\ExternalSite;
@@ -20,25 +21,25 @@ class DbaItems extends Base
 
     public function urlsSet()
     {
-        return [
-            require_once 'categories/movie.php',
-            require_once 'categories/music_cd_lp.php',
-            require_once 'categories/hifi_accessories.php',
-            require_once 'categories/tv_accessories.php',
-            require_once 'categories/photo_equipment.php',
-            require_once 'categories/dvd_vcr_projector_accessories.php',
-            require_once 'categories/video_cameras_film_equipment_binoculars.php',
-            require_once 'categories/digital_cameras.php',
-            require_once 'categories/hifi_surrounds_accessories.php',
-            require_once 'categories/satellite_dishes_antennas_accessories.php',
-            require_once 'categories/analog_cameras.php',
-        ];
+        $data = [];
+        $data[TopCategory::MOVIE] = require_once 'categories/movie.php';
+        $data[TopCategory::MUSIC_CD_LP_TAPE] = require_once 'categories/music_cd_lp.php';
+        $data[TopCategory::HIFI_ACCESSORIES] = require_once 'categories/hifi_accessories.php';
+        $data[TopCategory::TV_ACCESSORIES] = require_once 'categories/tv_accessories.php';
+        $data[TopCategory::PHOTO_EQUIPMENT] = require_once 'categories/photo_equipment.php';
+        $data[TopCategory::DVD_VCR_PROJECTOR_ACCESSORIES] = require_once 'categories/dvd_vcr_projector_accessories.php';
+        $data[TopCategory::VIDEO_CAM_FILM_EQUIPMENT_BINOCULARS] = require_once 'categories/video_cameras_film_equipment_binoculars.php';
+        $data[TopCategory::DIGITAL_CAMERAS] = require_once 'categories/digital_cameras.php';
+        $data[TopCategory::HIFI_SURROUNDS_ACCESSORIES] = require_once 'categories/hifi_surrounds_accessories.php';
+        $data[TopCategory::SATELLITE_DISHES_ANTENNAS_ACCESSORIES] = require_once 'categories/satellite_dishes_antennas_accessories.php';
+        $data[TopCategory::ANALOG_CAMERAS] = require_once 'categories/analog_cameras.php';
+        return $data;
     }
 
     public function parsePage($id)
     {
         $this->_itemId = $id;
-        $page = str_replace('{id}', $id, $this->_baseUrl);
+        $page = sotetr_replace('{id}', $id, $this->_baseUrl);
         $html = $this->tidy($page, 'utf8');
 
         // If page is not valid
@@ -314,7 +315,7 @@ class DbaItems extends Base
         }
     }
 
-    private function _process($baseUrl, $categoryId, $advType, $pages)
+    private function _process($baseUrl, $category, $advType, $pages)
     {
         switch ($advType) {
             case AdType::SELL: {
@@ -352,7 +353,7 @@ class DbaItems extends Base
                 $data = $this->parsePage($itemId);
                 // Requested page is broken
                 if ($data === false) continue;
-                $data['category_id'] = $categoryId;
+                $data['category_id'] = $category;
                 $data['ad_type_id'] = $advType;
                 $this->saveItem($data);
                 usleep(100);
@@ -366,26 +367,22 @@ class DbaItems extends Base
 
         $before = $this->getExistingRowsCount('item', ExternalSite::DBA);
         $urlSet = $this->urlsSet();
+//        HelperBase::dump($urlSet, true);
 
-        if (isset($_GET['category_id']) && !empty($urlSet[$_GET['category_id']])) {
-            $category_id = $_GET['category_id'];
-            $data = $urlSet[$category_id];
-            $urlSet = [];
-            $urlSet[$category_id] = $data;
-        }
-
-        foreach ($urlSet as $categoryId => $data) {
-            $baseUrl = $data['url'];
-            $advTypes = $data['types'];
-            $this->_process($baseUrl, $categoryId, AdType::SELL, $advTypes[AdType::SELL]);
-            usleep(100);
-            if ($pages = $advTypes[AdType::BUY]) {
-                $this->_process($baseUrl, $categoryId, AdType::BUY, $pages);
+        foreach ($urlSet as $topCategory => $dataToBeParsed) {
+            foreach ($dataToBeParsed as $category => $data) {
+                $baseUrl = $data['url'];
+                $advTypes = $data['types'];
+                $this->_process($baseUrl, $category, AdType::SELL, $advTypes[AdType::SELL]);
                 usleep(100);
-            }
-            if ($pages = $advTypes[AdType::EXCHANGE]) {
-                $this->_process($baseUrl, $categoryId, AdType::EXCHANGE, $advTypes[AdType::EXCHANGE]);
-                usleep(100);
+                if ($pages = $advTypes[AdType::BUY]) {
+                    $this->_process($baseUrl, $category, AdType::BUY, $pages);
+                    usleep(100);
+                }
+                if ($pages = $advTypes[AdType::EXCHANGE]) {
+                    $this->_process($baseUrl, $category, AdType::EXCHANGE, $advTypes[AdType::EXCHANGE]);
+                    usleep(100);
+                }
             }
         }
         $after = $this->getExistingRowsCount('item', ExternalSite::DBA);

@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class AdType extends \yii\db\ActiveRecord
+class AdType extends \app\components\ActiveRecord
 {
     const SELL      = 1;
     const BUY       = 2;
