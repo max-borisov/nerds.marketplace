@@ -25,95 +25,18 @@ class DbaItems extends Base
 
     public function urlsSet()
     {
-        return $data = [
-            Category::SPEAKERS_HIFI => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hoejttalere-hi-fi/',
-                'types' => [
-                    AdType::SELL      => 96,
-                    AdType::BUY       => 3,
-                    AdType::EXCHANGE  => 1,
-                ]
-            ],
-            Category::STEREO_SYSTEM => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/stereoanlaeg/',
-                'types' => [
-                    AdType::SELL      => 134,
-                    AdType::BUY       => 2,
-                    AdType::EXCHANGE  => 1,
-                ]
-            ],
-            Category::HEADPHONES => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/hovedtelefoner/',
-                'types' => [
-                    AdType::SELL      => 84,
-                    AdType::BUY       => 1,
-                    AdType::EXCHANGE  => 1,
-                ]
-            ],
-            Category::RADIO => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/radioer/',
-                'types' => [
-                    AdType::SELL      => 82,
-                    AdType::BUY       => 1,
-                    AdType::EXCHANGE  => 0,
-                ]
-            ],
-            Category::AMPLIFIERS => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/forstaerkere-hi-fi/',
-                'types' => [
-                    AdType::SELL      => 70,
-                    AdType::BUY       => 3,
-                    AdType::EXCHANGE  => 1,
-                ]
-            ],
-            Category::TURNTABLE => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/pladespillere/',
-                'types' => [
-                    AdType::SELL      => 37,
-                    AdType::BUY       => 2,
-                    AdType::EXCHANGE  => 1,
-                ]
-            ],
-            Category::CD_PLAYER => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/cd-afspillere/',
-                'types' => [
-                    AdType::SELL      => 32,
-                    AdType::BUY       => 1,
-                    AdType::EXCHANGE  => 0,
-                ]
-            ],
-            Category::MP3_MP4_PLAYERS => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/mp3-mp4-afspillere/',
-                'types' => [
-                    AdType::SELL      => 28,
-                    AdType::BUY       => 1,
-                    AdType::EXCHANGE  => 0,
-                ]
-            ],
-            Category::TAPE_RECORDER => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/baandoptagere/',
-                'types' => [
-                    AdType::SELL      => 25,
-                    AdType::BUY       => 1,
-                    AdType::EXCHANGE  => 0,
-                ]
-            ],
-            Category::MP3_ACCESSORIES => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/tilbehoer-til-mp3-afspilllere/',
-                'types' => [
-                    AdType::SELL      => 8,
-                    AdType::BUY       => 0,
-                    AdType::EXCHANGE  => 0,
-                ]
-            ],
-            Category::MINI_DISC_PLAYER => [
-                'url'   => 'http://www.dba.dk/billede-og-lyd/hi-fi-og-tilbehoer/minidisc-afspillere/',
-                'types' => [
-                    AdType::SELL      => 6,
-                    AdType::BUY       => 1,
-                    AdType::EXCHANGE  => 0,
-                ]
-            ],
+        $data = [
+            require_once 'categories/movie.php',
+            require_once 'categories/music_cd_lp.php',
+            require_once 'categories/hifi_accessories.php',
+            require_once 'categories/tv_accessories.php',
+            require_once 'categories/photo_equipment.php',
+            require_once 'categories/dvd_vcr_projector_accessories.php',
+            require_once 'categories/video_cameras_film_equipment_binoculars.php',
+            require_once 'categories/digital_cameras.php',
+            require_once 'categories/hifi_surrounds_accessories.php',
+            require_once 'categories/satellite_dishes_antennas_accessories.php',
+            require_once 'categories/analog_cameras.php',
         ];
     }
 
@@ -145,6 +68,29 @@ class DbaItems extends Base
         $watt           = $this->_getWatt($footer);
         $type           = $this->_getType($footer);
         $product        = $this->_getProduct($footer);
+        // For movies
+        $mediaTitle         = $this->_getMediaTitle($html);
+        $mediaGenre         = $this->_getMediaGenre($html);
+        $mediaType          = $this->_getMediaType($html);
+        $mediaProducer      = $this->_getMediaProducer($html);
+        // For music
+        $musicArtist    = $this->_getMusicArtist($html);
+
+        // For TV
+        $mediaFeatures  = $this->_getMediaFeatures($html);
+        $mediaInches    = $this->_getMediaInches($html);
+        $mediaSize      = $this->_getMediaSize($html);
+
+        $eqCapacity = $this->_getEqCapacity($html);
+        $hdCapacity = $this->_getHardDiscCapacity($html);
+
+        $cameraResolution   = $this->_getCameraResolution($html);
+        $opticalZoom        = $this->_getOpticalZoom($html);
+
+        $speaker        = $this->_getSpeaker($html);
+        $speakerType    = $this->_getSpeakerType($html);
+
+        $channels = $this->_getChannels($html);
 
         $contactInfoBlock = $this->_getContactInfoBlock($html);
         $username = $this->_getUserName($contactInfoBlock);
@@ -161,23 +107,38 @@ class DbaItems extends Base
         }
 
         $data = [
-            'id'            => $id,
+            'id'                => $id,
 //            'categoryMain'  => $category,
 //            'categorySub'   => $subCategory,
 //            'categoryId'    => $this->_getCategoryId($subCategory),
-            'title'         => $title,
-            'price'         => $this->_formatPrice($price),
-            'date'          => $date,
-            'preview'       => $preview,
-            'post'          => $post,
-            'brand'         => $brand,
-            'model'         => $model,
-            'producer'      => $producer,
-            'watt'          => $watt,
-            'type'          => $type,
-            'product'       => $product,
-            'username'      => $username,
-            'location'      => $location,
+            'title'             => $title,
+            'price'             => $this->_formatPrice($price),
+            'date'              => $date,
+            'preview'           => $preview,
+            'post'              => $post,
+            'brand'             => $brand,
+            'model'             => $model,
+            'producer'          => $producer,
+            'watt'              => $watt,
+            'type'              => $type,
+            'product'           => $product,
+            'username'          => $username,
+            'location'          => $location,
+            'media_title'       => $mediaTitle,
+            'media_genre'       => $mediaGenre,
+            'media_type'        => $mediaType,
+            'media_producer'    => $mediaProducer,
+            'music_artist'      => $musicArtist,
+            'media_features'    => $mediaFeatures,
+            'media_inches'      => $mediaInches,
+            'media_size'        => $mediaSize,
+            'eq_capacity'       => $eqCapacity,
+            'hd_capacity'       => $hdCapacity,
+            'camera_resolution' => $cameraResolution,
+            'optical_zoom'      => $opticalZoom,
+            'speaker'           => $speaker,
+            'speaker_type'      => $speakerType,
+            'channels'          => $channels,
         ];
         return $data;
     }
@@ -348,6 +309,11 @@ class DbaItems extends Base
         $item->s_producer   = $data['producer'];
         $item->s_watt       = $data['watt'];
         $item->s_product    = $data['product'];
+
+        $item->media_title      = $data['media_title'];
+        $item->media_genre      = $data['media_genre'];
+        $item->media_type       = $data['media_type'];
+        $item->media_producer   = $data['media_producer'];
 
         try {
             if (!$item->save(false)) {
@@ -531,6 +497,186 @@ class DbaItems extends Base
             return trim(preg_replace('|\s+|', ' ', $matches[1]));
         } else {
             throw new Exception('Could not get title attribute. Page id ' . $this->_itemId);
+        }
+    }
+
+    /**
+     * Get subtitle for item. Especially for movies.
+     * @param $html
+     * @return string
+     */
+    private function _getMediaTitle($html)
+    {
+        $pattern = '|<td>\s*Titel\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getMusicArtist($html)
+    {
+        $pattern = '|<td>\s*Kunstner\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get item genre. Especially for movies.
+     * @param $html
+     * @return string
+     */
+    private function _getMediaGenre($html)
+    {
+        $pattern = '|<td>\s*Genre\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get media item type(dvd/blu-ray). Especially for movies, music, etc.
+     * @param $html
+     * @return string
+     */
+    private function _getMediaType($html)
+    {
+        $pattern = '|<td>\s*Medie\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getMediaProducer($html)
+    {
+        $pattern = '|<td>\s*Instruktør\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getMediaFeatures($html)
+    {
+        $pattern = '|<td>\s*Funktioner\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getMediaInches($html)
+    {
+        $pattern = '|<td>\s*Str.\s*\(tommer\)\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getMediaSize($html)
+    {
+        $pattern = '|<td>\s*Størrelse\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getEqCapacity($html)
+    {
+        $pattern = '|<td>\s*Kapacitet\s*\(GB\)\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getHardDiscCapacity($html)
+    {
+        $pattern = '|<td>\s*Harddisk\s*\(GB\)\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getCameraResolution($html)
+    {
+        $pattern = '|<td>\s*Opløsning\s*\(megapixels\)\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getOpticalZoom($html)
+    {
+        $pattern = '|<td>\s*Optisk\s+zoom\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getSpeaker($html)
+    {
+        $pattern = '|<td>\s*Højttaler\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getSpeakerType($html)
+    {
+        $pattern = '|<td>\s*Højttalertype\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
+        }
+    }
+
+    private function _getChannels($html)
+    {
+        $pattern = '|<td>\s*Kanaler\s*</td>\s*<td>([^<]+)</td>|is';
+        preg_match($pattern, $html, $matches);
+        if (isset($matches[1])) {
+            return trim(preg_replace('|\s+|', ' ', $matches[1]));
+        } else {
+            return '';
         }
     }
 
