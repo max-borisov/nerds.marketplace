@@ -323,6 +323,25 @@ class SandboxController extends Controller
         return true;
     }
 
+    public function actionParsecatalog()
+    {
+
+        echo $this->renderPartial('parser');
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Dba/DbaItems.php';
+        if (isset($_GET['url'])) {
+            $url = $_GET['url'];
+        } else {
+            $url = 'http://www.dba.dk/billede-og-lyd/film/dvd-film-og-blu-ray/side-15/';
+        }
+        $dba = new DbaItems();
+        $links = $dba->getLinksFromCatalog($url);
+        foreach ($links as $itemId) {
+            HelperBase::dump($dba->parsePage($itemId));
+            echo "<hr>";
+        }
+    }
+
     public function actionTest()
     {
 
