@@ -53,6 +53,17 @@ use yii\base\Exception;
  * @property string $media_genre
  * @property string $media_type
  * @property string $media_producer
+ * @property string $music_artist
+ * @property string $media_features
+ * @property string $media_inches
+ * @property string $media_size
+ * @property string $eq_capacity
+ * @property string $hd_capacity
+ * @property string $camera_resolution
+ * @property string $optical_zoom
+ * @property string $speaker
+ * @property string $speaker_type
+ * @property string $channels
  */
 class Item extends \app\components\ActiveRecord
 {
@@ -172,6 +183,18 @@ class Item extends \app\components\ActiveRecord
             'media_genre'       => 'Genre:',
             'media_type'        => 'Type:',
             'media_producer'    => 'Producer:',
+
+            'music_artist'      => 'Artist:',
+            'media_features'    => 'Features:',
+            'media_inches'      => 'Inches:',
+            'media_size'        => 'Size:',
+            'eq_capacity'       => 'Capacity(GB):',
+            'hd_capacity'       => 'HD Capacity(GB):',
+            'camera_resolution' => 'Resolution:',
+            'optical_zoom'      => 'Optical zoom:',
+            'speaker'           => 'Speaker:',
+            'speaker_type'      => 'Speaker type:',
+            'channels'          => 'Channels:',
         ];
     }
 
