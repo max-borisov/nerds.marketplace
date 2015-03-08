@@ -342,11 +342,6 @@ class DbaItems extends Base
             $catalogLinks = $this->getLinksFromCatalog($urlToParse);
             $existingItems = $this->getExistingItems(ExternalSite::DBA);
             foreach ($catalogLinks as $itemId) {
-//                if ($itemId == 1013535339) continue;
-//                if ($itemId == 1009328530) continue;
-//                if ($itemId == 1013594095) continue;
-//                if ($itemId == 1011704263) continue;
-
                 if (in_array($itemId, $existingItems)) {
                     continue;
                 }
@@ -356,7 +351,7 @@ class DbaItems extends Base
                 $data['category_id'] = $category;
                 $data['ad_type_id'] = $advType;
                 $this->saveItem($data);
-                usleep(100);
+//                usleep(100);
             }
         }
     }
