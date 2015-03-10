@@ -18,7 +18,7 @@ class RecReviews extends RecBase
 
     public function saveItem($data)
     {
-        $item = $this->_beforeSave((new Review), $data);
+        $item = $this->_beforeSaveNewsReviews((new Review), $data);
         $item->review_id        = $data['id'];
         $item->review_type_id   = ReviewType::UNKNOWN;
         if ($item->save(false)) {

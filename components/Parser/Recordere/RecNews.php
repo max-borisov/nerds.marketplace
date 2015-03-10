@@ -17,7 +17,7 @@ class RecNews extends RecBase
 
     public function saveItem($data)
     {
-        $item = $this->_beforeSave((new News()), $data);
+        $item = $this->_beforeSaveNewsReviews((new News()), $data);
         $item->news_id      = $data['id'];
         if ($item->save(false)) {
             return $item->id;
