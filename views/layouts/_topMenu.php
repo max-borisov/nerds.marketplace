@@ -15,6 +15,21 @@ use app\models\User;
     <li class="<?= isset($this->params['isReviewsPage']) ? 'active' : '' ?>">
         <?= Html::a('Reviews', Url::to('/reviews')) ?>
     </li>
+    <li class="<?= isset($this->params['isGamesPage']) ? 'active' : '' ?>">
+        <?= Html::a('Games', Url::to('/games')) ?>
+    </li>
+    <li class="<?= isset($this->params['isTVPage']) ? 'active' : '' ?>">
+        <?= Html::a('TV', Url::to('/tv')) ?>
+    </li>
+    <li class="<?= isset($this->params['isMusicPage']) ? 'active' : '' ?>">
+        <?= Html::a('Music', Url::to('/music')) ?>
+    </li>
+    <li class="<?= isset($this->params['isMoviesPage']) ? 'active' : '' ?>">
+        <?= Html::a('Movies', Url::to('/movie')) ?>
+    </li>
+    <li class="<?= isset($this->params['isRadioPage']) ? 'active' : '' ?>">
+        <?= Html::a('Radio', Url::to('/radio')) ?>
+    </li>
     <?php if (!HelperUser::isGuest()) { ?>
         <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
             <?= Html::a('Categories', Url::to('/category')) ?>
