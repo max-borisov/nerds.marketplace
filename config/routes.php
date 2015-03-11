@@ -28,5 +28,6 @@ return [
         '/games/view/<id:\d+>'      => 'games/view',
         '/tv/view/<id:\d+>'         => 'tv/view',
         '/music/view/<id:\d+>'      => 'music/view',
+        '/movies/view/<id:\d+>'     => 'movies/view',
     ],
 ];
