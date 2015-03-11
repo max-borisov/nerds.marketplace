@@ -1,5 +1,5 @@
 <?php
-$this->params['isTvPage'] = true;
+$this->params['isTVPage'] = true;
 echo $this->render('../shared/catalog', [
     'data'  => $data,
     'pages' => $pages,
