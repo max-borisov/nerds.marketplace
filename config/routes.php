@@ -26,5 +26,6 @@ return [
         '/news/view/<id:\d+>' => 'news/view',
         '/reviews/view/<id:\d+>' => 'reviews/view',
         '/games/view/<id:\d+>' => 'games/view',
+        '/tv/view/<id:\d+>' => 'tv/view',
     ],
 ];
