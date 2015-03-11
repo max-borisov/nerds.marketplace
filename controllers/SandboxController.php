@@ -10,6 +10,7 @@ use app\components\parser\hifi\HiFiNews;
 use app\components\parser\hifi\HiFiReviews;
 use app\components\parser\dba\DbaItems;
 use app\components\parser\recordere\RecGames;
+use app\components\parser\recordere\RecMedia;
 use app\components\parser\recordere\RecNews;
 use app\components\parser\recordere\RecTv;
 use app\components\parser\recordere\RecMusic;
@@ -284,7 +285,7 @@ class SandboxController extends Controller
 
     public function actionRecordere()
     {
-        $actions = ['news', 'reviews', 'games', 'tv', 'music', 'movies'];
+        $actions = ['news', 'reviews', 'games', 'tv', 'music', 'movies', 'media'];
         if (isset($_GET['action'])) {
             if (!in_array($_GET['action'], $actions)) {
                 exit('Unknown action.');
@@ -353,6 +354,17 @@ class SandboxController extends Controller
                     (new RecMovies())->parsePageTest($id);
                 } else {
                     (new RecMovies())->run();
+                }
+                return false;
+            }
+
+            if ($action === 'media') {
+                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecMedia.php';
+                if (isset($_GET['id'])) {
+                    $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+                    (new RecMedia())->parsePageTest($id);
+                } else {
+                    (new RecMedia())->run();
                 }
                 return false;
             }

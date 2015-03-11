@@ -29,5 +29,7 @@ return [
         '/tv/view/<id:\d+>'         => 'tv/view',
         '/music/view/<id:\d+>'      => 'music/view',
         '/movies/view/<id:\d+>'     => 'movies/view',
+        '/media/view/<id:\d+>'      => 'media/view',
+        '/radio/view/<id:\d+>'      => 'radio/view',
     ],
 ];
