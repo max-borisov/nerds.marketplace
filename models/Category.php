@@ -161,6 +161,15 @@ class Category extends \app\components\ActiveRecord
     }
 
     /**
+     * Get amount of related items
+     * @return integer
+     */
+    public function getAttachedItemsCount()
+    {
+        return $this->hasMany(Item::className(), ['category_id' => 'id'])->count();
+    }
+
+    /**
      * @inheritdoc
      */
     public function attributeLabels()

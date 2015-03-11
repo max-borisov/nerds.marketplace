@@ -51,6 +51,9 @@ class SandboxController extends Controller
 //        HelperBase::logger('homeUrl', null, ['url' => 'test']);
 //        HelperBase::end();
 
+        $cat = Category::find(6)->one();
+        HelperBase::dump($cat->attachedItemsCount);
+
 //        HelperBase::dump(Yii::$app->host);
 //        HelperBase::dump(Yii::$app->homeUrl);
 
