@@ -25,10 +25,10 @@ use app\models\User;
         <?= Html::a('Music', Url::to('/music')) ?>
     </li>
     <li class="<?= isset($this->params['isMoviesPage']) ? 'active' : '' ?>">
-        <?= Html::a('Movies', Url::to('/movie')) ?>
+        <?= Html::a('Movies', Url::to('/movies')) ?>
     </li>
-    <li class="<?= isset($this->params['isRadioPage']) ? 'active' : '' ?>">
-        <?= Html::a('Radio', Url::to('/radio')) ?>
+    <li class="<?= isset($this->params['isMediaPage']) ? 'active' : '' ?>">
+        <?= Html::a('Media', Url::to('/media')) ?>
     </li>
     <?php if (!HelperUser::isGuest()) { ?>
         <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
