@@ -26,6 +26,13 @@ class Game extends \app\components\ActiveRecord
         return 'game';
     }
 
+    public function beforeSave($insert)
+    {
+        $this->title    = iconv('latin1', 'utf8', $this->title);
+        $this->post     = iconv('latin1', 'utf8', $this->post);
+        return parent::beforeSave($insert);
+    }
+
     /**
      * @inheritdoc
      */
