@@ -23,9 +23,10 @@ return [
 
         'items' => 'items/items',
 
-        '/news/view/<id:\d+>' => 'news/view',
-        '/reviews/view/<id:\d+>' => 'reviews/view',
-        '/games/view/<id:\d+>' => 'games/view',
-        '/tv/view/<id:\d+>' => 'tv/view',
+        '/news/view/<id:\d+>'       => 'news/view',
+        '/reviews/view/<id:\d+>'    => 'reviews/view',
+        '/games/view/<id:\d+>'      => 'games/view',
+        '/tv/view/<id:\d+>'         => 'tv/view',
+        '/music/view/<id:\d+>'      => 'music/view',
     ],
 ];
