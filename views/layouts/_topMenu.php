@@ -30,6 +30,9 @@ use app\models\User;
     <li class="<?= isset($this->params['isMediaPage']) ? 'active' : '' ?>">
         <?= Html::a('Media', Url::to('/media')) ?>
     </li>
+    <li class="<?= isset($this->params['isRadioPage']) ? 'active' : '' ?>">
+        <?= Html::a('Radio', Url::to('/radio')) ?>
+    </li>
     <?php if (!HelperUser::isGuest()) { ?>
         <li class="<?= isset($this->params['isCategoryPage']) ? 'active' : '' ?>">
             <?= Html::a('Categories', Url::to('/category')) ?>

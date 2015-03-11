@@ -2,15 +2,15 @@
 
 namespace app\controllers;
 
-use app\models\Music;
+use app\models\Radio;
 use Yii;
 use yii\data\Pagination;
 
-class MusicController extends \app\controllers\AppController
+class RadioController extends \app\controllers\AppController
 {
     public function actionIndex()
     {
-        $query = Music::find()->select('id, title, post_date')->orderBy('post_date DESC');
+        $query = Radio::find()->select('id, title, post_date')->orderBy('post_date DESC');
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $data = $query->offset($pages->offset)
@@ -24,10 +24,10 @@ class MusicController extends \app\controllers\AppController
 
     public function actionView($id)
     {
-        $music = Music::find()->where('id = :id', [':id' => $id])->one();
-        if (!$music) {
-            $this->redirect('/music');
+        $radio = Radio::find()->where('id = :id', [':id' => $id])->one();
+        if (!$radio) {
+            $this->redirect('/radio');
         }
-        return $this->render('view', ['music' => $music]);
+        return $this->render('view', ['radio' => $radio]);
     }
 }
