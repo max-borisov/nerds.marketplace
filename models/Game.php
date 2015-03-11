@@ -16,7 +16,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Game extends \app\components\ActiveRecord
+class Game extends \app\components\ActiveRecordParser
 {
     /**
      * @inheritdoc
@@ -24,13 +24,6 @@ class Game extends \app\components\ActiveRecord
     public static function tableName()
     {
         return 'game';
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->title    = iconv('latin1', 'utf8', $this->title);
-        $this->post     = iconv('latin1', 'utf8', $this->post);
-        return parent::beforeSave($insert);
     }
 
     /**

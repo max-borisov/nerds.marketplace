@@ -3,31 +3,27 @@
 namespace app\models;
 
 use Yii;
-use app\models\ReviewType;
 
 /**
- * This is the model class for table "review".
+ * This is the model class for table "media".
  *
  * @property integer $id
  * @property integer $site_id
- * @property integer $review_id
- * @property integer $review_type_id
+ * @property integer $article_id
  * @property string $title
- * @property string $af
- * @property string $notice
  * @property string $post
  * @property string $post_date
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Review extends \app\components\ActiveRecordParser
+class Media extends \app\components\ActiveRecordParser
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'review';
+        return 'media';
     }
 
     /**
@@ -36,17 +32,13 @@ class Review extends \app\components\ActiveRecordParser
     public function rules()
     {
         return [
-            [['site_id', 'review_id', 'title', 'af', 'notice', 'post', 'post_date'], 'required'],
-            [['site_id', 'review_id'], 'integer'],
-            [['notice', 'post'], 'text'],
+            [['site_id', 'article_id', 'title', 'post', 'post_date', 'created_at', 'updated_at'], 'required'],
+            [['site_id', 'article_id', 'created_at', 'updated_at'], 'integer'],
+            [['post'], 'string'],
             [['post_date'], 'safe'],
-            [['title', 'af'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            [['site_id', 'article_id'], 'unique', 'targetAttribute' => ['site_id', 'article_id'], 'message' => 'The combination of Site ID and Article ID has already been taken.']
         ];
-    }
-
-    public function getType()
-    {
-        return $this->hasOne(ReviewType::className(), ['id' => 'review_type_id']);
     }
 
     /**
@@ -57,10 +49,8 @@ class Review extends \app\components\ActiveRecordParser
         return [
             'id' => 'ID',
             'site_id' => 'Site ID',
-            'review_id' => 'Review ID',
+            'article_id' => 'Article ID',
             'title' => 'Title',
-            'af' => 'Af',
-            'notice' => 'Notice',
             'post' => 'Post',
             'post_date' => 'Post Date',
             'created_at' => 'Created At',

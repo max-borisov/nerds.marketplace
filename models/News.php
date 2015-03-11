@@ -18,7 +18,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class News extends \app\components\ActiveRecord
+class News extends \app\components\ActiveRecordParser
 {
     /**
      * @inheritdoc
@@ -39,15 +39,6 @@ class News extends \app\components\ActiveRecord
             [['title', 'af', 'notice', 'post_date'], 'string', 'max' => 255],
             [['post'], 'string'],
         ];
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->title    = iconv('latin1', 'utf8', $this->title);
-        $this->af       = iconv('latin1', 'utf8', $this->af);
-        $this->notice   = iconv('latin1', 'utf8', $this->notice);
-        $this->post     = iconv('latin1', 'utf8', $this->post);
-        return parent::beforeSave($insert);
     }
 
     /**
