@@ -3,29 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\data\Pagination;
 use app\models\News;
-use app\controllers\AppController;
 
-class NewsController extends AppController
+class NewsController extends \app\controllers\AppController
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view'],
-                        'roles' => ['?', '@'],
-                    ],
-                ],
-            ],
-        ];
-    }
-
     public function actionIndex()
     {
         $query = News::find()->select('id, title, post_date')->orderBy('post_date DESC');

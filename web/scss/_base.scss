@@ -18,11 +18,13 @@ body {
     padding: 0 0 0 20px;
   }
 }
-
 .nav {
   .nav-user-name {
     font-size: 1.1em;
     margin-top: 15px;
     margin-right: 20px;
   }
+}
+.nav.navbar-nav {
+  font-size: 0.9em;
 }

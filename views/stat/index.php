@@ -2,7 +2,7 @@
 $this->params['isStatPage'] = true;
 ?>
 <div class="row">
-    <div class="col-md-8 col-lg-offset-2">
+    <div class="col-md-12">
         <h1 class="text-center">Stat</h1>
         <table class="table table-bordered stat-table table-hover">
             <thead>
@@ -11,6 +11,12 @@ $this->params['isStatPage'] = true;
                     <th>Items</th>
                     <th>News</th>
                     <th>Reviews</th>
+                    <th>Games</th>
+                    <th>TV</th>
+                    <th>Music</th>
+                    <th>Movies</th>
+                    <th>Media</th>
+                    <th>Radio</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,16 +25,34 @@ $this->params['isStatPage'] = true;
                     <td><?= $data['itemsHiFi'] ?></td>
                     <td><?= $data['newsHiFi'] ?></td>
                     <td><?= $data['reviewsHiFi'] ?></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>Recordere.dk</td>
                     <td>0</td>
                     <td><?= $data['newsRec'] ?></td>
                     <td><?= $data['reviewsRec'] ?></td>
+                    <td><?= $data['gamesRec'] ?></td>
+                    <td><?= $data['tvRec'] ?></td>
+                    <td><?= $data['musicRec'] ?></td>
+                    <td><?= $data['moviesRec'] ?></td>
+                    <td><?= $data['mediaRec'] ?></td>
+                    <td><?= $data['radioRec'] ?></td>
                 </tr>
                 <tr>
                     <td>dba.dk</td>
                     <td><?= $data['itemsDba'] ?></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                     <td>0</td>
                     <td>0</td>
                 </tr>
@@ -37,6 +61,12 @@ $this->params['isStatPage'] = true;
                     <td><?= $data['itemsTotal'] ?></td>
                     <td><?= $data['newsTotal'] ?></td>
                     <td><?= $data['reviewsTotal'] ?></td>
+                    <td><?= $data['gamesRec'] ?></td>
+                    <td><?= $data['tvRec'] ?></td>
+                    <td><?= $data['musicRec'] ?></td>
+                    <td><?= $data['moviesRec'] ?></td>
+                    <td><?= $data['mediaRec'] ?></td>
+                    <td><?= $data['radioRec'] ?></td>
                 </tr>
             </tbody>
         </table>

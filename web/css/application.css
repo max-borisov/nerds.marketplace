@@ -6,6 +6,8 @@ body { padding-top: 30px; padding-bottom: 30px; }
 
 .nav .nav-user-name { font-size: 1.1em; margin-top: 15px; margin-right: 20px; }
 
+.nav.navbar-nav { font-size: 0.9em; }
+
 .used-item-row { padding: 10px 0; }
 .used-item-row img { width: 250px; margin: 20px 20px; }
 .used-item-row .item-price { font-size: 3em; font-weight: bold; margin-top: 50px; }
@@ -42,5 +44,5 @@ body { padding-top: 30px; padding-bottom: 30px; }
 
 .item-previews-block img { width: 230px; }
 
-.stat-table { font-size: 20px; }
+.stat-table { font-size: 17px; }
 .stat-table th, .stat-table td { padding: 20px !important; text-align: center; }

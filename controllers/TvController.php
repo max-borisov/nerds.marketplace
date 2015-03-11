@@ -4,11 +4,9 @@ namespace app\controllers;
 
 use app\models\Tv;
 use Yii;
-use yii\web\Controller;
 use yii\data\Pagination;
-use app\controllers\AppController;
 
-class TvController extends AppController
+class TvController extends \app\controllers\AppController
 {
     public function actionIndex()
     {

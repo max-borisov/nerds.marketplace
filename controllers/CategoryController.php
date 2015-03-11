@@ -3,13 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\helpers;
 use app\models\Category;
 use yii\filters\AccessControl;
-use app\controllers\AppController;
 
-class CategoryController extends AppController
+class CategoryController extends \app\controllers\AppController
 {
     public function behaviors()
     {
