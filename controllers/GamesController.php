@@ -4,29 +4,10 @@ namespace app\controllers;
 
 use app\models\Game;
 use Yii;
-use yii\web\Controller;
-use yii\filters\AccessControl;
 use yii\data\Pagination;
-use app\controllers\AppController;
 
-class GamesController extends AppController
+class GamesController extends \app\controllers\AppController
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view'],
-                        'roles' => ['?', '@'],
-                    ],
-                ],
-            ],
-        ];
-    }
-
     public function actionIndex()
     {
         $query = Game::find()->select('id, title, post_date')->orderBy('post_date DESC');

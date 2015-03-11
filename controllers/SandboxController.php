@@ -11,6 +11,7 @@ use app\components\parser\hifi\HiFiReviews;
 use app\components\parser\dba\DbaItems;
 use app\components\parser\recordere\RecGames;
 use app\components\parser\recordere\RecNews;
+use app\components\parser\recordere\RecTv;
 
 use app\components\parser\recordere\RecReviews;
 use app\models\ItemCatalog;
@@ -281,7 +282,7 @@ class SandboxController extends Controller
 
     public function actionRecordere()
     {
-        $actions = ['news', 'reviews', 'games'];
+        $actions = ['news', 'reviews', 'games', 'tv'];
         if (isset($_GET['action'])) {
             if (!in_array($_GET['action'], $actions)) {
                 exit('Unknown action.');
@@ -317,6 +318,17 @@ class SandboxController extends Controller
                     (new RecGames())->parsePageTest($id);
                 } else {
                     (new RecGames())->run();
+                }
+                return false;
+            }
+
+            if ($action === 'tv') {
+                require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecTv.php';
+                if (isset($_GET['id'])) {
+                    $id = isset($_GET['id']) ? $_GET['id'] : 12234;
+                    (new RecTv())->parsePageTest($id);
+                } else {
+                    (new RecTv())->run();
                 }
                 return false;
             }

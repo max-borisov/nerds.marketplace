@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\components\HelperBase;
 use Yii;
 use yii\data\Pagination;
 use yii\db\Exception;
@@ -15,10 +14,9 @@ use app\models\AdType;
 use app\models\ItemPhoto;
 use app\models\Category;
 use app\models\User;
-use app\controllers\AppController;
 use app\models\ExternalSite;
 
-class ItemsController extends AppController
+class ItemsController extends \app\controllers\AppController
 {
     public function behaviors()
     {
