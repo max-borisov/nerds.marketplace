@@ -11,6 +11,12 @@ use Yii;
 use yii\console\Controller;
 use app\components\parser\recordere\RecNews;
 use app\components\parser\recordere\RecReviews;
+use app\components\parser\recordere\RecGames;
+use app\components\parser\recordere\RecTv;
+use app\components\parser\recordere\RecMusic;
+use app\components\parser\recordere\RecMovies;
+use app\components\parser\recordere\RecMedia;
+use app\components\parser\recordere\RecRadio;
 
 class ParserrecController extends Controller
 {
@@ -26,6 +32,28 @@ class ParserrecController extends Controller
         $this->_checkEnv();
         require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecReviews.php';
         (new RecReviews())->run();
+    }
+
+    public function actionMedia()
+    {
+        $this->_checkEnv();
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecGames.php';
+        (new RecGames())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecTv.php';
+        (new RecTv())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecMusic.php';
+        (new RecMusic())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecMovies.php';
+        (new RecMovies())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecMedia.php';
+        (new RecMedia())->run();
+
+        require_once Yii::getAlias('@app') . '/components/Parser/Recordere/RecRadio.php';
+        (new RecRadio())->run();
     }
 
     private function _checkEnv()
